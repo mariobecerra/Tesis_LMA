@@ -87,30 +87,14 @@ dat_2 <- calis %>%
 
 dat_train <- dat_2 %>% 
   filter(!valida_usu | !valida_item) %>% 
-  select(-valida_usu, -valida_item)
+  select(-valida_usu, -valida_item) %>% 
+  group_by(userId) %>% 
+  mutate(media_usuario = mean(rating)) %>% 
+  ungroup() %>% 
+  mutate(rating_centered = rating - media_usuario)
 
-# cant_usuarios_train <- length(unique(dat_train$userId))
-# cant_items_train <- length(unique(dat_train$itemId))
-#
-# r_train <- sparseMatrix(
-#   i = dat_train$userId,
-#   j = dat_train$itemId,
-#   x = dat_train$rating
-# ) 
-# 
-# archivo_salida <- paste0(folder_tables, "/similitudes_items.csv")
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# normas_columnas_matriz_ratings <- function(df){
-#   df %>% 
-#     group_by(itemId) %>% 
-#     summarise(normas = sqrt(sum(rating * rating)))
-# }
+
+
 
 cosine_sim_items <- function(df_ratings, archivo_salida){
   
@@ -141,7 +125,14 @@ cosine_sim_items <- function(df_ratings, archivo_salida){
 
 archivo_salida <- paste0(folder_tables, "/similitudes_items.csv")
 
-cosine_sim_items(dat_train, archivo_salida)
+cosine_sim_items(select(dat_train, userId, itemId, rating), archivo_salida)
+
+
+
+archivo_salida_center <- paste0(folder_tables, "/similitudes_items_centradas.csv")
+
+cosine_sim_items(select(dat_train, userId, itemId, rating = rating_centered), archivo_salida_center)
+
 
 # 
 # cosine <- function(df_ratings) {
