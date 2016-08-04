@@ -1,0 +1,16 @@
+\select@language {spanish}
+\select@language {spanish}
+\select@language {spanish}
+\select@language {spanish}
+\contentsline {chapter}{\numberline {1}Introducci\IeC {\'o}n}{1}
+\contentsline {subsection}{\numberline {1.0.1}Descripci\IeC {\'o}n de los archivos}{1}
+\contentsline {subsection}{\numberline {1.0.2}Caracter\IeC {\'\i }sticas de la plantilla}{2}
+\contentsline {subsubsection}{\numberline {I}Paquetes importados}{2}
+\contentsline {subsubsection}{\numberline {II}Opciones de clase}{2}
+\contentsline {subsubsection}{\numberline {III}Campos para el autor}{2}
+\contentsline {subsubsection}{\numberline {IV}Generando la portada}{3}
+\contentsline {subsubsection}{\numberline {V}Cediendo derechos de publicaci\IeC {\'o}n}{3}
+\contentsline {subsubsection}{\numberline {VI}A\IeC {\~n}adiendo el resumen}{3}
+\contentsline {subsubsection}{\numberline {VII}Citando a los grandes}{3}
+\contentsline {section}{\numberline {1.1}Licencia}{4}
+\contentsline {section}{\numberline {1.2}Autores}{4}

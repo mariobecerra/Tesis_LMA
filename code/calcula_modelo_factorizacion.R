@@ -1,0 +1,215 @@
+library(dplyr)
+library(tidyr)
+library(Matrix)
+library(Rcpp)
+library(ggplot2)
+library(gridExtra)
+
+if(!interactive()){ 
+  args <- commandArgs(TRUE)
+  dataset <- args[1]
+  time <- args[2]
+  if(length(args) == 0) {
+    cat("No especificaste dataset ni carpeta de salida\n\n")
+    quit(save = "no", status = 0, runLast = FALSE)
+  } 
+} else {
+  dataset <- "MovieLens"
+  time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
+}
+
+
+folder <- paste0("../out/", dataset, "/", time)
+folder_plots <- paste0(folder, "/plots")
+folder_models <- paste0(folder, "/models")
+folder_tables <- paste0(folder, "/tables")
+
+system(paste("mkdir", folder))
+system(paste("mkdir", folder_plots))
+system(paste("mkdir", folder_models))
+system(paste("mkdir", folder_tables))
+
+archivo_calis <- paste0("../data/", dataset, "/ratings.csv")
+
+cat("Leyendo archivo de calificaciones\n")
+
+calis <- readr::read_csv(archivo_calis) %>%   
+  select(userId,
+         itemId_orig = itemId,
+         rating) %>% 
+  mutate(itemId = as.integer(factor(itemId_orig)))
+head(calis)
+
+cant_usuarios <- length(unique(calis$userId))
+cant_pelis <- length(unique(calis$itemId))
+
+##############################################
+## Conjuntos de prueba y validación
+##############################################
+
+cat("Conjuntos de prueba y validación\n")
+
+set.seed(2805)
+
+valida_usuarios <- sample(unique(calis$userId), cant_usuarios*.3 )
+valida_items <- sample(unique(calis$itemId), cant_pelis*.3 )
+
+dat_2 <- calis %>%
+  mutate(valida_usu = userId %in% valida_usuarios) %>%
+  mutate(valida_item = itemId %in% valida_items)
+
+dat_train <- dat_2 %>% 
+  filter(!valida_usu | !valida_item) %>% 
+  select(-valida_usu, -valida_item)
+
+dat_test <- dat_2 %>% 
+  filter(valida_usu & valida_item) %>% 
+  select(-valida_usu, -valida_item)
+
+
+media_gral_train <- mean(dat_train$rating)
+
+dat_train_2 <-dat_train %>% 
+  mutate(u_id = as.integer(factor(userId)),
+         rating_cent = rating - media_gral_train)
+
+dat_test_2 <- dat_test %>% 
+  left_join(unique(dat_train_2[,c('userId', 'u_id')])) %>% 
+  mutate(rating_cent = rating - media_gral_train) %>% 
+  filter(!is.na(userId) & !is.na(itemId))
+
+##############################################
+## Compilar funciones en Rcpp
+##############################################
+
+cat("Compilar funciones en Rcpp\n")
+
+Rcpp::sourceCpp('gradiente.cpp')
+Rcpp::sourceCpp('calc_error.cpp')
+
+##############################################
+## Función que encuentra las dimensiones latentes
+##############################################
+
+encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, deltalim, maxiter = 250){
+  X <- sparseMatrix(i = i, j = j, x = x)
+  X.v <- sparseMatrix(i = i.v, j = j.v, x = x.v)
+  set.seed(2805)
+  U <- matrix(rnorm(k*dim(X)[1],0,0.01), ncol=k, nrow=dim(X)[1])
+  P <- matrix(rnorm(k*dim(X)[2],0,0.01), ncol=k, nrow=dim(X)[2])
+  a <- rep(0, dim(X)[1])
+  b <- rep(0, dim(X)[2]) 
+  num_iter <- 1
+  delta <- deltalim + 1
+  erroresent <- 0
+  erroresval <- 0
+  horas_iter <- Sys.time()
+  while(delta > deltalim & num_iter < maxiter){
+    ee1 <- sqrt(calc_error(i, j, x, U, P, a, b))
+    ev <- sqrt(calc_error(i.v, j.v, x.v, U, P, a, b))
+    erroresent <- append(erroresent, ee1)
+    erroresval <- append(erroresval, ev)
+    hora <- Sys.time()
+    horas_iter <- append(horas_iter, hora)
+    cat("\tNúmero de iteración:", num_iter, '\n')
+    cat("\tHora:", as.character(hora), '\n')
+    out <- gradiente(i, j, x, U, P, a, b, gamma, lambda)
+    U <- out[[1]]
+    P <- out[[2]]
+    a <- out[[3]]
+    b <- out[[4]]
+    ee2 <- sqrt(calc_error(i, j, x, U, P, a, b))
+    num_iter <- num_iter + 1
+    delta <- abs(ee2 - ee1)/ee1
+    cat('\terror entrenamiento =', ee2, "\n")
+    cat('\terror validación =', ev, '\n')
+    cat('\tdelta =', delta, '\n\n')
+  }
+  
+  df_it <- data.frame(iter=2:num_iter)
+  df_it$erroresent <- erroresent[2:num_iter]
+  df_it$erroresval <- erroresval[2:num_iter]
+  df_it$horas <- horas_iter[2:num_iter]
+  l <- list(P, U, df_it)
+  names(l) <- c('P', 'U', 'err')
+  return(l)
+}
+
+##############################################
+## Aplicar la función
+##############################################
+
+cat("Aplicar la función\n\n")
+
+#time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
+file_tabla_errores <- paste0(folder_tables,
+                             "/errores_modelo_factorizacion.psv")
+
+cat("dim_lat|learning_rate|lambda|iter|error_ent|error_val\n",
+    file = file_tabla_errores)
+
+
+# dimensiones_lat <- lapply(c(5, 6), function(k) #Num dimensiones latentes
+#   lapply(c(0.02), function(gamma) # Gamma: learning rate
+#            lapply(c(0.01), function(lambda) { # lambda: parámetro de regularización
+dimensiones_lat <- lapply(c(5, 20, 50, 200, 500), function(k) #Num dimensiones latentes
+  lapply(c(0.001, 0.01), function(gamma) # Gamma: learning rate
+    lapply(c(0.001, 0.01, 0.1, 1), function(lambda) { # lambda: parámetro de regularización
+                    cat('dimensiones =', k, '\n')
+                    cat('gamma (learning rate) =', gamma, '\n')
+                    cat('lambda (regularización) =', lambda, '\n\n')
+                    temp <- encontrar_dim_latentes(i = dat_train_2$u_id, 
+                                                   j = dat_train_2$itemId, 
+                                                   x = dat_train_2$rating_cent,
+                                                   i.v = dat_test_2$u_id,
+                                                   j.v = dat_test_2$itemId,
+                                                   x.v = dat_test_2$rating_cent,
+                                                   gamma, 
+                                                   lambda, 
+                                                   k, 
+                                                   deltalim = 0.0001,
+                                                   maxiter = 300) 
+                    saveRDS(temp, paste0(folder_models,
+                                         '/dimlat_',
+                                         k, 
+                                         "_learning_rate_", 
+                                         gamma, 
+                                         "_lambda_",
+                                         lambda, 
+                                         ".rds"))
+                    
+                    title <- paste0("k = ", k,
+                                    ", gamma = ", gamma,
+                                    ", lambda = ", lambda)
+                    title_file_plot <- paste0(folder_plots,
+                                              '/modelo_factorizacion_dimlat_',
+                                              k, 
+                                              "_learning_rate_", 
+                                              gamma, 
+                                              "_lambda_",
+                                              lambda, 
+                                              ".png")
+                    
+                    temp$err %>%  
+                      rename(Entrenamiento = erroresent, Validación = erroresval) %>% 
+                      gather(tipo_error, error, Entrenamiento, Validación) %>% 
+                      mutate(iter = as.integer(iter)) %>% 
+                      ggplot(aes(x = iter, y = error, group = tipo_error, color = tipo_error)) +
+                      geom_line() + 
+                      geom_point() + 
+                      scale_x_continuous(breaks = seq(0, max(temp$err$iter), 5)) + 
+                      ggtitle(title) +
+                      labs(colour = "Tipo de error") + 
+                      theme_minimal() +
+                      ggsave(file = title_file_plot)
+                    
+                    e0 <- temp$err[nrow(temp$err),]
+                    e <- paste(k, gamma, lambda, e0$iter, e0$erroresent, e0$erroresval, sep = "|")
+                    cat(e,
+                        "\n",
+                        append = T,
+                        file = file_tabla_errores)
+                  } )))
+
+cat("\n\n¡¡Listo!! :D\n\n")
+

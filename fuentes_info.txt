@@ -1,0 +1,116 @@
+# Libros:
+Anderson, Chris - The Long Tail
+Leskovec, Rajaraman, Ullman - Mining of Massive Datasets
+Ricci, Rokach, Shapira, Kanto - Recommender systems handbook
+Segaran, Toby - Programming Collective Intelligence
+Paterek - Predicting movie ratings and recommender systems
+
+
+# Papers:
+Yehuda Koren, Robert Bell and Chris Volinsky - Matrix factorization for recommender systems
+Collaborative Filtering with Temporal Dynamics
+Statistical foundations of recommender systems
+http://blog.echen.me/2011/10/24/winning-the-netflix-prize-a-summary/
+The BellKor Solution to the Netflix Grand Prize
+Beyond Accuracy: Evaluating Recommender Systems by Coverage and Serendipity
+Recommender Systems Handbook Chapter 5: Advances in Collaborative Filtering, by Yehuda Koren and Robert Bell
+Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems
+
+
+
+In fact, modeling these biases turned out to be fairly important: in their paper describing their final solution to the Netflix Prize, Bell and Koren write that:
+"Of the numerous new algorithmic contributions, I would like to highlight one -- those humble baseline predictors (or biases), which capture main effects in the data. While the literature mostly concentrates on the more sophisticated algorithmic aspects, we have learned that an accurate treatment of main effects is probably at least as signficant as coming up with modeling breakthroughs."
+https://www.quora.com/Is-there-any-summary-of-top-models-for-the-Netflix-prize
+
+
+Matrix Factorization: A Simple Tutorial and Implementation in Python
+http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/
+
+How useful is a lower RMSE?
+http://www.netflixprize.com/community/viewtopic.php?id=828
+
+Recommender Systems — It’s Not All About the Accuracy
+https://gab41.lab41.org/recommender-systems-its-not-all-about-the-accuracy-562c7dceeaff#.ihj8in7al
+
+Introduction to Restricted Boltzmann Machines
+http://blog.echen.me/2011/07/18/introduction-to-restricted-boltzmann-machines/
+
+Movie Recommendations and More via MapReduce and Scalding
+http://blog.echen.me/2012/02/09/movie-recommendations-and-more-via-mapreduce-and-scalding/
+
+Paterek - Predicting movie ratings and recommender systems
+Sección 3.1
+
+SGD uses a small randomly-selected subset of the training samples to approximate the gradient of the objective function given by Equation 2. The number of training samples used for this approximation is called the batch size. When the batch size is N, the SGD training simply translates into gradient descent (hence is very slow to converge). By using a small batch size, one can update the parameters more frequently than gradient descent and speed up the convergence. The extreme case is a batch size of 1, and it gives the maximum frequency of updates and leads to a very simple perceptron-like algorithm, which we adopt in this work.
+Stochastic Gradient Descent Training for L1-regularized Log-linear Models with Cumulative Penalty
+http://www.aclweb.org/anthology/P09-1054
+
+Large-scale Parallel Collaborative Filtering for the Netflix Prize
+Explica bien el problema de minimmización que se quiere resolver.
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.173.2797&rep=rep1&type=pdf
+
+Stochastic Gradient Descent Training for L1-regularized Log-linear Models with Cumulative Penalty
+http://www.aclweb.org/anthology/P09-1054
+
+http://stats.stackexchange.com/questions/146689/how-to-divide-dataset-into-training-and-test-set-in-recommender-systems
+http://www.contentwise.tv/files/An-evaluation-Methodology-for-Collaborative-Recommender-Systems.pdf
+
+http://sifter.org/~simon/journal/20061102.1.html
+http://sifter.org/~simon/journal/20061211.html
+http://sifter.org/~simon/journal/20070815.html
+http://sifter.org/~simon/journal/20070817.html
+
+Stephen Wright - Optimization Algorithms in Machine Learning
+http://videolectures.net/nips2010_wright_oaml/
+
+Hogwild
+https://people.eecs.berkeley.edu/~brecht/papers/hogwildTR.pdf
+
+Leer la parte de actualizar los pesos de nuevos usuarios y/o nuevos artículos
+Online-Updating Regularized Kernel Matrix Factorization Models for Large-Scale Recommender Systems
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.165.8010&rep=rep1&type=pdf
+
+Leer
+Yehuda Koren - Factorization Meets the Neighborhood: a Multifaceted Collaborative Filtering Model
+http://www.cs.rochester.edu/twiki/pub/Main/HarpSeminar/Factorization_Meets_the_Neighborhood-_a_Multifaceted_Collaborative_Filtering_Model.pdf
+
+
+http://alex.smola.org/teaching/berkeley2012/slides/8_Recommender.pdf
+https://classes.soe.ucsc.edu/cmps242/Fall09/proj/mpercy_svd_talk.pdf
+http://www.decibelsanddecimals.com/dbdblog/2016/6/13/spotify-related-artists
+
+
+RMSE penalizes larger errors stronger than MAE and thus is suitable for situations where small prediction errors are not very important.
+https://cran.r-project.org/web/packages/recommenderlab/vignettes/recommenderlab.pdf
+
+
+Comparación de métodos de SVD y fact de matrices, o comparar con regularización y sin regularización
+Factorizar distintas mmatrices utilizando distintos valores iniciales y predecir utilizando el promedio.
+Ver diferencia de ajuste con media ajustada por n y sin media ajustada por n
+
+Índice:
+Cap 1. Introducción. 
+	Hablar sobre la long tail, la cantidad de información del mundo actual, cómo las cosas en línea eliminan barreras en la demanda. Qué es un sistema de recomendación, cómo surgieron, cómo ayudaron a Netflix, etc. Cómo se usan en la actualidad y quiénes usan
+Cap 2. Revisión de literatura. 
+	Hablar de filtrado colaborativo y content-based RS. Métodos de neighborhood, user-user, item-item, factorización de matrices, etc.
+Cap 3. Metodología.
+	Aprendizaje estadístico (funciones de pérdida, conjuntos de entrenamiento y de prueba, validación cruzada, etc). 
+	Modelo base. Modelo de factores latentes, explicar qué son los factores latentes y qué significan. Modelar los residuales del modelo base usando factorización de matrices. Regularización. Hablar de regularización.
+	Descenso en gradiente. Descenso en gradiente estocástico, en general y en particular para el problema de minimizar el error de predicción de los residuales. Explicar por qué descenso en gradiente estocástico sirve para estos casos. Mencionar mínimos cuadrados alternados.
+	RMSE y qué significa, por qué esa métrica.
+Cap 4. Análisis y resultados.
+	Análisis exploratorio de los datos. Ver el RMSE del modelo base, y luego del modelo. Ver los RMSE de distintos modelos (distintas k's y distintos valores de regularización). Hacer perfiles de rendimiento del número de iteraciones y tiempo de cada modelo.
+	Ver serendipity y coverage de cada modelo. Ver algunas recomendaciones del modelo ganador.
+Cap 5. Discusión.
+Cap 6. Conclusiones.
+Bibliografía y Apéndices.
+
+
+
+\bibitem{pareto} Bunkley, Nick (March 3, 2008), \href{http://www.nytimes.com/2008/03/03/business/03juran.html}{\emph{Joseph Juran, 103, Pioneer in Quality Control, Dies}}, New York Times.
+\bibitem{longtail} Anderson, Chris. \emph{The Long Tail. Why the Future of Business Is Selling Less of More}, 2008 (pp 125-146).
+\bibitem{bloombergnetflixsales} Mullaney, Timothy. \href{http://www.bloomberg.com/bw/stories/2006-05-24/netflix}{\emph{Netflix}}, Bloomberg Business, May 24, 2006.
+
+\bibitem{handbook} Lops, Lops; de Gemmis, Marco \& Semeraro, Giovanni. \emph{Chapter 3: Content-based Recommender Systems: State of the Art and Trends}, del libro \emph{Recommender Systems Handbook}, Springer 2011.
+
+\bibitem{} Leskovec, Jure;  Rajaraman,  Anand \& Ullman, Jeffrey. \emph{Mining of Massive Datasets}, 2014.
