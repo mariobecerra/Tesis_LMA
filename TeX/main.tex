@@ -10,11 +10,17 @@
 % 
 \documentclass{tesisITAM}
 \usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+%\usepackage{algorithmx}
+\usepackage[spanish,onelanguage]{algorithm2e} 
+\RestyleAlgo{boxruled} % Para que los algoritmos los ponga en caja
+
 
 \title{Tesis de Mario}
 \author{Mario Humberto Becerra Contreras}
 \degree{Licenciado en Matemáticas Aplicadas}
-\advisor{\_}
+\advisor{Fernando Esponda Darlington}
 \year{2016}
 
 \begin{document}
@@ -47,15 +53,15 @@
 	% CONTENT
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	\include{Chapters/introduction}
+	\include{Chapters/introduccion}
+	
+	\include{Chapters/marco_teorico}
+	
+	\include{Chapters/problema_resolver}
 
-	% \include{Chapters/relatedwork}
+	\include{Chapters/resultados}
 
-	% \include{Chapters/method}
-
-	% \include{Chapters/results}
-
-	% \include{Chapters/conclusions}
+	\include{Chapters/conclusiones}
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	% APPENDIX

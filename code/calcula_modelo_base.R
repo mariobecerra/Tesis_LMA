@@ -28,72 +28,80 @@ system(paste("mkdir", folder_plots))
 system(paste("mkdir", folder_models))
 system(paste("mkdir", folder_tables))
 
-archivo_calis <- paste0("../data/", dataset, "/ratings.csv")
+file_name_train <- paste0("../out/", dataset, "/train.rds")
+file_name_test <- paste0("../out/", dataset, "/test.rds")
 
-#calis <- readr::read_csv('../data/ml-20m/ratings.csv') %>% 
-cat("Leyendo archivo de calificaciones\n")
-calis <- readr::read_csv(archivo_calis) %>%   
-  select(userId,
-         itemId_orig = itemId,
-         rating) %>% 
-  mutate(itemId = as.integer(factor(itemId_orig)))
-head(calis)
+cat("Leyendo archivos de calificaciones\n")
 
-cant_usuarios <- length(unique(calis$userId))
-cant_pelis <- length(unique(calis$itemId))
+train_data <- readRDS(file_name_train)
+test_data <- readRDS(file_name_test)
 
-##############################################
-## Conjuntos de prueba y validación
-##############################################
-
-cat("Creando conjuntos de entrenamiento y prueba\n")
-set.seed(2805)
-
-valida_usuarios <- sample(unique(calis$userId), cant_usuarios*.3 )
-valida_items <- sample(unique(calis$itemId), cant_pelis*.3 )
-
-dat_2 <- calis %>%
-  mutate(valida_usu = userId %in% valida_usuarios) %>%
-  mutate(valida_item = itemId %in% valida_items)
-
-dat_train <- dat_2 %>% 
-  filter(!valida_usu | !valida_item) %>% 
-  select(-valida_usu, -valida_item)
-
-dat_test <- dat_2 %>% 
-  filter(valida_usu & valida_item) %>% 
-  select(-valida_usu, -valida_item)
-
-
-media_gral_train <- mean(dat_train$rating)
-
-dat_train_2 <-dat_train %>% 
-  mutate(u_id = as.integer(factor(userId)),
-         rating_cent = rating - media_gral_train)
-
-dat_test_2 <- dat_test %>% 
-  left_join(unique(dat_train_2[,c('userId', 'u_id')])) %>% 
-  mutate(rating_cent = rating - media_gral_train) %>% 
-  filter(!is.na(userId) & !is.na(itemId))
+# archivo_calis <- paste0("../data/", dataset, "/ratings.csv")
+# 
+# #calis <- readr::read_csv('../data/ml-20m/ratings.csv') %>% 
+# cat("Leyendo archivo de calificaciones\n")
+# calis <- readr::read_csv(archivo_calis) %>%   
+#   select(userId,
+#          itemId_orig = itemId,
+#          rating) %>% 
+#   mutate(itemId = as.integer(factor(itemId_orig)))
+# head(calis)
+# 
+# cant_usuarios <- length(unique(calis$userId))
+# cant_pelis <- length(unique(calis$itemId))
+# 
+# ##############################################
+# ## Conjuntos de prueba y validación
+# ##############################################
+# 
+# cat("Creando conjuntos de entrenamiento y prueba\n")
+# set.seed(2805)
+# 
+# valida_usuarios <- sample(unique(calis$userId), cant_usuarios*.3 )
+# valida_items <- sample(unique(calis$itemId), cant_pelis*.3 )
+# 
+# dat_2 <- calis %>%
+#   mutate(valida_usu = userId %in% valida_usuarios) %>%
+#   mutate(valida_item = itemId %in% valida_items)
+# 
+# dat_train <- dat_2 %>% 
+#   filter(!valida_usu | !valida_item) %>% 
+#   select(-valida_usu, -valida_item)
+# 
+# dat_test <- dat_2 %>% 
+#   filter(valida_usu & valida_item) %>% 
+#   select(-valida_usu, -valida_item)
+# 
+# 
+# media_gral_train <- mean(dat_train$rating)
+# 
+# train_data <-dat_train %>% 
+#   mutate(u_id = as.integer(factor(userId)),
+#          rating_cent = rating - media_gral_train)
+# 
+# test_data <- dat_test %>% 
+#   left_join(unique(train_data[,c('userId', 'u_id')])) %>% 
+#   mutate(rating_cent = rating - media_gral_train) %>% 
+#   filter(!is.na(userId) & !is.na(itemId))
 
 ##############################################
 ## Modelo base
 ##############################################
 
 cat("Calcular modelo base\n")
-promedios_usuarios <- dat_train_2 %>% 
+promedios_usuarios <- train_data %>% 
   group_by(u_id) %>% 
   summarise(media_usuario = mean(rating),
             num_calis_usuario = n())
 
-promedios_items <- dat_train_2 %>% 
+promedios_items <- train_data %>% 
   group_by(itemId) %>% 
   summarise(media_item = mean(rating),
             num_calis_item = n())
 
 # gamma <- 20
 # 
-# dat_test_3 <- dat_test_2 %>% 
+# dat_test_3 <- test_data %>% 
 #   left_join(promedios_usuarios) %>% 
 #   left_join(promedios_items) %>% 
 #   mutate(rating_mb = media_gral_train + 
@@ -102,7 +110,7 @@ promedios_items <- dat_train_2 %>%
 #          ) %>% 
 #   mutate(rating_mb = ifelse(is.na(rating_mb), media_gral_train, rating_mb))
 
-df_prueba <- dat_test_2 %>% 
+df_prueba <- test_data %>% 
   left_join(promedios_usuarios) %>% 
   left_join(promedios_items)
 

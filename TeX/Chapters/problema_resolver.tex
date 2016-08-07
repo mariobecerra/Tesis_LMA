@@ -1,0 +1,374 @@
+\chapter{Problema a resolver}
+
+\section{Sistemas de recomendación}
+
+El objetivo de los sistemas de recomendación es predecir las respuestas de los usuarios a distintas opciones. Dos clasificaciones muy amplias de los sistemas de recomendación son: basados en contenido y filtrado colaborativo. Existen dos grandes tipos de sistemas de recomendación de acuerdo a las técnicas que usan.
+
+\begin{itemize}
+\item Basados en contenido: A partir de características y propiedades de los productos (por ejemplo, género, actores, país de origen, año, etc.) intentamos predecir el gusto por el producto construyendo variables derivadas del contenido de los artículos (como qué actores salen, año, etc.).
+\item Colaborativos: A partir de usuarios y productos se construyen medidas de similitud en el sentido de que les han gustado los mismos productos o que les gustaron a las mismas personas. Así, los productos recomendados a un usuario son los que le gustaron a otros usuarios.
+\end{itemize}
+
+En este trabajo se supone que se tiene una matriz de calificaciones $R$, tal que las filas representan usuarios que calificaron a los productos representados en las columnas de la siguiente forma:
+
+\begin{center}
+\begin{tabular}{ c | c  c c c c}
+    & $P_1$ & $P_2$ & $P_3$ & $\cdots$ & $P_n$ \\
+  \hline                       
+  $U_1$ & 1 & 2 & 3 & - & - \\
+  $U_2$ & 4 & - & 4 & 5  & -\\
+  $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$\\
+  $U_m$ & - & - & 1 & - & 3\\
+  \hline  
+\end{tabular}
+\end{center}
+
+
+donde cada $P_i$ es el producto i-ésimo que se ofrece y $U_i$ es el usuario i-ésimo que ha calificado el producto correspondiente. Los espacios donde hay guiones representan datos faltantes. Es usual que este tipo de matrices tengan la mayor parte de las entradas faltantes, pues no todos los usuarios han visto todas las películas, o calificado todos los productos. El objetivo del sistema de recomendación es llenar los espacios faltantes mediante una predicción y recomendar los productos que tienen una predicción alta. Notar que aquí se considera que ya se tiene la matriz de calificaciones, lo cual a veces, en la práctica, puede ser un trabajo difícil y haya que pedir a usuarios que califiquen productos.
+
+\section{Basados en contenido}
+
+Para este tipo de recomendaciones se construye un \textbf{perfil} para cada producto. Como se había mencionado, este perfil puede contener el género, los actores, país de origen, etc. Esto puede ser más sencillo en el caso de películas pues existen fuentes de información sobre las películas como \textit{Internet Movie Database (IMDb)}; pero con documentos o imágenes, por ejemplo, no siempre se tiene esta información, así que es necesario la construcción de variables a través de \textit{tags}, palabras clave y, en el caso de texto, tal vez un modelo de lenguaje.
+
+Una vez construidos los perfiles, el proceso que queda es de alguna forma emparejar los gustos del usuario obtenidos de la matriz de utilidad con los perfiles de los productos.
+
+Un ejemplo muy sencillo es el siguiente. Imaginemos dos películas con 5 actores cada una y que dos actores están en las dos películas, y que además las calificaciones promedio de cada película son 3 y 4. Entonces los perfiles de dos películas se ven     como:
+
+\begin{center}
+\begin{tabular}{ c | c  c c c c c c c c}
+    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
+  \hline                       
+$P_1$ & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 3 \\
+$P_2$ & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 4 \\
+  \hline  
+\end{tabular}
+\end{center}
+
+Con esta información se puede obtener una medida de similitud entre las películas. Una medida muy utilizada es la distancia coseno, definida como
+
+\begin{equation}
+sim(P_1, P_2) = \dfrac{P_1 \cdot P_2}{\vert \vert P_1 \vert \vert \times \vert \vert P_2 \vert \vert}
+\end{equation}
+
+Dos películas son más similares si tienen una distancia coseno menor.
+
+Supongamos ahora que los usuarios $U_k$ y $U_j$ solo han calificado dos película. Si el usuario $U_k$ calificó con 2 y 4 las películas $P_1$ y $P_2$ respectivamente y si el usuario $U_j$ calificó con 4 y 4 las películas $P_1$ y $P_2$ respectivamente, entonces se puede ver esto en forma matricial.
+
+\begin{center}
+\begin{tabular}{ c | c  c }
+    & $P_1$ & $P_2$ \\ \\
+  \hline                       
+$U_k$ & 2 & 4 \\
+$U_j$ & 4 & 4 \\
+  \hline  
+\end{tabular}
+\end{center}
+
+Tiene sentido centrar las calificaciones por usuario (restarle la media) para reducir un poco la heterogeneidad de la escala, entonces tenemos
+
+\begin{center}
+\begin{tabular}{ c | c  c }
+    & $P_1$ & $P_2$ \\ \\
+  \hline                       
+$U_k$ & -1 & 1 \\
+$U_j$ & 0 & 0 \\
+  \hline  
+\end{tabular}
+\end{center}
+
+Así, para el usuario $U_k$ tenemos que los perfiles para cada película se ven como
+
+\begin{center}
+\begin{tabular}{ c | c  c c c c c c c c}
+    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
+  \hline                       
+$P_1$ & 0 & -1 & -1 & 0 & -1 & -1 & 0 & -1 & 2 \\
+$P_2$ & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 4 \\
+  \hline  
+\end{tabular}
+\end{center}
+
+Y para el usuario $U_j$ tenemos que los perfiles para cada película se ven como
+
+\begin{center}
+\begin{tabular}{ c | c  c c c c c c c c}
+    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
+  \hline                       
+$P_1$ & 0 & 4 & 4 & 0 & 4 & 4 & 0 & 4 & 4 \\
+$P_2$ & 4 & 4 & 0 & 4 & 0 & 4 & 4 & 0 & 4 \\
+  \hline  
+\end{tabular}
+\end{center}
+
+Entonces, para el perfil general de cada usuario, se promedian por película los perfiles de cada uno y obtenemos
+
+\begin{center}
+\begin{tabular}{ c | c  c c c c c c c c}
+    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
+  \hline                       
+$U_k$ & 0.5 & 0 & -0.5 & 0.5 & -0.5 & 0 & 0.5 & -0.5 & 3 \\
+$U_j$ & 2 & 4 & 2 & 2 & 2 & 4 & 2 & 2 & 4 \\
+  \hline  
+\end{tabular}
+\end{center}
+
+Con esto podemos estimar qué tanto le va a gustar a un usuario una película calculando la distancia coseno entre el perfil del usuario y el perfil de la película. Esta forma es muy rudimentaria y sencilla, pero puede servir como base para otros modelos.
+
+\section{Colaborativos}
+
+\subsection{Modelo base}
+
+En esta sección se construye un modelo base muy sencillo para hacer predicciones, y el cual sirve como comparación con otros modelos más complejos. Para este modelo se supone que los artículos y los usuarios tienen sesgos, o sea, hay usuarios que tienden a calificar más alto, o a ser más estrictos y calificar más bajo; al mismo tiempo, puede haber artículos que tiendan a recibir calificaciones más altas; y que gran parte de la calificación observada se debe a efectos asociados a estos sesgos.
+
+Sea $\mu$ la media general de todos los artículos y todos los usuarios, entonces la predicción del modelo base es
+
+\[
+\hat{r_{ij}} = \mu + a_i + b_j
+\]
+
+donde $a_i$ es la desviación del usuario $i$ respecto a la media general y $b_j$ es la desviación del artículo $j$ respecto a la media general.
+
+Una forma de estimar los sesgos es calculando
+
+\[
+a_i = \frac{1}{M_i} \sum_t r_{it} - \mu,
+\]
+y 
+\[
+b_j = \frac{1}{N_j} \sum_s r_{sj} - \mu,
+\]
+donde donde $M_i$ es el número de artículos calificados por el usuario $i$ y $N_j$ es el número de calificaciones que tiene el artículo $j$.
+
+Otra forma un poco más precisa es resolver el problema de mínimos cuadrados
+
+\[
+\min_{b} \sum_{(i, j) \in A} \left( r_{ij} - \mu - a_i - b_j \right) ^2 + \lambda \left( \sum_{i} a_i^2 + \sum_{j} b_j^2 \right)
+\]
+
+donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el conjunto de usuarios y artículos para los cuales se conoce la calificación $r_ij$, $ \vert A \vert$ es la cardinalidad de $A$ (o sea, el total de artículos calificados por todos los usuarios) y $\lambda$ es un término de regularización que evita el sobreajuste.
+
+A este sencillo modelo se le pueden agregar otros términos de regularización que ayuden a disminuir el ruido causado por artículos y usuarios con pocas calificaciones, al encoger las calificaciones a la media. Una vez que se calcularon $a_i$ y $b_j$ usando cualquiera de los métodos mencionados, se hace la predicción
+
+\[
+r_{ij} = \mu + \frac{M_i}{\gamma + M_i} a_i + \frac{N_j}{\gamma + N_j}b_j
+\]
+
+donde $M_i$ es el número de artículos que ha calificado el usuario $i$, $N_j$ es el número de calificaciones que tiene el artículo $j$, y $\gamma$ es el parámetro de regularización.
+
+\subsection{Métodos de vecindario}
+
+\subsection{Métodos de factorización de matrices}
+
+\subsubsection{Modelo básico de factorización de matrices}
+
+La idea de la factorización de matrices proviene de los modelos de factores latentes, en los cuales se supone que hay factores ocultos o latentes que caracterizan a los usuarios y a los productos. Por ejemplo, se podría suponer que las películas se pueden resumir en dos factores: una dimensión de seriedad-comedia y una dimensión de fantasía-realidad, ambas numéricas, de tal forma que en la primera dimensión un valor más alto significa que una película es más seria y más bajo significa que es más inclinada a comedia. Para la segunda dimensión, similarmente, un valor más alto significa que la película está más inclinada a fantasía y un menor valor significa que está más apegada a la realidad. Estos factores latentes también se pueden pensar para los usuarios, en el sentido de que un usuario tiene un valor más alto en la primera dimensión si le gustan más las películas serias y un valor más alto en la segunda dimensión si le gustan las películas de fantasía.
+
+Teniendo esto en cuenta, los usuarios y las películas se pueden representar en vectores. El vector correspondiente a un usuario que le gustan mucho las películas serias de fantasía se podría ver así:
+
+\[
+     u_1 = 
+    \begin{bmatrix}
+        3 & 4
+    \end{bmatrix}^{T}.
+\]
+  
+Y un usuario que le gustan las comedias pero es indiferente entre si es de fantasía o realidad se podría ver así:
+
+\[
+     u_2 = 
+     \begin{bmatrix}
+         -2 & 0
+    \end{bmatrix}^{T}.
+\]
+  
+De la misma forma se podría pensar en dos películas, una seria con fantasía, como \textit{El Señor de los Anillos}, y una apegada a la realidad de comedia, como \textit{Mean Girls}. Sus vectores correspondientes se podrían ver así:
+
+\[
+    p_1 = 
+    \begin{bmatrix}
+         2 & 4
+    \end{bmatrix}^{T}
+\]
+
+
+\[
+    p_2 = 
+    \begin{bmatrix}
+         -3 & -3
+    \end{bmatrix}^{T}.
+\]
+
+Entonces una forma de modelar la calificación que daría cada usuario a cada película sería pensando en la combinación lineal de los usuarios y las películas. Es decir, la calificación que daría el usuario $u_1$ a la película $p_1$ sería el producto punto de los vectores: $u_1^T p_1 = 22$. Si se hace esto para todos los usuarios y películas, se tiene el siguiente sistema lineal:
+
+\[
+    R = UP^T,
+\]
+
+
+donde
+
+\[
+    U = 
+    \begin{bmatrix}
+         u_1^T \\ 
+         u_2^T
+    \end{bmatrix} =
+    \begin{bmatrix}
+         3 & 4 \\ 
+         -2 & 0
+    \end{bmatrix},\;\;\;\;
+    P = 
+    \begin{bmatrix}
+         p_1^T \\ 
+         p_2^T
+    \end{bmatrix} =
+    \begin{bmatrix}
+         2 & 4 \\ 
+         -3 & -3
+    \end{bmatrix}
+\]
+
+y
+
+\[
+    R = 
+    \begin{bmatrix}
+         u_1 ^T p_1 & u_1 ^T p_2 \\ 
+         u_2 ^T p_1 & u_2 ^T p_2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        22 & -21 \\
+        -4 & 6.
+    \end{bmatrix}
+\]
+
+Aquí se puede ver que el usuario $u_1$, a quien le gustan las películas serias de fantasía califica más alto \textit{El Señor de los Anillos} que \textit{Mean Girls}, mientras que el usuario $u_2$ hace lo contrario, pues le gustan las comedias.
+
+Ahora, en la vida real no se conocen los valores de las matrices $U$ y $P$, sino que se tiene acceso a ciertas entradas de la matriz $R$, y el reto está en tener una buena estimación de las matrices $U$ y $P$. Este problema es una instancia de la descomposición en valores singulares, con la peculiaridad de que no se tienen todas las entradas de la matriz R, sino solo una pequeña proporción de ellas.
+
+Entonces, si se tiene acceso a la matriz $R$, se busca encontrar dos matrices $U$ y $P$ de rango $k$ tales que $R \approx U P^T$. De esta forma, la aproximación de la calificación que da el usuario $i$ al artículo $j$ sería
+
+\begin{equation}\label{ec_fact_basico}
+r_{ij} = u_i^T p_j.
+\end{equation}
+
+
+Hay distintas formas de elegir qué función de pérdida utilizar para saber qué tan cerca el producto de matrices está de $R$, pero muchas veces se utiliza la raíz del error cuadrático medio (RMSE por \textit{root-mean-squared-error}), el cual se calcula de la siguiente forma:
+
+\[
+RMSE = \left ( \frac{1}{\vert A \vert} \sum_{(i,j) \in A} (r_{ij} - u_i^Tp_j )^2 \right ) ^ \frac{1}{2},
+\]
+
+donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el conjunto de usuarios y artículos para los cuales se conoce la calificación $r_ij$, $ \vert A \vert$ es la cardinalidad de $A$ (o sea, el total de artículos calificados por todos los usuarios), $u_i$ es la i-ésima fila de la matriz $U$ y $p_j$ es la j-ésima fila de la matriz $P$. Es decir, el RMSE es la raíz cuadrada del promedio de las desviaciones de la aproximación de $R$ y la $R$ verdadera. 
+
+Otra opción muy utilizada es el error absoluto medio (MAE por \textit{mean-absolute-error}), definido como la suma de las desviaciones absolutas de la aproximación de $R$ a $R$, esto es
+
+\[
+MAE = \frac{1}{\vert A \vert} \sum_{(i,j) \in A} \vert r_{ij} - u_i^Tp_j \vert.
+\]
+
+El RMSE puede ser preferible en situaciones en las que pequeños errores de predicción no son importantes, pues el RMSE penaliza errores más fuertemente que el MAE.
+
+Por lo tanto, cuando se quiere minimizar el RMSE, el problema a resolver es
+
+\begin{equation}
+\min_{p, u} \sum_{(i,j) \in A} \left [ (r_{ij} - u_i^Tp_j )^2 + \lambda ( \norm{p_j}^2 + \norm{u_i}^2 ) \right ]
+\end{equation}
+
+donde $\lambda$ es un término de regularización que evita el sobreajuste.
+
+\subsubsection{Agregando sesgos}
+
+Al modelo simple enunciado en la sección anterior se le puede agregar la idea del modelo base: que existen sesgos en los artículos y en los usuarios. Entonces al modelo \ref{ec_fact_basico} se le agregan los sesgos, de tal forma que se tiene el nuevo modelo con sesgos
+
+\begin{equation}\label{ec_fact_sesgo}
+r_{ij} = \mu + a_i + b_j + u_i^T p_j,
+\end{equation}
+
+con $\mu$, $a_i$ y $b_j$ definidos anteriormente. Estos parámetros se pueden estimar resolviendo el problema
+
+\begin{equation}\label{func_opt_sesgos}
+\min_{p, u, b, a} \sum_{(i,j) \in A} \left [ \left( r_{ij} - \mu - a_i - b_j - u_i^T p_j \right) ^2 + \lambda \left( \norm{p_j}^2 + \norm{u_i}^2 + a_i^2 + b_j^2 \right) \right ]
+\end{equation}
+
+\subsubsection{Modelo de optimización}
+
+Sea $L$ la función a optimizar en el problema \ref{func_opt_sesgos}, es decir,
+
+\[
+\begin{split}
+L 
+& = \sum_{(i,j) \in A} \left [ \left( r_{ij} - \mu - a_i - b_j - u_i^T p_j \right) ^2 + 
+\lambda \left( \norm{p_j}^2 + \norm{u_i}^2 + a_i^2 + b_j^2 \right) \right ] \\
+& = \sum_{(i,j) \in A} \left [ \left( x_{ij} - a_i - b_j - u_i^T p_j \right) ^2 + \lambda \left( \norm{p_j}^2 + \norm{u_i}^2 + a_i^2 + b_j^2 \right) \right ] \\
+& = \sum_{(i,j) \in A} \left( x_{ij} - a_i - b_j - u_i^T p_j \right) ^2 \\
+& + \lambda \left( 
+\sum_j \sum_{m = 1}^{k}p_{jm}^2 + 
+\sum_i \sum_{m = 1}^{k}u_{im}^2 + 
+\sum_i a_i^2 + 
+\sum_j b_j^2 \right) .
+\end{split}
+\]
+
+Para utilizar descenso en gradiente estocástico, se define la función de pérdida $l_{ij}$ como
+
+\[
+l_{ij} = \left( x_{ij} - a_i - b_j - u_i^T p_j \right) ^2
++ \lambda \left( 
+\sum_{m = 1}^{k}p_{jm}^2 + 
+\sum_{m = 1}^{k}u_{im}^2 + 
+a_i^2 + 
+b_j^2 \right) .
+\]
+
+Notar que $L = \sum_{(i,j) \in A)} l_{ij}$.
+
+Las derivadas parciales de $l_{ij}$ son
+
+\[
+\begin{split}
+\frac{\partial l_{ij}}{\partial u_{im}} = -2 e_{ij} p_{jm} + 2 \lambda u_{im} 
+\qquad
+\frac{\partial l_{ij}}{\partial p_{jm}} = -2 e_{ij} u_{im} + 2 \lambda v_{jm}
+\end{split}
+\]
+
+\[
+\begin{split}
+\frac{\partial l_{ij}}{\partial a_i} = -2 e_{ij} + 2 \lambda a_i 
+\qquad
+\frac{\partial l_{ij}}{\partial b_j} = -2 e_{ij} + 2 \lambda b_j
+\end{split}
+\]
+
+donde $e_{ij} =  x_{ij} - a_i - b_j - u_i^T p_j$ es el residual de la calificación del usuario $i$ del producto $j$.
+
+Entonces, para resolver \ref{func_opt_sesgos}, se inicia con un unas matrices $P$ y $Q$, y los vectores $a_i$ y $b_j$ para todos los usuarios $i$ y artículos $j$, con valores arbitrarios. Y se prosigue a ajustar $U$, $P$, $a$ y $b$ iterativamente usando la dirección contraria al gradiente en cada punto hasta cierto criterio de paro.
+
+\begin{algorithm}[ht]
+ \caption{Algoritmo de descenso en gradiente estocástico para \ref{func_opt_sesgos}}
+    \SetAlgoLined
+    Iniciar vectores $a$, $b$ y matrices $P$ y $Q$\\
+    \While{no se cumpla el criterio de paro}{
+        \ForAll{$(i, j) \in A$} {
+            \ForAll{$m \in 1, ..., k$} {
+                $u_{im} \leftarrow 
+                    u_{im} - \gamma \left( 
+                    -2 e_{ij} p_{jm} + 2 \lambda u_{im} 
+                    \right)$ \\
+                $p_{jm} \leftarrow 
+                p_{jm} - \gamma \left( 
+                -2 e_{ij} u_{im} + 2 \lambda v_{jm}
+                \right)$
+            }
+            $a_i \leftarrow a_i - \gamma \left(
+            -2 e_{ij} + 2 \lambda a_i 
+            \right)$\\
+            $b_j \leftarrow b_j - \gamma \left(
+            -2 e_{ij} + 2 \lambda b_j
+            \right)$
+        }
+    }
+\end{algorithm}
+

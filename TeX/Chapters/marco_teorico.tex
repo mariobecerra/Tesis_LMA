@@ -1,0 +1,60 @@
+\chapter{Marco teórico}
+
+\section{Aprendizaje estadístico}
+
+El aprendizaje estadístico se refiere a un conjunto de herramientas para modelar y entender conjuntos de datos complejos. Es un área relativamente moderna, y tiene componentes de computación, en particular del aprendizaje de máquina. Aunque estas disciplinas van de la mano, no son totalmente equivalentes, teniendo ciertas diferencias filosóficas en cuanto a qué se hace en cada una.
+
+Con la enorme cantidad de datos a los que se tiene acceso ahora, el aprendizaje estadístico se ha vuelto un campo muy demandado y fructífero en muchas áreas. El progreso que se ha logrado en los últimos años se ha debido en gran parte al desarrollo del poder de cómputo, sin el cual muchas de las técnicas modernas sería imposible tener un resultado.
+
+Usualmente se divide al aprendizaje estadístico en dos vertientes: aprendizaje supervisado y aprendizaje no supervisado. El primero involucra construir un modelo estadístico para predecir o estimar una variable llamada \textit{de respuesta} basado en una o más variables llamadas \textit{de entrada}; mientras que en el aprendizaje no supervisado se tienen variables de entrada pero no de salida, se desea aprender relaciones y estructura de los datos.
+
+Un ejemplo de aprendizaje supervisado es estimar el ingreso de un hogar a partir de variables acerca de la zona en donde se habita, tipo de casa en la que se vive, número de carros, etc. Y un ejemplo de aprendizaje no supervisado sería encontrar grupos de los hogares que surjan naturalmente a partir de los datos, de tal forma que dentro de cada grupo exista una gran similitud (definida \textit{a priori}) y entre los grupos haya diferencias. Gran parte del problema aquí radica en definir la medida de similitud.
+
+\subsection{Aprendizaje supervisado}
+
+Como se mencionó, en el aprendizaje supervisado, se tiene una variable respuesta, la cual será denotada como el vector $Y$ de dimensión $n$, y cada variable de entrada se denomina $X_i$, con $i$ desde $0$ hasta $p$. Cada $X_i$, al igual que $Y$, es un vector de dimensión $n$, por lo que el conjunto de datos $\left \{ X_1, ..., X_p \right \}$ se puede escribir como una matriz  $X = \left[ X_1, ..., X_p \right ]$ de dimensiones $n \times p$. Se asume que existe una relación entre $Y$ y $X$ que se puede escribir de forma general como
+$$Y = f(X) + \varepsilon.$$
+
+Aquí, $f$ es una función de $X$ fija pero desconocida, la cual tiene información sistemático de $X$ acerca de $Y$, y $\varepsilon$ es un término de error aleatorio. La esencia del aprendizaje supervisado es poder encontrar o aprender $f$ a partir del \textit{conjunto de entrenamiento} denominado $\mathcal{L}$, tal que $\mathcal{L} = \left\{ (x_1, y_1), ..., (x_n, y_n) \right\}$. En este caso, cada $y_i$ es un escalar y cada $x_i$ es un vector de dimensión $p$. Con $\mathcal{L}$ se construye un predictor $\hat{f}$, que es una estimación de $f$, de tal forma que se tiene una estimación $\hat{Y}$ de $Y$ aplicando $X$ a $\hat{f}$, es decir
+
+$$\hat{Y} = \hat{f}(X).$$
+
+La estimación $\hat{f}$ se hace seleccionando $f$ de una familia de funciones $\mathcal{F}$ de tal forma que $y_i \approx \hat{f}(x_i)$ para cada $(x_i, y_i) \in \mathcal{L}$. Por ejemplo, en regresión lineal se resuelve el problema de mínimos cuadrados
+
+$$\hat{f} = \argmin_{f \in \mathcal{F}} \frac{1}{n} \sum_{i = 1}^n{ ( y_i - f(x_i) ) ^ 2},$$
+
+donde $\mathcal{F}$ es la familia de funciones de la forma $f(X) = X\beta$ con $\beta \in \mathbb{R}^p$. Así, $\hat{f}(X) = X \hat{\beta}$, donde $\hat{\beta}$ resuelve el problema de mínimos cuadrados. En este caso, se quiere encontrar el vector de parámetros $\beta$ tal que la suma de residuales al cuadrado sea mínima.
+
+Si la familia de funciones $\mathcal{F}$ es muy inflexible (como regresión lineal), entonces las predicciones tenderán a ser malas pues no se capta bien la relación entre $X$ y $Y$, sin embargo, esto puede ser deseable en algunos casos, como cuando se pretende interpretar la relación entre $X$ y $Y$.
+
+Es prudente introducir el concepto de \textit{función de pérdida} o de error. Sea $\hat{Y} = \hat{f}(X)$, la predicción de $Y$; en el caso de regresión lineal, $\hat{Y} = X\hat{\beta}$. En este mismo caso la función de pérdida fue la de pérdida cuadrática, definida como 
+%$L_{\mathcal{L}}(f, \hat{f}) = (f - \hat{f}_{\mathcal{L}} ) ^2$
+$L_{\mathcal{L}}(\hat{Y}, Y) = (\hat{f}(X) - Y ) ^2$
+, o sea, la diferencia entre la estimación de $Y$ y la verdadera $Y$ al cuadrado, con los datos del conjunto $\mathcal{L}$. Existen distintos tipos de funciones de pérdida, pero muchas veces se utiliza la pérdida cuadrática debido a las propiedades diferenciables que tiene.
+
+En general, cuando uno entrena un modelo para predecir, no se desea minimizar el error de entrenamiento $L_{\mathcal{L}}$, sino el error de predicción, esto es, el error de cualquier observación futura $(X^0, Y^0)$. Esto quiere decir que no se quiere minimizar $L_{\mathcal{L}}(f, \hat{f})$, sino el error esperado de predicción, definido como $\mathbb{E} \left[ L(\hat{f}(X^0), Y^0 ) \right] $.
+
+Debido a que se quiere minimizar el error esperado de predicción, es común separar el conjunto de datos $(X, Y)$ en dos, el conjunto de entrenamiento, presentado anteriormente como $\mathcal{L}$, y un \textit{conjunto de validación} o \textit{conjunto de prueba} denotado como $\mathcal{T}$. Para hacer esto, del conjunto original de datos, se toma una muestra aleatoria para entrenar (este es el conjunto de entrenamiento $\mathcal{L}$) y el resto es el conjunto de validación $\mathcal{T}$, con el cual se prueba el poder predictivo del modelo. A $L_{\mathcal{T}}$ se le conoce como el error de validación o error de prueba, y es una estimación del error de predicción. Si $\mathcal{T}$ tiene $m$ elementos, y $m$ es grande, entonces el error de prueba se aproxima al error esperado de predicción.
+
+Notar que el error de entrenamiento no aproxima el error de predicción porque el error de entrenamiento depende de $\mathcal{L}$. De hecho la predicción del error de predicción utilizando el error de entrenamiento está sesgada hacia abajo, especialmente para modelos complejos.
+
+\subsubsection{Regresión y clasificación}
+
+El aprendizaje supervisado, a su vez, puede ser dividido en dos tipos de problemas dependiendo del tipo de variable respuesta. Cuando la variable respuesta es categórica, se dice que es un problema de clasificación, en otro caso, se dice que es un problema de regresión. Un ejemplo de problema de regresión es modelar el precio de una casa, mientras que un ejemplo de problema de clasificación es modelar el género de una persona. 
+
+\subsection{Aprendizaje no supervisado}
+
+El aprendizaje no supervisado describe un problema más retador en cuanto a que para cada $i = 1, .., n$, se tiene un vector de observaciones $x_i$ para el cual no se tiene una respuesta asociada $y_i$. Es por esto que se le llama \textit{no supervisado}, pues no hay una variable respuesta en el análisis. Uno de los principales análisis que se hace en el aprendizaje no supervisado es \textit{análisis de conglomerados}, en el cual a cada una de las observaciones $x_1, ..., x_n$ se clasifica en un grupo. Existen muchos métodos de análisis de conglomerados, sin embargo, no es el objetivo de este trabajo estudiarlas.
+
+
+\subsection{Regularización}
+
+\section{Optimización de funciones de pérdida}
+
+\subsection{Descenso en gradiente}
+
+\subsection{Descenso en gradiente estocástico}
+
+
+
+

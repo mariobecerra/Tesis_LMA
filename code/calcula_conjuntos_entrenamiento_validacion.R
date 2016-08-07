@@ -1,7 +1,5 @@
 library(dplyr)
 
-time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
-
 ##############################################
 ## Determinar el dataset que va a leer
 ##############################################
@@ -75,11 +73,3 @@ dat_test_2 <- dat_test %>%
   mutate(rating_cent = rating - media_gral_train) %>% 
   filter(!is.na(userId) & !is.na(itemId))
 
-
-
-
-
-
-
-system(paste('Rscript calcula_modelo_base.R MovieLens', time))
-system(paste('Rscript calcula_modelo_factorizacion.R MovieLens', time))

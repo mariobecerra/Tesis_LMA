@@ -88,6 +88,9 @@ Comparación de métodos de SVD y fact de matrices, o comparar con regularizaci�
 Factorizar distintas mmatrices utilizando distintos valores iniciales y predecir utilizando el promedio.
 Ver diferencia de ajuste con media ajustada por n y sin media ajustada por n
 
+Adjusted cosine similarity
+http://www.cs.carleton.edu/cs_comps/0607/recommend/recommender/itembased.html
+
 Índice:
 Cap 1. Introducción. 
 	Hablar sobre la long tail, la cantidad de información del mundo actual, cómo las cosas en línea eliminan barreras en la demanda. Qué es un sistema de recomendación, cómo surgieron, cómo ayudaron a Netflix, etc. Cómo se usan en la actualidad y quiénes usan
