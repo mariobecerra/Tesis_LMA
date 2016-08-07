@@ -1,5 +1,12 @@
+# Se deben de tener ya precalculadas las similitudes entre items
+library(jsonlite)
 library(dplyr)
-#library(recommenderlab)
+
+##############################################
+## Determinar el dataset con el que se va a trabajar
+##############################################
+
+# Si el script se ejecuta en forma interactiva (desde algún IDE), entonces toma el dataset de movielens. Si se ejecuta automáticamente desde otro script o desde la terminal, debe llevar como argumento cuál dataset se quiere analizar
 
 if(!interactive()){ 
   args <- commandArgs(TRUE)
@@ -14,8 +21,8 @@ if(!interactive()){
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
-
-folder <- paste0("../out/", dataset, "/", time)
+#folder <- paste0("../out/", dataset, "/", time)
+folder <- "../out/MovieLens/2016-08-04_13_05_41_similitudes_modelo_vecindario"
 folder_plots <- paste0(folder, "/plots")
 folder_models <- paste0(folder, "/models")
 folder_tables <- paste0(folder, "/tables")
@@ -25,112 +32,54 @@ system(paste("mkdir", folder_plots))
 system(paste("mkdir", folder_models))
 system(paste("mkdir", folder_tables))
 
-archivo_calis <- paste0("../data/", dataset, "/ratings.csv")
+file_name_train <- paste0("../out/", dataset, "/train.rds")
+file_name_test <- paste0("../out/", dataset, "/test.rds")
 
-cat("Leyendo archivo de calificaciones\n")
+cat("Leyendo archivos de calificaciones\n")
 
-# calis <- readr::read_csv(archivo_calis) %>%   
-#   select(user = userId,
-#          item = itemId,
-#          rating) %>% 
-#   as.data.frame() %>% 
-#   as(., "realRatingMatrix")
-  
-calis <- readr::read_csv(archivo_calis) %>%   
-  select(userId,
-         itemId_orig = itemId,
-         rating) %>% 
-  mutate(itemId = as.integer(factor(itemId_orig)))
-
-cant_usuarios <- length(unique(calis$userId))
-cant_pelis <- length(unique(calis$itemId))
+train_data <- readRDS(file_name_train)
+test_data <- readRDS(file_name_test)
 
 ##############################################
-## Conjuntos de prueba y validación
+## Similitudes
 ##############################################
 
-cat("Conjuntos de prueba y validación\n")
+# archivo_similitudes <- paste0(folder_tables, "/similitudes_items_centradas.csv")
+folder_similitudes_json <- paste0(folder_tables, "/json_similitudes")
 
-set.seed(2805)
+archivos_similitudes <- list.files(folder_similitudes_json, full.names = T)
+archivos_similitudes <- archivos_similitudes[1:3]
 
-valida_usuarios <- sample(unique(calis$userId), cant_usuarios*.3 )
-valida_items <- sample(unique(calis$itemId), cant_pelis*.3 )
+similitudes <- list()
+i = 0
+while(i < length(archivos_similitudes)){
+  i = i + 1
+  sims <- fromJSON(readLines(archivos_similitudes[i]))
+  similitudes <- append(similitudes, sims)
+}
 
-dat_2 <- calis %>%
-  mutate(valida_usu = userId %in% valida_usuarios) %>%
-  mutate(valida_item = itemId %in% valida_items)
+##############################################
+## Algunas recomendaciones
+##############################################
 
-dat_train <- dat_2 %>% 
-  filter(!valida_usu | !valida_item) %>% 
-  select(-valida_usu, -valida_item)
+# Para el usuario 2, predicción de la calificación del item 3:
 
-dat_train %>% 
-  group_by(userId) %>% 
-  mutate(media_usuario = mean(rating)) %>% 
-  mutate(rating = rating - media_usuario) %>% 
-  select(userId, itemId, rating) %>% 
-  head(1000) %>% 
-  write.table(., file = "~/Desktop/ejem.csv",
-              sep = ",", row.names = F)
+# Items calificados por el usuario 2:
+user_3 <- train_data %>% filter(userId == 2)
 
-dat_test <- dat_2 %>% 
-  filter(valida_usu & valida_item) %>% 
-  select(-valida_usu, -valida_item)
+# Items similares al item 3:
+similitudes[[3]] %>% head
 
+# Filtrar los items parecidos a 3 que el usuario 2 haya visto y unir los datos del usuario:
+df_3 <- similitudes[[3]] %>% 
+  mutate(itemId = as.integer(gsub("[^0-9]+", "", itemId))) %>% 
+  filter(itemId %in% user_3$itemId) %>% 
+  left_join(user_3) 
 
-# r_train <- dat_train %>%
-#   select(user = userId,
-#          item = itemId_orig,
-#          rating) %>%
-#   as.data.frame() %>%
-#   as(., "realRatingMatrix")
-
-r_train <- sparseMatrix(
-  i = dat_train$userId,
-  j = dat_train$itemId,
-  x = dat_train$rating
-) 
-
-
-r_test <- sparseMatrix(
-  i = dat_test$userId,
-  j = dat_test$itemId,
-  x = dat_test$rating,
-  dims = dim(r_train)
-) %>% 
-  as(., "realRatingMatrix")
-
-# r_test <- dat_test %>%
-#   select(user = userId,
-#          item = itemId_orig,
-#          rating) %>%
-#   as.data.frame() %>%
-#   as(., "realRatingMatrix")
-
-rm(calis)
-rm(dat_train)
-rm(dat_test)
-rm(dat_2)
-
-# Recomendaciones
-
-r1 <- Recommender(r_train[1:1000,1:1000], "IBCF")
-p1 <- predict(r1, r_train[101:105,], type="ratings")
-
-
-r1 <- Recommender(r_train[1:100,], "UBCF")
-p1 <- predict(r1, r_test[101:105,], type="ratings")
-
-
-
-r1 <- Recommender(r_train, "UBCF")
-
-p1 <- predict(r1, r_test, type="ratings")
-
-
-
-
-
+# Predicción
+df_3 %>% 
+  summarise(pred_rat = sum(sim_cos * rating_cent)/sum(sim_cos))
+# La calificación predicha es 0.3131239, mientras que la calificación real centrada es 0.4774406
 
 
 

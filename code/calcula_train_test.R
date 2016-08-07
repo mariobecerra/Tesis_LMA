@@ -1,7 +1,5 @@
 library(dplyr)
 
-time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
-
 ##############################################
 ## Determinar el dataset que va a leer
 ##############################################
@@ -10,9 +8,8 @@ time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 if(!interactive()){ 
   args <- commandArgs(TRUE)
   dataset <- args[1]
-  time <- args[2]
   if(length(args) == 0) {
-    cat("No especificaste dataset ni carpeta de salida\n\n")
+    cat("No especificaste dataset\n\n")
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
@@ -22,7 +19,7 @@ if(!interactive()){
 
 archivo_calis <- paste0("../data/", dataset, "/ratings.csv")
 
-# Lee archivos
+# Lee el erchivo
 calis <- readr::read_csv(archivo_calis) %>%   
   select(userId,
          itemId_orig = itemId,
@@ -32,13 +29,6 @@ head(calis)
 
 cant_usuarios <- length(unique(calis$userId))
 cant_pelis <- length(unique(calis$itemId))
-
-archivo_items <- paste0("../data/", dataset, "/items.csv")
-nombres_items <- readr::read_csv(archivo_items) %>% 
-  rename(itemId_orig = itemId) %>% 
-  left_join(unique(select(calis, itemId, itemId_orig)))
-write.table(nombres_items, file = paste0("../out/", dataset, "/items_new_ids.csv"),
-            sep = ",", row.names = F, col.names = T)
 
 ##############################################
 ## Conjuntos de prueba y validación
@@ -75,11 +65,11 @@ dat_test_2 <- dat_test %>%
   mutate(rating_cent = rating - media_gral_train) %>% 
   filter(!is.na(userId) & !is.na(itemId))
 
+folder_name <- paste0("../out/", dataset)
+file_name_train <- paste0(folder_name, "/train.rds")
+file_name_test <- paste0(folder_name, "/test.rds")
+
+saveRDS(dat_test_2, file = file_name_test)
+saveRDS(dat_train_2, file = file_name_train)
 
 
-
-
-
-
-system(paste('Rscript calcula_modelo_base.R MovieLens', time))
-system(paste('Rscript calcula_modelo_factorizacion.R MovieLens', time))
