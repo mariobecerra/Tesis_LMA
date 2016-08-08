@@ -165,7 +165,23 @@ Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artí
 
 \subsubsection{Basados en usuarios}
 
-Este tipo de algoritmos pretenden imitar las recomendaciones de boca en boca al asumir que los usuarios con preferencias similares calificarán los artículos de forma similar. De esta manera, una predicción se 
+Este tipo de algoritmos pretenden imitar las recomendaciones de boca en boca al asumir que los usuarios con preferencias similares calificarán los artículos de forma similar. De esta manera, para hacer una predicción para el usuario $i$ y el artículo $j$ habría que encontrar un vecindario de $i$, definido como $N(i)$, y tomar el promedio de las calificaciones en el vecindario:
+
+\begin{equation}\label{predic_modelo_usuario_sencillo}
+ \hat{r_{ij}} = \frac{\sum_{a \in N(i)} r_{aj}}{\vert N(i) \vert}.
+\end{equation}
+
+Por ejemplo,
+
+\textbf{PONER EJEMPLO DE CUADERNO!!!}.
+
+Este ejemplo está ignorando el hecho de que algunos usuarios en el vecindario son más similares a otros, por lo que es una buena idea tener un ponderador de similitud. Así, en lugar de \ref{predic_modelo_usuario_sencillo}, la predicción es
+
+\begin{equation}\label{predic_modelo_usuario_ponderado}
+ \hat{r_{ij}} = \frac{\sum_{a \in N(i)} s_{ia} r_{aj}}{\sum_{a \in N(i)} s_{ia}},
+\end{equation}
+
+donde $s_{ia}$ es la similitud entre el usuario $i$ y el usuario $a$ perteneciente al vecindario de $i$.
 
 \subsection{Métodos de factorización de matrices}
 
