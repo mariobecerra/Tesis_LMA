@@ -2,8 +2,6 @@ library(dplyr)
 library(tidyr)
 library(Matrix)
 library(Rcpp)
-library(ggplot2)
-library(gridExtra)
 
 ##############################################
 ## Determinar el dataset con el que se va a trabajar

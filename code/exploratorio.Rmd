@@ -6,13 +6,10 @@ output: html_document
 ---
 
 ```{r setup, message=FALSE}
-options(digits=4)
 library(dplyr)
 library(tidyr)
 library(Matrix)
-library(Rcpp)
 library(ggplot2)
-library(gridExtra)
 ```
 
 ## Recomendación

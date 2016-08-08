@@ -153,8 +153,6 @@ predict_rating <- function(test_data, train_data, similitudes, userId_in, n = 50
   return(predicciones)
 }
 
-predict_rating(test_data, train_data, similitudes, 2, 1000)
-
 i <- 1
 cant_usuarios <- length(unique(test_data$userId))
 predicciones_test <- lapply(unique(test_data$userId), function(usuario){
@@ -168,30 +166,17 @@ predicciones_test <- lapply(unique(test_data$userId), function(usuario){
   rbind_all()
 
 mean(predicciones_test$error^2) %>% sqrt
+# 0.8304887333578501174
 
+write.table(predicciones_test,
+            file = paste0(folder_tables, "/predicciones_modelo_vecindario.csv"),
+            sep = ",",
+            row.names = F,
+            col.names = T)
 
 ##############################################
 ## Algunas recomendaciones
 ##############################################
 
-# Para el usuario 2, predicción de la calificación del item 3:
-
-# Items calificados por el usuario 2:
-user_3 <- train_data %>% filter(userId == 2)
-
-# Items similares al item 3:
-similitudes[[3]] %>% head
-
-# Filtrar los items parecidos a 3 que el usuario 2 haya visto y unir los datos del usuario:
-df_3 <- similitudes[[3]] %>% 
-  mutate(itemId = as.integer(gsub("[^0-9]+", "", itemId))) %>% 
-  filter(itemId %in% user_3$itemId) %>% 
-  left_join(user_3) 
-
-# Predicción
-df_3 %>% 
-  summarise(pred_rat = sum(sim_cos * rating_cent)/sum(sim_cos))
-# La calificación predicha es 0.3131239, mientras que la calificación real centrada es 0.4774406
-
-
-
+# Predicciones del conjunto de prueba del usuario 2
+predict_rating(test_data, train_data, similitudes, 2, 1000)

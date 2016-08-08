@@ -165,12 +165,7 @@ Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artí
 
 \subsubsection{Basados en usuarios}
 
-Este tipo de algoritmos pretenden imitar las recomendaciones de boca en boca al asumir que los usuarios con preferencias similares calificarán los artículos de forma similar. De esta manera, para hacer una predicción para el usuario $i$ y el artículo $j$ habría que encontrar un vecindario de $i$, definido como $N(i)$, y tomar el promedio de las calificaciones en el vecindario:
-
-\[
- \hat{r_{ij}} = \frac{\sum_{a \in N(i)} r_{aj}}{\vert N(i \vert}.
-\]
-
+Este tipo de algoritmos pretenden imitar las recomendaciones de boca en boca al asumir que los usuarios con preferencias similares calificarán los artículos de forma similar. De esta manera, una predicción se 
 
 \subsection{Métodos de factorización de matrices}
 

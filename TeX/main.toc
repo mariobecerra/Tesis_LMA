@@ -18,9 +18,11 @@
 \contentsline {section}{\numberline {3.3}Colaborativos}{10}
 \contentsline {subsection}{\numberline {3.3.1}Modelo base}{10}
 \contentsline {subsection}{\numberline {3.3.2}M\IeC {\'e}todos de vecindario}{12}
-\contentsline {subsection}{\numberline {3.3.3}M\IeC {\'e}todos de factorizaci\IeC {\'o}n de matrices}{12}
-\contentsline {subsubsection}{\numberline {I}Modelo b\IeC {\'a}sico de factorizaci\IeC {\'o}n de matrices}{12}
-\contentsline {subsubsection}{\numberline {II}Agregando sesgos}{14}
-\contentsline {subsubsection}{\numberline {III}Modelo de optimizaci\IeC {\'o}n}{15}
-\contentsline {chapter}{\numberline {4}Resultados}{17}
-\contentsline {chapter}{\numberline {5}Conclusiones}{18}
+\contentsline {subsubsection}{\numberline {I}Basados en usuarios}{12}
+\contentsline {subsection}{\numberline {3.3.3}M\IeC {\'e}todos de factorizaci\IeC {\'o}n de matrices}{13}
+\contentsline {subsubsection}{\numberline {I}Modelo b\IeC {\'a}sico de factorizaci\IeC {\'o}n de matrices}{13}
+\contentsline {subsubsection}{\numberline {II}Agregando sesgos}{16}
+\contentsline {subsubsection}{\numberline {III}Modelo de optimizaci\IeC {\'o}n}{16}
+\contentsline {chapter}{\numberline {4}Resultados}{18}
+\contentsline {subsection}{\numberline {4.0.1}An\IeC {\'a}lisis exploratorio de datos}{18}
+\contentsline {chapter}{\numberline {5}Conclusiones}{19}

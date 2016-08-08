@@ -2,7 +2,4 @@
 
 Los algoritmos presentados en este trabajo fueron implementados en el lenguaje para cómputo estadístico R y fueron probados con un conjunto de películas calificadas de \textit{MovieLens}, una página que ofrece recomendaciones de películas, los cuales están disponibles al público. \textit{MovieLens} es un proyecto de \textit{GroupLens}, un equipo de investigación de la Universidad de Minnesota orientado al cómputo social.
 
-\subsection{Análisis exploratorio de datos}
-
-
 
