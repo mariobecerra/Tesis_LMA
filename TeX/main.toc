@@ -24,6 +24,7 @@
 \contentsline {subsubsection}{\numberline {I}Modelo b\IeC {\'a}sico de factorizaci\IeC {\'o}n de matrices}{14}
 \contentsline {subsubsection}{\numberline {II}Agregando sesgos}{16}
 \contentsline {subsubsection}{\numberline {III}Modelo de optimizaci\IeC {\'o}n}{17}
-\contentsline {chapter}{\numberline {4}Resultados}{19}
-\contentsline {subsection}{\numberline {4.0.1}An\IeC {\'a}lisis exploratorio de datos}{19}
-\contentsline {chapter}{\numberline {5}Conclusiones}{20}
+\contentsline {section}{\numberline {3.4}Evaluaci\IeC {\'o}n de modelos}{18}
+\contentsline {chapter}{\numberline {4}Resultados}{20}
+\contentsline {subsection}{\numberline {4.0.1}An\IeC {\'a}lisis exploratorio de datos}{20}
+\contentsline {chapter}{\numberline {5}Conclusiones}{21}

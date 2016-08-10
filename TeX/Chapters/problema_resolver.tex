@@ -32,7 +32,7 @@ Para este tipo de recomendaciones se construye un \textbf{perfil} para cada prod
 
 Una vez construidos los perfiles, el proceso que queda es de alguna forma emparejar los gustos del usuario obtenidos de la matriz de utilidad con los perfiles de los productos.
 
-Un ejemplo muy sencillo es el siguiente. Imaginemos dos películas con 5 actores cada una y que dos actores están en las dos películas, y que además las calificaciones promedio de cada película son 3 y 4. Entonces los perfiles de dos películas se ven     como:
+Un ejemplo muy sencillo es el siguiente. Imaginemos dos películas con 5 actores cada una y que dos actores están en las dos películas, y que además las calificaciones promedio de cada película son 3 y 4. Entonces los perfiles de dos películas se ven como:
 
 \begin{center}
 \begin{tabular}{ c | c  c c c c c c c c}
@@ -193,6 +193,10 @@ Este tipo de algoritmos asumen que los usuarios prefieren artículos que son sim
 
 donde $s_{ja}$ es la similitud entre el artículo $j$ y el artículo $a$ perteneciente al vecindario de $j$.
 
+Por ejemplo,
+
+\textbf{PONER EJEMPLO DE CUADERNO!!!}.
+
 \subsection{Métodos de factorización de matrices}
 
 \subsubsection{Modelo básico de factorización de matrices}
@@ -325,7 +329,7 @@ r_{ij} = \mu + a_i + b_j + u_i^T p_j,
 con $\mu$, $a_i$ y $b_j$ definidos anteriormente. Estos parámetros se pueden estimar resolviendo el problema
 
 \begin{equation}\label{func_opt_sesgos}
-\min_{p, u, b, a} \sum_{(i,j) \in A} \left [ \left( r_{ij} - \mu - a_i - b_j - u_i^T p_j \right) ^2 + \lambda \left( \norm{p_j}^2 + \norm{u_i}^2 + a_i^2 + b_j^2 \right) \right ]
+  \min_{p, u, b, a} \sum_{(i,j) \in A} \left [ \left( r_{ij} - \mu - a_i - b_j - u_i^T p_j \right) ^2 + \lambda \left( \norm{p_j}^2 + \norm{u_i}^2 + a_i^2 + b_j^2 \right) \right ]
 \end{equation}
 
 \subsubsection{Modelo de optimización}
@@ -388,7 +392,7 @@ Entonces, para resolver \ref{func_opt_sesgos}, se inicia con un unas matrices $P
     Iniciar vectores $a$, $b$ y matrices $P$ y $Q$\\
     \While{no se cumpla el criterio de paro}{
         \ForAll{$(i, j) \in A$} {
-            \ForAll{$m \in 1, ..., k$} {
+            \ForAll{$m \in 1, \hdots, k$} {
                 $u_{im} \leftarrow 
                     u_{im} - \gamma \left( 
                     -2 e_{ij} p_{jm} + 2 \lambda u_{im} 
@@ -407,4 +411,17 @@ Entonces, para resolver \ref{func_opt_sesgos}, se inicia con un unas matrices $P
         }
     }
 \end{algorithm}
+
+\section{Evaluación de modelos}
+
+Una primera medida para evaluar un sistema de recomendación que ya fue presentada anteriormente es el RMSE. Esta medida da una idea de el desempeño del modelo para todos los artículos ya conocidos, sin embargo, no es suficiente para ofrecer recomendaciones que le vayan a gustar al usuario. La mayoría de las veces se busca recomendar cierto número de artículos a un usuario, digamos $N$, y se desea que estos $N$ artículos sean de agrado del usuario, o a veces los usuarios están interesados en descubrir cosas nuevas. Es por esto que también se debe de evaluar cómo los sistemas se desempeñan en este tipo de situaciones.
+
+Una forma de evaluar este tipo de recomendaciones es tomar esto como un problema de clasificación binario, en el cual se tiene un acierto si a un usuario se le recomendó un artículo en los top-$N$ y este usuario lo vio/compró \textbf{VER SI TIENE SENTIDO PONER 1 EN EL CASO EN QUE EL USUARIO CALIFICÓ POR ENCIMA DE LA MEDIA}, y no se acierta en otro caso. Con este tipo de problemas se pueden obtener las medidas típicas en un problema de clasificación binario (precisión, tasa de aciertos positivos, tasa de falsos negativos, etc).
+
+
+
+
+
+
+
 

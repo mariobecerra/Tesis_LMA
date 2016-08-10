@@ -17,6 +17,8 @@ Recommender Systems Handbook Chapter 5: Advances in Collaborative Filtering, by 
 Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems
 
 
+Compared to MAE, RMSE disproportionately penalizes large errors, so that, given a test set with four hidden items RMSE would prefer a system that makes an error of 2 on three ratings and 0 on the fourth to one hat makes an error of 3 on one rating and 0 on all three others, while MAE would prefer the second system
+Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems
 
 In fact, modeling these biases turned out to be fairly important: in their paper describing their final solution to the Netflix Prize, Bell and Koren write that:
 "Of the numerous new algorithmic contributions, I would like to highlight one -- those humble baseline predictors (or biases), which capture main effects in the data. While the literature mostly concentrates on the more sophisticated algorithmic aspects, we have learned that an accurate treatment of main effects is probably at least as signficant as coming up with modeling breakthroughs."

@@ -32,7 +32,7 @@ Para este tipo de recomendaciones se construye un \textbf{perfil} para cada prod
 
 Una vez construidos los perfiles, el proceso que queda es de alguna forma emparejar los gustos del usuario obtenidos de la matriz de utilidad con los perfiles de los productos.
 
-Un ejemplo muy sencillo es el siguiente. Imaginemos dos películas con 5 actores cada una y que dos actores están en las dos películas, y que además las calificaciones promedio de cada película son 3 y 4. Entonces los perfiles de dos películas se ven     como:
+Un ejemplo muy sencillo es el siguiente. Imaginemos dos películas con 5 actores cada una y que dos actores están en las dos películas, y que además las calificaciones promedio de cada película son 3 y 4. Entonces los perfiles de dos películas se ven como:
 
 \begin{center}
 \begin{tabular}{ c | c  c c c c c c c c}
@@ -161,11 +161,11 @@ Este tipo de modelos se centran en la similitud de los usuarios y los artículos
 
 El primer problema con estos métodos surge al definir una medida de similitud entre artículos o usuarios. Dos medidas muy utilizadas son la similitud de Jaccard y la similitud coseno. En el caso de una matriz de calificaciones binaria, la similitud Jaccard tendría más sentido, pero si son calificaciones explícitas conviene más utilizar similitud coseno. Una desventaja de utilizar la similitud coseno es que los elementos faltantes son tratados como $0$, lo cual tiene el efecto de tratar la falta de calificación como disgusto hacia el artículo. Una forma de solucionar esto es centrando las calificaciones por usuario al restar la media, de esta forma el faltante al ser tratado como cero tiene el efecto de que al usuario ni le gusta ni le disgusta el artículo.
 
-Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artículo $j$ es encontrar los un vecindario de los $n$ usuarios más parecidos a $i$ y tomar el promedio de las calificaciones del artículo $j$. O de forma dual, se podría encontrar un vecindario con los $n$ artículos más parecidos a $j$ y tomar el promedio de las calificaciones que el usuario $i$ ha dado a esos artículos. Aquí se hace una vertiente en los métodos de vecindario, dependiendo de si se centran en las similitudes de los usuarios o de los artículos, y cada uno tiene sus fortalezas y debilidades.
+Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artículo $j$ es encontrar los un vecindario de los $n$ usuarios más parecidos a $i$ y tomar el promedio de las calificaciones del artículo $j$. O de forma dual, se podría encontrar un vecindario con los $n$ artículos más parecidos a $j$ y tomar el promedio de las calificaciones que el usuario $i$ ha dado a esos artículos. Aquí se hace una vertiente en los métodos de vecindario, dependiendo de si se centran en las similitudes de los usuarios o de los artículos.
 
 \subsubsection{Basados en usuarios}
 
-Este tipo de algoritmos pretenden imitar las recomendaciones de boca en boca al asumir que los usuarios con preferencias similares calificarán los artículos de forma similar. De esta manera, para hacer una predicción para el usuario $i$ y el artículo $j$ habría que encontrar un vecindario de $i$, definido como $N(i)$, y tomar el promedio de las calificaciones en el vecindario:
+Este tipo de algoritmos pretenden imitar las recomendaciones de boca en boca al asumir que los usuarios con preferencias similares calificarán los artículos de forma similar. De esta manera, para hacer una predicción para el usuario $i$ y el artículo $j$ habría que encontrar un vecindario de $i$, denotado como $N(i)$, y tomar el promedio de las calificaciones en el vecindario:
 
 \begin{equation}\label{predic_modelo_usuario_sencillo}
  \hat{r_{ij}} = \frac{\sum_{a \in N(i)} r_{aj}}{\vert N(i) \vert}.
@@ -182,6 +182,20 @@ Este ejemplo está ignorando el hecho de que algunos usuarios en el vecindario s
 \end{equation}
 
 donde $s_{ia}$ es la similitud entre el usuario $i$ y el usuario $a$ perteneciente al vecindario de $i$.
+
+\subsubsection{Basados en artículos}
+
+Este tipo de algoritmos asumen que los usuarios prefieren artículos que son similares a otros artículos que les gustaron. Muchas veces este tipo de sistemas producen información más confiable porque es más sencillo encontrar artículos del mismo género que encontrar usuarios a los que solo les gustan artículos de un solo género. En este caso, para hacer una predicción para el usuario $i$ y el artículo $j$ habría que encontrar un vecindario de $j$, denotado como $N(j)$, y tomar el promedio (ponderado por nivel de similitud para mejor estimación) de las calificaciones que el usuario ha hecho a los artículos en $N(j)$, es decir
+
+\begin{equation}\label{predic_modelo_articulo_ponderado}
+ \hat{r_{ij}} = \frac{\sum_{a \in N(j)} s_{ja} r_{ia}}{\sum_{a \in N(j)} s_{ja}},
+\end{equation}
+
+donde $s_{ja}$ es la similitud entre el artículo $j$ y el artículo $a$ perteneciente al vecindario de $j$.
+
+Por ejemplo,
+
+\textbf{PONER EJEMPLO DE CUADERNO!!!}.
 
 \subsection{Métodos de factorización de matrices}
 
@@ -315,7 +329,7 @@ r_{ij} = \mu + a_i + b_j + u_i^T p_j,
 con $\mu$, $a_i$ y $b_j$ definidos anteriormente. Estos parámetros se pueden estimar resolviendo el problema
 
 \begin{equation}\label{func_opt_sesgos}
-\min_{p, u, b, a} \sum_{(i,j) \in A} \left [ \left( r_{ij} - \mu - a_i - b_j - u_i^T p_j \right) ^2 + \lambda \left( \norm{p_j}^2 + \norm{u_i}^2 + a_i^2 + b_j^2 \right) \right ]
+  \min_{p, u, b, a} \sum_{(i,j) \in A} \left [ \left( r_{ij} - \mu - a_i - b_j - u_i^T p_j \right) ^2 + \lambda \left( \norm{p_j}^2 + \norm{u_i}^2 + a_i^2 + b_j^2 \right) \right ]
 \end{equation}
 
 \subsubsection{Modelo de optimización}
@@ -378,7 +392,7 @@ Entonces, para resolver \ref{func_opt_sesgos}, se inicia con un unas matrices $P
     Iniciar vectores $a$, $b$ y matrices $P$ y $Q$\\
     \While{no se cumpla el criterio de paro}{
         \ForAll{$(i, j) \in A$} {
-            \ForAll{$m \in 1, ..., k$} {
+            \ForAll{$m \in 1, \hdots, k$} {
                 $u_{im} \leftarrow 
                     u_{im} - \gamma \left( 
                     -2 e_{ij} p_{jm} + 2 \lambda u_{im} 
@@ -397,4 +411,15 @@ Entonces, para resolver \ref{func_opt_sesgos}, se inicia con un unas matrices $P
         }
     }
 \end{algorithm}
+
+\section{Evaluación de modelos}
+
+Una primera medida para evaluar un sistema de recomendación ya fue presentada anteriormente, y es el RMSE. Esta medida da una idea de el desempeño del modelo para todos los artículos ya conocidos, sin embargo, la mayoría de las veces se busca recomendar cierto número de artículos a un usuario, digamos $N$, y se desea que estos $N$ artículos sean de agrado del usuario. Una forma de evaluar este tipo de recomendaciones es tomar esto como un problema de clasificación binario, en el cual se tiene un acierto si a un usuario se le recomendó un artículo en los top-$N$ y este usuario lo calificó positivo.
+
+
+
+
+
+
+
 
