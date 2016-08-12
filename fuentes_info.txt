@@ -17,8 +17,17 @@ Recommender Systems Handbook Chapter 5: Advances in Collaborative Filtering, by 
 Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems
 
 
-Compared to MAE, RMSE disproportionately penalizes large errors, so that, given a test set with four hidden items RMSE would prefer a system that makes an error of 2 on three ratings and 0 on the fourth to one hat makes an error of 3 on one rating and 0 on all three others, while MAE would prefer the second system
-Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems
+(Hablando de MAE y RMSE)
+Compared to MAE, RMSE disproportionately penalizes large errors, so that, given a test set with four hidden items RMSE would prefer a system that makes an error of 2 on three ratings and 0 on the fourth to one hat makes an error of 3 on one rating and 0 on all three others, while MAE would prefer the second system.
+(Hablando de precision, recall, etc)
+Typically we can expect a trade off between these quantities — while allowing longer recommendation lists typically improves recall, it is also likely to reduce the precision. In applications where the number of recommendations that can be presented to the user is preordained, the most useful measure of interest is Precision at N.
+(Hablando de ROC Curve)
+Measures that summarize the precision recall of ROC curve such as F-measure [58] and the Area Under the ROC Curve (AUC) [1] are useful for comparing algorithms independently of application, but when selecting an algorithm for use in a particular task, it is preferable to make the choice based on a measure that reflects the specific needs at hand.
+In applications where a fixed number of recommendations is made to each user (e.g. when a fixed number of headlines are shown to a user visiting a news portal), we can compute the precision and recall (or true positive rate and false positive rate) at each recommendation list length N for each user, and then compute the average precision and recall (or true positive rate and false positive rate) at each N [51]. The
+resulting curves are particularly valuable because they prescribe a value of N for each achievable precision and recall (or true positive rate and false positive rate), and conversely, can be used to estimate performance at a given N. An ROC curve obtained in this manner is termed a Customer ROC (CROC) curve [52].
+When different numbers of recommendations can be shown to each user (e.g. when presenting the set of all recommended movies to each user), we can compute ROC or precision-recall curves by aggregating the hidden ratings from the test set into a set of reference user-item pairs, using the recommender system to generate a single ranked list of user-item pairs, picking the top recommendations from the list, and scoring them against the reference set. An ROC curve calculated in this way is termed a Global ROC (GROC) curve [52]. Picking an operating point on the resulting curve can result in a different number of recommendations being made to each user.
+- Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems.
+
 
 In fact, modeling these biases turned out to be fairly important: in their paper describing their final solution to the Netflix Prize, Bell and Koren write that:
 "Of the numerous new algorithmic contributions, I would like to highlight one -- those humble baseline predictors (or biases), which capture main effects in the data. While the literature mostly concentrates on the more sophisticated algorithmic aspects, we have learned that an accurate treatment of main effects is probably at least as signficant as coming up with modeling breakthroughs."

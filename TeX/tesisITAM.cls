@@ -42,6 +42,18 @@
 \renewcommand\thesubsubsection{\Roman{subsubsection}}
 \setcounter{secnumdepth}{3}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%% Que '\paragraph' se comporte más como subsubsubsection %%%%%%%%%%%%%%%%%%%%%%%%%%
+% \makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+            {-2.5ex\@plus -1ex \@minus -.25ex}%
+            {1.25ex \@plus .25ex}%
+            {\normalfont\normalsize\bfseries}}
+% \renewcommand\theparagraph{\Roman{paragraph}}            
+% \makeatother
+% \setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
+% \setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+
+
 %%%%%%%%%%%%%%%%% Encabezados %%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
 \rhead{}
