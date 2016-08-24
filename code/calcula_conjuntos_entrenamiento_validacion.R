@@ -8,14 +8,12 @@ library(dplyr)
 if(!interactive()){ 
   args <- commandArgs(TRUE)
   dataset <- args[1]
-  time <- args[2]
   if(length(args) == 0) {
     cat("No especificaste dataset ni carpeta de salida\n\n")
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  dataset <- "MovieLens"
-  time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
+  dataset <- "BookCrossing"
 }
 
 archivo_calis <- paste0("../data/", dataset, "/ratings.csv")
@@ -64,12 +62,23 @@ dat_test <- dat_2 %>%
 
 media_gral_train <- mean(dat_train$rating)
 
-dat_train_2 <-dat_train %>% 
+dat_train_2 <- dat_train %>% 
   mutate(u_id = as.integer(factor(userId)),
-         rating_cent = rating - media_gral_train)
+         rating_cent = rating - media_gral_train,
+         media_gral_train = media_gral_train)
 
 dat_test_2 <- dat_test %>% 
   left_join(unique(dat_train_2[,c('userId', 'u_id')])) %>% 
-  mutate(rating_cent = rating - media_gral_train) %>% 
-  filter(!is.na(userId) & !is.na(itemId))
+  mutate(rating_cent = rating - media_gral_train,
+         media_gral_train = media_gral_train) %>% 
+  filter(!is.na(u_id) & !is.na(itemId))
 
+dir_out <-  paste0("../out/", dataset)
+
+cat("Guardando...")
+
+saveRDS(dat_train_2, paste0(dir_out, "/train.rds"))
+saveRDS(dat_test_2, paste0(dir_out, "/test.rds"))
+
+
+cat("Listo\n\n")

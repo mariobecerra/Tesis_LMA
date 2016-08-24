@@ -14,7 +14,7 @@ if(!interactive()){
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  dataset <- "MovieLens"
+  dataset <- "BookCrossing"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 

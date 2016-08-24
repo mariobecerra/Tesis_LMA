@@ -17,7 +17,7 @@ if(!interactive()){
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  dataset <- "MovieLens"
+  dataset <- "BookCrossing"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
@@ -84,7 +84,7 @@ cosine_sim_items <- function(df_ratings, archivo_salida){
 
 # Centrando por usuario
 archivo_salida_center <- paste0(folder_tables, "/similitudes_items_centradas.csv")
-cosine_sim_items(select(train_data, userId, itemId, rating = rating_centered), archivo_salida_center)
+cosine_sim_items(select(train_data, userId, itemId, rating = rating_cent), archivo_salida_center)
 
 ##############################################
 ## Lista de k elementos más cercanos

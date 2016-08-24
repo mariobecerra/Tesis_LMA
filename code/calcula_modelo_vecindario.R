@@ -17,12 +17,12 @@ if(!interactive()){
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  dataset <- "MovieLens"
+  dataset <- "BookCrossing"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
-#folder <- paste0("../out/", dataset, "/", time)
-folder <- "../out/MovieLens/2016-08-04_13_05_41_similitudes_modelo_vecindario"
+folder <- paste0("../out/", dataset, "/", time)
+#folder <- "../out/MovieLens/2016-08-04_13_05_41_similitudes_modelo_vecindario"
 folder_plots <- paste0(folder, "/plots")
 folder_models <- paste0(folder, "/models")
 folder_tables <- paste0(folder, "/tables")

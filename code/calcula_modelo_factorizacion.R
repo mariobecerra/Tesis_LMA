@@ -2,6 +2,7 @@ library(dplyr)
 library(tidyr)
 library(Matrix)
 library(Rcpp)
+library(ggplot2)
 
 ##############################################
 ## Determinar el dataset con el que se va a trabajar
@@ -114,9 +115,9 @@ cat("dim_lat|learning_rate|lambda|iter|error_ent|error_val\n",
 # dimensiones_lat <- lapply(c(5, 6), function(k) #Num dimensiones latentes
 #   lapply(c(0.02), function(gamma) # Gamma: learning rate
 #            lapply(c(0.01), function(lambda) { # lambda: parámetro de regularización
-dimensiones_lat <- lapply(c(5, 20, 50, 200, 500), function(k) #Num dimensiones latentes
+dimensiones_lat <- lapply(c(5, 50, 200, 500), function(k) #Num dimensiones latentes
   lapply(c(0.001, 0.01), function(gamma) # Gamma: learning rate
-    lapply(c(0.001, 0.01, 0.1, 1), function(lambda) { # lambda: parámetro de regularización
+    lapply(c(0.01, 0.1), function(lambda) { # lambda: parámetro de regularización
                     cat('dimensiones =', k, '\n')
                     cat('gamma (learning rate) =', gamma, '\n')
                     cat('lambda (regularización) =', lambda, '\n\n')

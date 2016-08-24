@@ -119,6 +119,9 @@ Cap 5. Discusión.
 Cap 6. Conclusiones.
 Bibliografía y Apéndices.
 
+http://scott.fortmann-roe.com/docs/MeasuringError.html
+http://scott.fortmann-roe.com/docs/BiasVariance.html	
+
 
 
 \bibitem{pareto} Bunkley, Nick (March 3, 2008), \href{http://www.nytimes.com/2008/03/03/business/03juran.html}{\emph{Joseph Juran, 103, Pioneer in Quality Control, Dies}}, New York Times.
