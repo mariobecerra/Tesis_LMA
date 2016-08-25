@@ -157,9 +157,9 @@ cat("dim_lat|learning_rate|lambda|iter|error_ent|error_val\n",
 # dimensiones_lat <- lapply(c(5, 6), function(k) #Num dimensiones latentes
 #   lapply(c(0.02), function(gamma) # Gamma: learning rate
 #            lapply(c(0.01), function(lambda) { # lambda: parámetro de regularización
-dimensiones_lat <- lapply(c(5, 20, 50, 200, 500), function(k) #Num dimensiones latentes
+dimensiones_lat <- lapply(500, function(k) #Num dimensiones latentes
   lapply(c(0.001, 0.01), function(gamma) # Gamma: learning rate
-    lapply(c(0.001, 0.01, 0.1, 1), function(lambda) { # lambda: parámetro de regularización
+    lapply(c(0.01, 0.1), function(lambda) { # lambda: parámetro de regularización
                     cat('dimensiones =', k, '\n')
                     cat('gamma (learning rate) =', gamma, '\n')
                     cat('lambda (regularización) =', lambda, '\n\n')
@@ -172,8 +172,8 @@ dimensiones_lat <- lapply(c(5, 20, 50, 200, 500), function(k) #Num dimensiones l
                                                    gamma, 
                                                    lambda, 
                                                    k, 
-                                                   deltalim = 0.00001,
-                                                   maxiter = 600) 
+                                                   deltalim = 0.0001,
+                                                   maxiter = 100) 
                     saveRDS(temp, paste0(folder_models,
                                          '/dimlat_',
                                          k, 
