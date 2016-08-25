@@ -3,7 +3,12 @@ library(tidyr)
 library(Matrix)
 library(Rcpp)
 library(ggplot2)
-library(gridExtra)
+
+##############################################
+## Determinar el dataset con el que se va a trabajar
+##############################################
+
+# Si el script se ejecuta en forma interactiva (desde algún IDE), entonces toma el dataset de movielens. Si se ejecuta automáticamente desde otro script o desde la terminal, debe llevar como argumento cuál dataset se quiere analizar
 
 if(!interactive()){ 
   args <- commandArgs(TRUE)
@@ -18,7 +23,6 @@ if(!interactive()){
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
-
 folder <- paste0("../out/", dataset, "/", time)
 folder_plots <- paste0(folder, "/plots")
 folder_models <- paste0(folder, "/models")
@@ -29,58 +33,13 @@ system(paste("mkdir", folder_plots))
 system(paste("mkdir", folder_models))
 system(paste("mkdir", folder_tables))
 
-archivo_calis <- paste0("../data/", dataset, "/ratings.csv")
+file_name_train <- paste0("../out/", dataset, "/train.rds")
+file_name_test <- paste0("../out/", dataset, "/test.rds")
 
-cat("Leyendo archivo de calificaciones\n")
+cat("Leyendo archivos de calificaciones\n")
 
-calis <- readr::read_csv(archivo_calis) %>%   
-  select(userId,
-         itemId_orig = itemId,
-         rating) %>% 
-  mutate(itemId = as.integer(factor(itemId_orig)))
-head(calis)
-
-cant_usuarios <- length(unique(calis$userId))
-cant_pelis <- length(unique(calis$itemId))
-
-##############################################
-## Conjuntos de prueba y validación
-##############################################
-
-cat("Conjuntos de prueba y validación\n")
-
-set.seed(2805)
-
-valida_usuarios <- sample(unique(calis$userId), cant_usuarios*.3 )
-valida_items <- sample(unique(calis$itemId), cant_pelis*.3 )
-
-dat_2 <- calis %>%
-  mutate(valida_usu = userId %in% valida_usuarios) %>%
-  mutate(valida_item = itemId %in% valida_items)
-
-dat_train <- dat_2 %>% 
-  filter(!valida_usu | !valida_item) %>% 
-  select(-valida_usu, -valida_item)
-
-dat_test <- dat_2 %>% 
-  filter(valida_usu & valida_item) %>% 
-  select(-valida_usu, -valida_item)
-
-
-media_gral_train <- mean(dat_train$rating)
-
-dat_train_2 <- dat_train %>% 
-  mutate(u_id = as.integer(factor(userId)),
-         rating_cent = rating - media_gral_train)
-
-dat_test_2 <- dat_test %>% 
-  left_join(unique(dat_train_2[,c('userId', 'u_id')])) %>% 
-  mutate(rating_cent = rating - media_gral_train) %>% 
-  filter(!is.na(userId) & !is.na(itemId))
-
-rm(dat_train)
-rm(dat_test)
-rm(calis)
+train_data <- readRDS(file_name_train)
+test_data <- readRDS(file_name_test)
 
 ##############################################
 ## Compilar funciones en Rcpp
