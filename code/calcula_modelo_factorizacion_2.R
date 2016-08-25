@@ -54,7 +54,7 @@ Rcpp::sourceCpp('calc_error.cpp')
 ## Función que encuentra las dimensiones latentes
 ##############################################
 
-encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, deltalim, maxiter = 200){
+encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, deltalim, maxiter = 250){
   X <- sparseMatrix(i = i, j = j, x = x)
   X.v <- sparseMatrix(i = i.v, j = j.v, x = x.v)
   set.seed(2805)
@@ -122,17 +122,17 @@ dimensiones_lat <- lapply(500, function(k) #Num dimensiones latentes
                     cat('dimensiones =', k, '\n')
                     cat('gamma (learning rate) =', gamma, '\n')
                     cat('lambda (regularización) =', lambda, '\n\n')
-                    temp <- encontrar_dim_latentes(i = dat_train_2$u_id, 
-                                                   j = dat_train_2$itemId, 
-                                                   x = dat_train_2$rating_cent,
-                                                   i.v = dat_test_2$u_id,
-                                                   j.v = dat_test_2$itemId,
-                                                   x.v = dat_test_2$rating_cent,
+                    temp <- encontrar_dim_latentes(i = train_data$u_id, 
+                                                   j = train_data$itemId, 
+                                                   x = train_data$rating_cent,
+                                                   i.v = test_data$u_id,
+                                                   j.v = test_data$itemId,
+                                                   x.v = test_data$rating_cent,
                                                    gamma, 
                                                    lambda, 
                                                    k, 
-                                                   deltalim = 0.0001,
-                                                   maxiter = 100) 
+                                                   deltalim = 0.00001,
+                                                   maxiter = 600) 
                     saveRDS(temp, paste0(folder_models,
                                          '/dimlat_',
                                          k, 

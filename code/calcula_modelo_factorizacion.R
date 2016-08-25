@@ -122,12 +122,12 @@ dimensiones_lat <- lapply(c(5, 20, 50, 200, 500), function(k) #Num dimensiones l
                     cat('dimensiones =', k, '\n')
                     cat('gamma (learning rate) =', gamma, '\n')
                     cat('lambda (regularización) =', lambda, '\n\n')
-                    temp <- encontrar_dim_latentes(i = dat_train_2$u_id, 
-                                                   j = dat_train_2$itemId, 
-                                                   x = dat_train_2$rating_cent,
-                                                   i.v = dat_test_2$u_id,
-                                                   j.v = dat_test_2$itemId,
-                                                   x.v = dat_test_2$rating_cent,
+                    temp <- encontrar_dim_latentes(i = train_data$u_id, 
+                                                   j = train_data$itemId, 
+                                                   x = train_data$rating_cent,
+                                                   i.v = test_data$u_id,
+                                                   j.v = test_data$itemId,
+                                                   x.v = test_data$rating_cent,
                                                    gamma, 
                                                    lambda, 
                                                    k, 
