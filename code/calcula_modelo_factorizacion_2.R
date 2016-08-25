@@ -95,7 +95,7 @@ Rcpp::sourceCpp('calc_error.cpp')
 ## Función que encuentra las dimensiones latentes
 ##############################################
 
-encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, deltalim, maxiter = 250){
+encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, deltalim, maxiter = 200){
   X <- sparseMatrix(i = i, j = j, x = x)
   X.v <- sparseMatrix(i = i.v, j = j.v, x = x.v)
   set.seed(2805)
@@ -158,7 +158,7 @@ cat("dim_lat|learning_rate|lambda|iter|error_ent|error_val\n",
 #   lapply(c(0.02), function(gamma) # Gamma: learning rate
 #            lapply(c(0.01), function(lambda) { # lambda: parámetro de regularización
 dimensiones_lat <- lapply(500, function(k) #Num dimensiones latentes
-  lapply(c(0.001, 0.01), function(gamma) # Gamma: learning rate
+  lapply(c(0.01), function(gamma) # Gamma: learning rate
     lapply(c(0.01, 0.1), function(lambda) { # lambda: parámetro de regularización
                     cat('dimensiones =', k, '\n')
                     cat('gamma (learning rate) =', gamma, '\n')
