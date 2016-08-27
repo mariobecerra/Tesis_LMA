@@ -136,8 +136,8 @@ cosine_sim_items <- function(df_ratings, folder_salida_json, k = 1000, n = 1000)
 
 
 
-cosine_sim_items(head(train_data, 100), folder_salida_json, k = 5, n = 1000)
-#cosine_sim_items(train_data, folder_salida_json, k = 1000, n = 1000)
+#cosine_sim_items(head(train_data, 100), folder_salida_json, k = 5, n = 1000)
+cosine_sim_items(train_data, folder_salida_json, k = 1000, n = 1000)
 
 
 

@@ -60,7 +60,7 @@ while(i < length(archivos_similitudes)){
   cat("Leyendo archivo", archivo, "\n")
   file_content <- readLines(con = archivo)
   cat("Archivo leído. Convirtiendo de JSON a lista.\n")
-  sims <- fromJSON(file_content, simplifyVector = F)
+  sims <- fromJSON(file_content)
   cat("Convertido. Agregando a lista final.\n")
   similitudes <- append(similitudes, sims)
   cat("Agregado.\n\n")
@@ -126,10 +126,10 @@ predict_rating <- function(test_data, train_data, similitudes, userId_in, n = 50
   
   # Primero encuentra los n artículos más similares a los que se van a evaluar
   items_to_predict_sims <- lapply(user_test$itemId, function(i){
-    items = head(similitudes[[i]]$similitudes, n)
+    items = head(similitudes[[i]], n)
     if(length(items) == 0) return(NULL)
     else {items %>% 
-        mutate(item_to_predict = unlist(similitudes[[i]]$item)) %>% 
+        mutate(item_to_predict = names(similitudes[i])) %>% 
         select(item_to_predict, 
                items_similares = itemId,
                sim_cos) %>% 
