@@ -42,7 +42,7 @@ cat("Leyendo archivos de calificaciones\n")
 
 train_data <- readRDS(file_name_train)
 test_data <- readRDS(file_name_test)
-nombres_items <- read.csv(paste0("../out/", dataset, "/items_new_ids.csv")) %>% 
+nombres_items <- readr::read_csv(paste0("../out/", dataset, "/items_new_ids.csv")) %>% 
   mutate(itemId = paste0("item_", itemId))
 
 ##############################################
@@ -201,6 +201,7 @@ lee_similitudes_JSON_par <- function(archivos_similitudes, num_mas_cercanos = 10
 
 similitudes <- lee_similitudes_JSON_par(archivos_similitudes)
 
+similitudes$sim_cos <- as.numeric(similitudes$sim_cos)
 
 # similitudes_seq <- lee_similitudes_JSON(head(archivos_similitudes, 10))
 # similitudes_par <- lee_similitudes_JSON_par(head(archivos_similitudes, 10), cores = 3)
@@ -259,6 +260,7 @@ predict_rating <- function(test_data, train_data, similitudes, usuario) {
 
 i <- 1
 cant_usuarios <- length(unique(test_data$userId))
+#### Aquí podría ser mclapply
 predicciones_test <- lapply(unique(test_data$userId), function(usuario){
   cat("Usuario:", usuario, "\n")
   cat("Iteración", i, "de", cant_usuarios, "\n\n")
@@ -284,3 +286,18 @@ write.table(predicciones_test,
 
 # Predicciones del conjunto de prueba del usuario 2
 predict_rating(test_data, train_data, similitudes, 2, 1000)
+
+
+# BookCrossing 
+# Harry Potter
+# similitudes %>% filter(itemId == "item_144117") %>% left_join(nombres_items, by = c("items_mas_cercanos" = "itemId")) %>% View
+
+# Tolkien
+# similitudes %>% filter(itemId == "item_54361") %>% left_join(nombres_items, by = c("items_mas_cercanos" = "itemId")) %>% View
+
+# Goedel, Escher y Bach
+# Checar esto, porque hay unos items que no tienen ID original, y eso está mal, no todos deberían de tener
+# Update: Parece ser que es error de los datos. Originalmente no venáin esos IDS. Por ejemplo, el nuevo ID 23817 tiene como original el 0140268693 (lo vi con  train_data %>% filter(itemId == 23817)), y el ID 0140268693 no viene en el archivo de 'items' que descargué de BX.
+#similitudes %>% filter(itemId == "item_120066") %>% left_join(nombres_items, by = c("items_mas_cercanos" = "itemId")) %>% View
+
+
