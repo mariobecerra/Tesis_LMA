@@ -124,6 +124,12 @@ http://scott.fortmann-roe.com/docs/BiasVariance.html
 
 
 
+Lessons from the Netflix Prize Challenge - Bell y Koren
+
+Why Netflix Never Implemented The Algorithm That Won The Netflix $1 Million Challenge
+https://www.techdirt.com/blog/innovation/articles/20120409/03412518422/why-netflix-never-implemented-algorithm-that-won-netflix-1-million-challenge.shtml
+
+
 \bibitem{pareto} Bunkley, Nick (March 3, 2008), \href{http://www.nytimes.com/2008/03/03/business/03juran.html}{\emph{Joseph Juran, 103, Pioneer in Quality Control, Dies}}, New York Times.
 \bibitem{longtail} Anderson, Chris. \emph{The Long Tail. Why the Future of Business Is Selling Less of More}, 2008 (pp 125-146).
 \bibitem{bloombergnetflixsales} Mullaney, Timothy. \href{http://www.bloomberg.com/bw/stories/2006-05-24/netflix}{\emph{Netflix}}, Bloomberg Business, May 24, 2006.
