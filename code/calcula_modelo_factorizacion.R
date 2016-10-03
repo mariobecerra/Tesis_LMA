@@ -39,7 +39,39 @@ file_name_test <- paste0("../out/", dataset, "/test.rds")
 cat("Leyendo archivos de calificaciones\n")
 
 train_data <- readRDS(file_name_train)
-test_data <- readRDS(file_name_test)
+test_data_0 <- readRDS(file_name_test)
+
+
+
+
+
+media_gral_train <- mean(train_data$rating)
+
+cant_usuarios <- length(unique(test_data_0$userId))
+cant_pelis <- length(unique(test_data_0$itemId))
+
+valida_usuarios <- sample(unique(test_data_0$userId), cant_usuarios*.5 )
+valida_items <- sample(unique(test_data_0$itemId), cant_pelis*.5 )
+
+dat_2 <- test_data_0 %>%
+  mutate(valida_usu = userId %in% valida_usuarios) %>%
+  mutate(valida_item = itemId %in% valida_items)
+
+validation_data <- dat_2 %>% 
+  filter(!valida_usu | !valida_item) %>% 
+  select(-valida_usu, -valida_item)
+
+test_data <- dat_2 %>% 
+  filter(valida_usu & valida_item) %>% 
+  select(-valida_usu, -valida_item)
+
+rm(test_data_0)
+rm(dat_2)
+rm(valida_usuarios)
+rm(valida_items)
+
+
+
 
 ##############################################
 ## Compilar funciones en Rcpp
@@ -84,7 +116,7 @@ encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, del
     b <- out[[4]]
     ee2 <- sqrt(calc_error(i, j, x, U, P, a, b))
     num_iter <- num_iter + 1
-    delta <- (ee1 - ee2)/ee1
+    delta <- (ev1 - ev2)/ev1
     cat('\terror entrenamiento =', ee2, "\n")
     cat('\terror validación =', ev, '\n')
     cat('\tdelta =', delta, '\n\n')
@@ -113,12 +145,9 @@ cat("dim_lat|learning_rate|lambda|iter|error_ent|error_val\n",
     file = file_tabla_errores)
 
 
-# dimensiones_lat <- lapply(c(5, 6), function(k) #Num dimensiones latentes
-#   lapply(c(0.02), function(gamma) # Gamma: learning rate
-#            lapply(c(0.01), function(lambda) { # lambda: parámetro de regularización
-dimensiones_lat <- lapply(c(5, 20, 50, 200, 500), function(k) #Num dimensiones latentes
+dimensiones_lat <- lapply(c(200, 500, 1000), function(k) #Num dimensiones latentes
   lapply(c(0.001, 0.01), function(gamma) # Gamma: learning rate
-    lapply(c(0.001, 0.01, 0.1, 1), function(lambda) { # lambda: parámetro de regularización
+    lapply(c(0.001, 0.01), function(lambda) { # lambda: parámetro de regularización
                     cat('dimensiones =', k, '\n')
                     cat('gamma (learning rate) =', gamma, '\n')
                     cat('lambda (regularización) =', lambda, '\n\n')
@@ -131,8 +160,8 @@ dimensiones_lat <- lapply(c(5, 20, 50, 200, 500), function(k) #Num dimensiones l
                                                    gamma, 
                                                    lambda, 
                                                    k, 
-                                                   deltalim = 0.00001,
-                                                   maxiter = 600) 
+                                                   deltalim = 0.000001,
+                                                   maxiter = 400)
                     saveRDS(temp, paste0(folder_models,
                                          '/dimlat_',
                                          k, 
