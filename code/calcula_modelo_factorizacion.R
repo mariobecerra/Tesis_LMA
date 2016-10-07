@@ -101,9 +101,9 @@ encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, del
   horas_iter <- Sys.time()
   while(delta > deltalim & num_iter < maxiter){
     ee1 <- sqrt(calc_error(i, j, x, U, P, a, b))
-    ev <- sqrt(calc_error(i.v, j.v, x.v, U, P, a, b))
+    ev1 <- sqrt(calc_error(i.v, j.v, x.v, U, P, a, b))
     erroresent <- append(erroresent, ee1)
-    erroresval <- append(erroresval, ev)
+    erroresval <- append(erroresval, ev1)
     hora <- Sys.time()
     horas_iter <- append(horas_iter, hora)
     cat("\tNúmero de iteración:", num_iter, '\n')
@@ -115,10 +115,11 @@ encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, del
     a <- out[[3]]
     b <- out[[4]]
     ee2 <- sqrt(calc_error(i, j, x, U, P, a, b))
+    ev2 <- sqrt(calc_error(i.v, j.v, x.v, U, P, a, b))
     num_iter <- num_iter + 1
     delta <- (ev1 - ev2)/ev1
     cat('\terror entrenamiento =', ee2, "\n")
-    cat('\terror validación =', ev, '\n')
+    cat('\terror validación =', ev2, '\n')
     cat('\tdelta =', delta, '\n\n')
   }
   
