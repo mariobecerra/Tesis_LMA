@@ -110,7 +110,7 @@ Cap 2. Revisión de literatura.
 Cap 3. Metodología.
 	Aprendizaje estadístico (funciones de pérdida, conjuntos de entrenamiento y de prueba, validación cruzada, etc). 
 	Modelo base. Modelo de factores latentes, explicar qué son los factores latentes y qué significan. Modelar los residuales del modelo base usando factorización de matrices. Regularización. Hablar de regularización.
-	Descenso en gradiente. Descenso en gradiente estocástico, en general y en particular para el problema de minimizar el error de predicción de los residuales. Explicar por qué descenso en gradiente estocástico sirve para estos casos. Mencionar mínimos cuadrados alternados.
+	Descenso en gradiente. Descenso en gradiente estocástico, en general y en particular para el problema de minimizar el error de predicción de los residuales. Explicar por qué descenso en gradiente estocástico sirve para estos casos. Mencionar mínimos cuadrados alternados. Orden computacional del descenso en grad y desc en grad est.
 	RMSE y qué significa, por qué esa métrica.
 Cap 4. Análisis y resultados.
 	Análisis exploratorio de los datos. Ver el RMSE del modelo base, y luego del modelo. Ver los RMSE de distintos modelos (distintas k's y distintos valores de regularización). Hacer perfiles de rendimiento del número de iteraciones y tiempo de cada modelo.
@@ -137,3 +137,19 @@ https://www.techdirt.com/blog/innovation/articles/20120409/03412518422/why-netfl
 \bibitem{handbook} Lops, Lops; de Gemmis, Marco \& Semeraro, Giovanni. \emph{Chapter 3: Content-based Recommender Systems: State of the Art and Trends}, del libro \emph{Recommender Systems Handbook}, Springer 2011.
 
 \bibitem{} Leskovec, Jure;  Rajaraman,  Anand \& Ullman, Jeffrey. \emph{Mining of Massive Datasets}, 2014.
+
+
+Finding Similar Music using Matrix Factorization: http://www.benfrederickson.com/matrix-factorization/
+
+SVD: https://jeremykun.com/2016/04/18/singular-value-decomposition-part-1-perspectives-on-linear-algebra/
+
+ANN:
+https://erikbern.com/2015/09/24/nearest-neighbor-methods-vector-models-part-1/
+https://erikbern.com/2015/10/01/nearest-neighbors-and-vector-models-part-2-how-to-search-in-high-dimensional-spaces/
+https://erikbern.com/2015/10/20/nearest-neighbors-and-vector-models-epilogue-curse-of-dimensionality/
+
+
+
+
+
+
