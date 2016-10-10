@@ -106,15 +106,16 @@ http://www.cs.carleton.edu/cs_comps/0607/recommend/recommender/itembased.html
 Cap 1. Introducción. 
 	Hablar sobre la long tail, la cantidad de información del mundo actual, cómo las cosas en línea eliminan barreras en la demanda. Qué es un sistema de recomendación, cómo surgieron, cómo ayudaron a Netflix, etc. Cómo se usan en la actualidad y quiénes usan
 Cap 2. Revisión de literatura. 
-	Hablar de filtrado colaborativo y content-based RS. Métodos de neighborhood, user-user, item-item, factorización de matrices, etc.
+	Hablar de filtrado colaborativo y content-based RS. Métodos de neighborhood, user-user, item-item, factorización de matrices, etc. Cold-start problem.
 Cap 3. Metodología.
 	Aprendizaje estadístico (funciones de pérdida, conjuntos de entrenamiento y de prueba, validación cruzada, etc). 
 	Modelo base. Modelo de factores latentes, explicar qué son los factores latentes y qué significan. Modelar los residuales del modelo base usando factorización de matrices. Regularización. Hablar de regularización.
 	Descenso en gradiente. Descenso en gradiente estocástico, en general y en particular para el problema de minimizar el error de predicción de los residuales. Explicar por qué descenso en gradiente estocástico sirve para estos casos. Mencionar mínimos cuadrados alternados. Orden computacional del descenso en grad y desc en grad est.
 	RMSE y qué significa, por qué esa métrica.
 Cap 4. Análisis y resultados.
-	Análisis exploratorio de los datos. Ver el RMSE del modelo base, y luego del modelo. Ver los RMSE de distintos modelos (distintas k's y distintos valores de regularización). Hacer perfiles de rendimiento del número de iteraciones y tiempo de cada modelo.
+	Análisis exploratorio de los datos. Ver el RMSE de un modelo aleatorio, de un modelo de popularidad, de modelo base, y luego del modelo. Ver los RMSE de distintos modelos (distintas k's y distintos valores de regularización). Hacer perfiles de rendimiento del número de iteraciones y tiempo de cada modelo.
 	Ver serendipity y coverage de cada modelo. Ver algunas recomendaciones del modelo ganador.
+	Correlación entre valores altos de factores y popularidad de item.
 Cap 5. Discusión.
 Cap 6. Conclusiones.
 Bibliografía y Apéndices.
@@ -139,9 +140,13 @@ https://www.techdirt.com/blog/innovation/articles/20120409/03412518422/why-netfl
 \bibitem{} Leskovec, Jure;  Rajaraman,  Anand \& Ullman, Jeffrey. \emph{Mining of Massive Datasets}, 2014.
 
 
-Finding Similar Music using Matrix Factorization: http://www.benfrederickson.com/matrix-factorization/
 
-SVD: https://jeremykun.com/2016/04/18/singular-value-decomposition-part-1-perspectives-on-linear-algebra/
+
+Finding Similar Music using Matrix Factorization: 
+http://www.benfrederickson.com/matrix-factorization/
+
+SVD: 
+https://jeremykun.com/2016/04/18/singular-value-decomposition-part-1-perspectives-on-linear-algebra/
 
 ANN:
 https://erikbern.com/2015/09/24/nearest-neighbor-methods-vector-models-part-1/
@@ -149,7 +154,11 @@ https://erikbern.com/2015/10/01/nearest-neighbors-and-vector-models-part-2-how-t
 https://erikbern.com/2015/10/20/nearest-neighbors-and-vector-models-epilogue-curse-of-dimensionality/
 
 
+Reccommending Music on Spotify with Deep Learning:
+http://benanne.github.io/2014/08/05/spotify-cnns.html
 
-
+Deep neural networks for YouTube recommendations:
+https://blog.acolyer.org/2016/09/19/deep-neural-networks-for-youtube-recommendations/
+https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45530.pdf
 
 
