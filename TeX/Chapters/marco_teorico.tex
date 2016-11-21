@@ -72,14 +72,13 @@ En este trabajo se supone que se tiene una matriz de calificaciones $R$, tal que
 \begin{tabular}{ c | c  c c c c}
     & $P_1$ & $P_2$ & $P_3$ & $\cdots$ & $P_n$ \\
   \hline                       
-  $U_1$ & 1 & 2 & 3 & - & - \\
-  $U_2$ & 4 & - & 4 & 5  & -\\
+  $U_1$ &   1 &     2 &     3 & $\cdots$ &      - \\
+  $U_2$ &   4 &     - &     4 & $\cdots$  &     -\\
   $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$\\
-  $U_m$ & - & - & 1 & - & 3\\
+  $U_m$ &   - &     - &     1 & $\cdots$ &      3\\
   \hline  
 \end{tabular}
 \end{center}
-
 
 donde cada $P_i$ es el producto i-ésimo que se ofrece y $U_i$ es el usuario i-ésimo que ha calificado el producto correspondiente. Los espacios donde hay guiones representan datos faltantes. Es usual que este tipo de matrices tengan la mayor parte de las entradas faltantes, pues no todos los usuarios han visto todas las películas, o calificado todos los productos. El objetivo del sistema de recomendación es llenar los espacios faltantes mediante una predicción y recomendar los productos que tienen una predicción alta. Notar que aquí se considera que ya se tiene la matriz de calificaciones, lo cual a veces, en la práctica, puede ser un trabajo difícil y haya que pedir a usuarios que califiquen productos.
 

@@ -17,6 +17,10 @@ Recommender Systems Handbook Chapter 5: Advances in Collaborative Filtering, by 
 Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems
 
 
+Factorization Meets the Neighborhood:
+Our goal is to find the relative place of these “interesting movies” within the total order of movies sorted by predicted ratings for a specific user. To this end, for each such movie i, rated 5-stars by user u, we select 1000 additional random movies and predict the ratings by u for i and for the other 1000 movies. Finally, we order the 1001 movies based on their predicted rating, in a decreasing order. This simulates a situation where the system needs to recommend movies out of 1001 available ones. Thus, those movies with the highest predictions will be recommended to user u. Notice that the 1000 movies are random, some of which may be of interest to user u, but most of them are probably of no interest to u. Hence, the best hoped result is that i (for which we know u gave the highest rating of 5) will precede the rest 1000 random movies, thereby improving the appeal of a top-K recommender. There are 1001 different possible ranks for i, ranging from the best case where none (0%) of the random movies appears before i, to the worst case where all (100%) of the random movies appear before i in the sorted order. Overall, the validation set contains 384,573 5-star ratings. For each of them (separately) we draw 1000 random movies, predict associated ratings, and derive a rank ing between 0% to 100%. Then, the distribution of the 384,573 ranks is analyzed. (Remark: since the number 1000 is arbitrary, reported results are in percentiles (0%–100%), rather than in absolute ranks (0–1000).) ... It is evident that small improvements in RMSE translate into significant improvements in quality of the top K products.
+
+
 (Hablando de MAE y RMSE)
 Compared to MAE, RMSE disproportionately penalizes large errors, so that, given a test set with four hidden items RMSE would prefer a system that makes an error of 2 on three ratings and 0 on the fourth to one hat makes an error of 3 on one rating and 0 on all three others, while MAE would prefer the second system.
 (Hablando de precision, recall, etc)
@@ -120,10 +124,17 @@ Cap 5. Discusión.
 Cap 6. Conclusiones.
 Bibliografía y Apéndices.
 
+Understanding the Bias-Variance Tradeoff:
 http://scott.fortmann-roe.com/docs/MeasuringError.html
+
+Accurately Measuring Model Prediction Error:
 http://scott.fortmann-roe.com/docs/BiasVariance.html	
 
+Competing in a data science contest without reading the data
+http://blog.mrtz.org/2015/03/09/competition.html
 
+The zen of gradient descent
+http://blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html
 
 Lessons from the Netflix Prize Challenge - Bell y Koren
 
