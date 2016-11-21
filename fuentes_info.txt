@@ -173,3 +173,5 @@ https://blog.acolyer.org/2016/09/19/deep-neural-networks-for-youtube-recommendat
 https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45530.pdf
 
 
+Pedro Domingos - A Few Useful Things to Know about Machine Learning
+Kevin Beyer, Jonathan Goldstein, Raghu Ramakrishnan, and Uri Shaft - When Is “Nearest Neighbor” Meaningful?
