@@ -175,3 +175,6 @@ https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/
 
 Pedro Domingos - A Few Useful Things to Know about Machine Learning
 Kevin Beyer, Jonathan Goldstein, Raghu Ramakrishnan, and Uri Shaft - When Is “Nearest Neighbor” Meaningful?
+
+Collaborative Filtering at Spotify
+http://www.slideshare.net/erikbern/collaborative-filtering-at-spotify-16182818
