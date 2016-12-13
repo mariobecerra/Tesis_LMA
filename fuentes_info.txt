@@ -15,6 +15,9 @@ The BellKor Solution to the Netflix Grand Prize
 Beyond Accuracy: Evaluating Recommender Systems by Coverage and Serendipity
 Recommender Systems Handbook Chapter 5: Advances in Collaborative Filtering, by Yehuda Koren and Robert Bell
 Recommender Systems Handbook Chapter 8: Evaluating Recommendation Systems
+50 years of data science
+The Two Cultures
+Do We Need Hundreds of Classifiers
 
 
 Factorization Meets the Neighborhood:
@@ -36,6 +39,8 @@ When different numbers of recommendations can be shown to each user (e.g. when p
 In fact, modeling these biases turned out to be fairly important: in their paper describing their final solution to the Netflix Prize, Bell and Koren write that:
 "Of the numerous new algorithmic contributions, I would like to highlight one -- those humble baseline predictors (or biases), which capture main effects in the data. While the literature mostly concentrates on the more sophisticated algorithmic aspects, we have learned that an accurate treatment of main effects is probably at least as signficant as coming up with modeling breakthroughs."
 https://www.quora.com/Is-there-any-summary-of-top-models-for-the-Netflix-prize
+
+Hablar de "No Free Lunch Theorem". En el capítulo 5 de Deep Learning Bengio viene resumido. También viene un poco de SGD.
 
 
 Matrix Factorization: A Simple Tutorial and Implementation in Python

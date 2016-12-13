@@ -41,10 +41,6 @@ cat("Leyendo archivos de calificaciones\n")
 train_data <- readRDS(file_name_train)
 test_data_0 <- readRDS(file_name_test)
 
-
-
-
-
 media_gral_train <- mean(train_data$rating)
 
 cant_usuarios <- length(unique(test_data_0$userId))
@@ -127,9 +123,8 @@ encontrar_dim_latentes <- function(i, j, x, i.v, j.v, x.v, gamma, lambda, k, del
   df_it$erroresent <- erroresent[2:num_iter]
   df_it$erroresval <- erroresval[2:num_iter]
   df_it$horas <- horas_iter[2:num_iter]
-  l <- list(P, U, df_it)
-  # Aquí la cagué y debí haber guardado los sesgos 'a' y 'b' !!!!!!!
-  names(l) <- c('P', 'U', 'err')
+  l <- list(P, U, a, b, df_it)
+  names(l) <- c('P', 'U', 'a', 'b', 'err')
   return(l)
 }
 
@@ -146,67 +141,70 @@ file_tabla_errores <- paste0(folder_tables,
 cat("dim_lat|learning_rate|lambda|iter|error_ent|error_val\n",
     file = file_tabla_errores)
 
+# k <- 1000
+# gamma <- 0.001
+# lambda <- 0.01
 
-dimensiones_lat <- lapply(c(200, 500, 1000), function(k) #Num dimensiones latentes
-  lapply(c(0.001, 0.01), function(gamma) # Gamma: learning rate
-    lapply(c(0.001, 0.01), function(lambda) { # lambda: parámetro de regularización
-                    cat('dimensiones =', k, '\n')
-                    cat('gamma (learning rate) =', gamma, '\n')
-                    cat('lambda (regularización) =', lambda, '\n\n')
-                    temp <- encontrar_dim_latentes(i = train_data$u_id, 
-                                                   j = train_data$itemId, 
-                                                   x = train_data$rating_cent,
-                                                   i.v = test_data$u_id,
-                                                   j.v = test_data$itemId,
-                                                   x.v = test_data$rating_cent,
-                                                   gamma, 
-                                                   lambda, 
-                                                   k, 
-                                                   deltalim = 0.000001,
-                                                   maxiter = 400)
-                    saveRDS(temp, paste0(folder_models,
-                                         '/dimlat_',
-                                         k, 
-                                         "_learning_rate_", 
-                                         gamma, 
-                                         "_lambda_",
-                                         lambda, 
-                                         ".rds"))
-                    
-                    title <- paste0("k = ", k,
-                                    ", gamma = ", gamma,
-                                    ", lambda = ", lambda)
-                    title_file_plot <- paste0(folder_plots,
-                                              '/modelo_factorizacion_dimlat_',
-                                              k, 
-                                              "_learning_rate_", 
-                                              gamma, 
-                                              "_lambda_",
-                                              lambda, 
-                                              ".png")
-                    
-                    temp$err %>%  
-                      rename(Entrenamiento = erroresent, Validación = erroresval) %>% 
-                      gather(tipo_error, error, Entrenamiento, Validación) %>% 
-                      mutate(iter = as.integer(iter)) %>% 
-                      ggplot(aes(x = iter, y = error, group = tipo_error, color = tipo_error)) +
-                      geom_line() + 
-                      geom_point() + 
-                      scale_x_continuous(breaks = seq(0, max(temp$err$iter), 5)) + 
-                      ggtitle(title) +
-                      labs(colour = "Tipo de error") + 
-                      theme_minimal() +
-                      theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-                      ggsave(file = title_file_plot)
-                    
-                    #e0 <- temp$err[nrow(temp$err),]
-                    e0 <- temp$err[temp$err$erroresval == min(temp$err$erroresval),]
-                    e <- paste(k, gamma, lambda, e0$iter, e0$erroresent, e0$erroresval, sep = "|")
-                    cat(e,
-                        "\n",
-                        append = T,
-                        file = file_tabla_errores)
-                  } )))
+dimensiones_lat <- lapply(c(200, 1000), function(k) #Num dimensiones latentes
+  lapply(0.001, function(gamma) # Gamma: learning rate
+    lapply(0.01, function(lambda) { # lambda: parámetro de regularización
+      cat('dimensiones =', k, '\n')
+      cat('gamma (learning rate) =', gamma, '\n')
+      cat('lambda (regularización) =', lambda, '\n\n')
+      temp <- encontrar_dim_latentes(i = train_data$u_id, 
+                                     j = train_data$itemId, 
+                                     x = train_data$rating_cent,
+                                     i.v = test_data$u_id,
+                                     j.v = test_data$itemId,
+                                     x.v = test_data$rating_cent,
+                                     gamma, 
+                                     lambda, 
+                                     k, 
+                                     deltalim = 0.000001,
+                                     maxiter = 400)
+      saveRDS(temp, paste0(folder_models,
+                           '/dimlat_',
+                           k, 
+                           "_learning_rate_", 
+                           gamma, 
+                           "_lambda_",
+                           lambda, 
+                           ".rds"))
+      
+      title <- paste0("k = ", k,
+                      ", gamma = ", gamma,
+                      ", lambda = ", lambda)
+      title_file_plot <- paste0(folder_plots,
+                                '/modelo_factorizacion_dimlat_',
+                                k, 
+                                "_learning_rate_", 
+                                gamma, 
+                                "_lambda_",
+                                lambda, 
+                                ".png")
+      
+      temp$err %>%  
+        rename(Entrenamiento = erroresent, Validación = erroresval) %>% 
+        gather(tipo_error, error, Entrenamiento, Validación) %>% 
+        mutate(iter = as.integer(iter)) %>% 
+        ggplot(aes(x = iter, y = error, group = tipo_error, color = tipo_error)) +
+        geom_line() + 
+        geom_point() + 
+        scale_x_continuous(breaks = seq(0, max(temp$err$iter), 5)) + 
+        ggtitle(title) +
+        labs(colour = "Tipo de error") + 
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+        ggsave(file = title_file_plot)
+      
+      #e0 <- temp$err[nrow(temp$err),]
+      e0 <- temp$err[temp$err$erroresval == min(temp$err$erroresval),]
+      e <- paste(k, gamma, lambda, e0$iter, e0$erroresent, e0$erroresval, sep = "|")
+      cat(e,
+          "\n",
+          append = T,
+          file = file_tabla_errores)
+    } )))
 
 cat("\n\n¡¡Listo!! :D\n\n")
 
