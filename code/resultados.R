@@ -1,30 +1,103 @@
 ### resultados.R
 
+################################
+### Paquetes
+################################
+
 library(Rcpp)
 library(Matrix)
 library(tidyverse)
 
 source("utils.R")
 
-errores_ml <- read.table("../out/MovieLens/2016-10-02_22_50_37/tables/errores_modelo_factorizacion.psv", sep = "|", header = T)
 
-errores_ml %>% mutate(params = paste(dim_lat, learning_rate, lambda)) %>% gather(tipo_error, error, error_ent, error_val) %>%  ggplot() + geom_point(aes(params, error, color = tipo_error)) + axis_labels_vert()
+##############################################
+## Determinar el dataset con el que se va a trabajar
+##############################################
 
-# errores_bx <- read.table("../out/BookCrossing/Final_models/tables/errores_modelo_factorizacion.psv", sep = "|", header = T)
+# Si el script se ejecuta en forma interactiva (desde algún IDE), entonces toma el dataset de BookCrossing. Si se ejecuta automáticamente desde otro script o desde la terminal, debe llevar como argumento cuál dataset se quiere analizar
+
+if(!interactive()){ 
+  args <- commandArgs(TRUE)
+  dataset <- args[1]
+  time <- args[2]
+  if(length(args) == 0) {
+    cat("No especificaste dataset ni carpeta de salida\n\n")
+    quit(save = "no", status = 0, runLast = FALSE)
+  } 
+} else {
+  dataset <- "BookCrossing"
+  time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
+}
+
+folder <- paste0("../out/", dataset)
+
+################################
+### Leer datos
+################################
+
+errores_ml <- read.table(paste0(folder, "/modelos_factorizacion/tables/errores_modelo_factorizacion.psv"), 
+                         sep = "|", 
+                         header = T)
+
+items <- read_csv("../out/MovieLens/items_new_ids.csv")
+
+lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds"))
+lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_200_learning_rate_0.001_lambda_0.01.rds"))
+
+train <- read_rds(paste0(folder, "/train.rds"))
+test <- read_rds(paste0(folder, "/test.rds"))
+
+test_top_n_df <- read_rds(paste0(folder, "/test_top_n.rds"))
+
+sourceCpp("calc_error.cpp")
+
+################################
+### Análisis
+################################
+
+errores_ml %>% 
+  mutate(params = paste(dim_lat, learning_rate, lambda)) %>% 
+  gather(tipo_error, error, error_ent, error_val) %>%  
+  ggplot() + 
+  geom_point(aes(params, error, color = tipo_error)) + 
+  axis_labels_vert()
+
+# errores_bx <- read.table("../out/BookCrossing/modelos_factorizacion/tables/errores_modelo_factorizacion.psv", sep = "|", header = T)
 # 
 # errores_bx %>% mutate(params = paste(dim_lat, learning_rate, lambda)) %>% gather(tipo_error, error, error_ent, error_val) %>%  ggplot() + geom_point(aes(params, error, color = tipo_error)) + axis_labels_vert()
 
 
-lista_fact <- readRDS("../out/MovieLens/2016-10-02_22_50_37/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds")
-lista_fact <- readRDS("../out/MovieLens/2016-10-02_22_50_37/models/dimlat_200_learning_rate_0.001_lambda_0.01.rds")
 
-# lista_fact <- readRDS("../out/MovieLens/Final_models_mal/models/dimlat_5_learning_rate_0.01_lambda_0.001.rds")
+# lista_fact <- readRDS("../out/MovieLens/modelos_factorizacion_mal/models/dimlat_5_learning_rate_0.01_lambda_0.001.rds")
 
-items <- read_csv("../out/MovieLens/items_new_ids.csv")
 
 P_df <- data.frame(itemId = 1:dim(lista_fact$P)[1], lista_fact$P) %>% 
   left_join(items)
 
+################################
+### RMSE del conjunto de prueba
+################################
+
+test_rmse <- calc_error(test$u_id, 
+                        test$itemId, 
+                        test$rating_cent, 
+                        lista_fact$U, 
+                        lista_fact$P, 
+                        lista_fact$a, 
+                        lista_fact$b) %>% 
+  sqrt()
+
+################################
+### Top-N recommendations
+################################
+
+
+
+
+################################
+### Representantes de factores latentes
+################################
 
 # Factor latente 1:
 arrange(P_df, desc(X1)) %>% head(20) %>% select(X1, title, genres)
@@ -38,19 +111,20 @@ arrange(P_df, desc(X2)) %>% tail(20) %>% select(X2, title, genres)
 arrange(P_df, desc(X3)) %>% head(20) %>% select(X3, title, genres)
 arrange(P_df, desc(X3)) %>% tail(20) %>% select(X3, title, genres)
 
-test <- read_rds("../out/MovieLens/test.rds")
 
-sourceCpp("calc_error.cpp")
-
+################################
+### Artículos similares con matriz de items
+################################
 
 encontrar_vecinos <- function(id, k, P_df){
+  # Recibe el id de un artículo y regresa los k más parecidos de 
+  # acuerdo a la matriz de artículos P_df
   n <- ncol(P_df)
   aa <- RANN::nn2(query = P_df %>% 
-                               filter(itemId == id) %>% 
-                               .[,2:(n-3)],
-                             data = P_df[,2:(n-3)],
-                             k = k)
-  
+                    filter(itemId == id) %>% 
+                    .[,2:(n-3)],
+                  data = P_df[,2:(n-3)],
+                  k = k)
   out <- P_df %>% 
     select(title, genres) %>% 
     .[aa[[1]],] %>% 
@@ -84,12 +158,21 @@ encontrar_vecinos(9933, 40, P_df)
 # Parecidas a Sin City 2
 encontrar_vecinos(23754, 40, P_df)
 
+################################
+### Ejemplos de usuarios
+################################
 
-X.v <- sparseMatrix(i = test$u_id, j = test$itemId, x = test$rating_cent)
+set.seed(124362)
+usuarios <- sample(unique(test$u_id), 5)
 
-calc_error(test$u_id, test$itemId, test$rating_cent, lista_fact$U, lista_fact$P, rep(0, dim(X.v)[1]), rep(0, dim(X.v)[2]))
-
-
+usuarios_ejemplos_items_gustan <- train %>% 
+  filter(u_id %in% usuarios) %>% 
+  filter(rating_cent > 0) %>% 
+  group_by(u_id) %>% 
+  top_n(10, rating_cent) %>% 
+  # arrange(desc(rating_cent))
+  left_join(items) %>% 
+  select(u_id, rating, title, genres)
 
 
 
