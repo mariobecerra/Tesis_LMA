@@ -40,9 +40,9 @@ errores_ml <- read.table(paste0(folder, "/modelos_factorizacion/tables/errores_m
                          sep = "|", 
                          header = T)
 
-items <- read_csv("../out/MovieLens/items_new_ids.csv")
+items <- read.csv(paste0(folder, "/items_new_ids.csv"), stringsAsFactors = F)
 
-lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds"))
+#lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds"))
 lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_200_learning_rate_0.001_lambda_0.01.rds"))
 
 train <- read_rds(paste0(folder, "/train.rds"))

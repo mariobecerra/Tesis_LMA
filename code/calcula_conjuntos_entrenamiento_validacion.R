@@ -1,3 +1,4 @@
+library(stringi)
 library(dplyr)
 
 ##############################################
@@ -32,9 +33,13 @@ cant_pelis <- length(unique(calis$itemId))
 archivo_items <- paste0("../data/", dataset, "/items.csv")
 nombres_items <- readr::read_csv(archivo_items) %>% 
   rename(itemId_orig = itemId) %>% 
-  left_join(unique(select(calis, itemId, itemId_orig)))
-write.table(nombres_items, file = paste0("../out/", dataset, "/items_new_ids.csv"),
-            sep = ",", row.names = F, col.names = T)
+  left_join(unique(select(calis, itemId, itemId_orig))) %>% 
+  mutate_all(funs(stri_replace_all_fixed(str = ., 
+                                         pattern = "|", 
+                                         replacement = "")))
+
+write.table(nombres_items, file = paste0("../out/", dataset, "/items_new_ids.psv"),
+            sep = "|", row.names = F, col.names = T, quote = F)
 
 ##############################################
 ## Conjuntos de prueba y validación
