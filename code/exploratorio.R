@@ -28,11 +28,11 @@ folder <- paste0("../out/", dataset, "/", time)
 folder_plots <- paste0(folder, "/plots")
 folder_models <- paste0(folder, "/models")
 folder_tables <- paste0(folder, "/tables")
-
-system(paste("mkdir", folder))
+# 
+# system(paste("mkdir", folder))
 system(paste("mkdir", folder_plots))
-system(paste("mkdir", folder_models))
-system(paste("mkdir", folder_tables))
+# system(paste("mkdir", folder_models))
+# system(paste("mkdir", folder_tables))
 
 file_name_train <- paste0("../out/", dataset, "/train.rds")
 file_name_test <- paste0("../out/", dataset, "/test.rds")
@@ -42,8 +42,8 @@ cat("Leyendo archivos de calificaciones\n")
 # train_data <- readRDS(file_name_train)
 # test_data <- readRDS(file_name_test)
 
-ratings <- read_csv3(paste0("../data/", dataset, "/ratings.csv"))
-items <- read_csv3(paste0("../data/", dataset, "/items.csv"))
+ratings <- read_csv(paste0("../data/", dataset, "/ratings.csv"))
+items <- read_csv(paste0("../data/", dataset, "/items.csv"))
 
 num_usuarios <- ratings$userId %>% unique() %>% length()
 num_items <- ratings$itemId %>% unique() %>% length()
@@ -54,15 +54,21 @@ cat("Número de items:", num_items, "\n")
 cat("Número de calificaciones:", num_calis, "\n")
 cat("Porcentaje de matriz llena: ", round(100*num_calis/(num_items*num_items), 3), "%\n", sep = "")
 
-ratings %>% 
-  group_by(rating) %>% 
-  tally() %>% 
-  ggplot() +
-  geom_bar(aes(rating, n), stat = 'identity') +
-  xlab("Calificación") +
-  ylab("Número de artículos") +
-  ggtitle("Frecuencias de calificaciones de artículos") +
-  theme_bw()
+(ratings %>% 
+    group_by(rating) %>% 
+    tally() %>% 
+    ggplot() +
+    geom_bar(aes(rating, n), stat = 'identity') +
+    xlab("Calificación") +
+    ylab("Número de artículos") +
+    ggtitle("Frecuencias de calificaciones de artículos") +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme_minimal()) %>% 
+  ggsave(filename = paste0(folder_plots, 
+                           "/frecuencia_calificaciones_", 
+                           dataset, 
+                           ".png"),
+         device = "png")
 
 
 ratings_prom <- ratings %>% 
@@ -71,10 +77,39 @@ ratings_prom <- ratings %>%
             num_ratings = n()) %>% 
   left_join(items)
 
-ratings_prom %>% 
-  ggplot() +
-  geom_histogram(aes(rating_prom)) +
-  theme_bw()
+
+# Calificación promedio de cada artículo
+(ratings_prom %>% 
+    ggplot() +
+    geom_histogram(aes(rating_prom)) +
+    xlab("Calificación promedio") +
+    ylab("Número de artículos") +
+    theme_minimal()
+) %>% 
+  ggsave(filename = paste0(folder_plots, 
+                           "/calificacion_promedio_articulo_", 
+                           dataset, 
+                           ".png"),
+         device = "png")
+
+
+# Long tail distribution
+(ratings_prom %>% 
+    arrange(desc(num_ratings)) %>% 
+    mutate(ix = 1:nrow(.)) %>% 
+    ggplot(aes(ix, num_ratings)) + 
+    geom_line() +
+    xlab("Artículos") +
+    ylab("Número de calificaciones") +
+    theme_minimal()
+) %>% 
+  ggsave(filename = paste0(folder_plots, 
+                           "/long_tail_", 
+                           dataset, 
+                           ".png"),
+         device = 'png')
+
+
 
 plot_histogram_quantiles <- function(data, 
                                      variable, 
@@ -97,7 +132,7 @@ plot_histogram_quantiles(ratings_prom,
   ggtitle("Histograma del número de calificaciones de cada artículo") +
   xlab("Número de calificaciones") +
   ylab("Número de artículos") +
-  theme_bw()
+  theme_minimal()
 
 plot_histogram_quantiles(ratings_prom, 
                          "num_ratings", 
@@ -105,7 +140,7 @@ plot_histogram_quantiles(ratings_prom,
   ggtitle("Histograma del número de calificaciones de cada artículo") +
   xlab("Número de calificaciones") +
   ylab("Número de artículos") +
-  theme_bw()
+  theme_minimal()
 
 ratings_prom %>% 
   arrange(desc(rating_prom)) %>% 
@@ -114,7 +149,7 @@ ratings_prom %>%
 ratings_prom %>% 
   filter(num_ratings > quantile(num_ratings, 0.7)) %>% 
   arrange(desc(rating_prom)) %>% 
-  head(15)
+  head(30)
 
 
 
