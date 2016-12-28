@@ -24,7 +24,7 @@ if(!interactive()){
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
-folder <- paste0("../out/", dataset, "/", time)
+folder <- paste0("../out/", dataset)
 folder_plots <- paste0(folder, "/plots")
 folder_models <- paste0(folder, "/models")
 folder_tables <- paste0(folder, "/tables")
