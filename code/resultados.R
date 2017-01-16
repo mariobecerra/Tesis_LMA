@@ -40,7 +40,27 @@ errores_ml <- read.table(paste0(folder, "/modelos_factorizacion/tables/errores_m
                          sep = "|", 
                          header = T)
 
-items <- read.csv(paste0(folder, "/items_new_ids.csv"), stringsAsFactors = F)
+
+if(dataset == "BookCrossing"){
+  items <- read.table(paste0(folder, "/items_new_ids.psv"), 
+                      stringsAsFactors = F,
+                      header = T,
+                      quote = "",
+                      sep = "|",
+                      comment.char = "") %>% 
+    select(itemId, 
+           itemId_orig,
+           title = Book.Title,
+           author = Book.Author,
+           year = Year.Of.Publication)
+} else{
+  items <- read.table(paste0(folder, "/items_new_ids.psv"), 
+                      stringsAsFactors = F,
+                      header = T,
+                      quote = "",
+                      sep = "|",
+                      comment.char = "")
+}
 
 #lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds"))
 lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_200_learning_rate_0.001_lambda_0.01.rds"))
@@ -99,17 +119,46 @@ test_rmse <- calc_error(test$u_id,
 ### Representantes de factores latentes
 ################################
 
+system(paste0("mkdir ", folder, "/factores_latentes_representantes"))
+
 # Factor latente 1:
-arrange(P_df, desc(X1)) %>% head(20) %>% select(X1, title, genres)
-arrange(P_df, desc(X1)) %>% tail(20) %>% select(X1, title, genres)
+arrange(P_df, desc(X1)) %>% 
+  head(50) %>% 
+  rename(FL = X1) %>% 
+  select(everything(), -starts_with("X")) %>% 
+  write_psv(., paste0(folder, "/factores_latentes_representantes/FL_1_head.psv"))
+
+arrange(P_df, desc(X1)) %>% 
+  tail(50) %>% 
+  rename(FL = X1) %>% 
+  select(everything(), -starts_with("X")) %>% 
+  write_psv(., paste0(folder, "/factores_latentes_representantes/FL_1_tail.psv"))
 
 # Factor latente 2:
-arrange(P_df, desc(X2)) %>% head(20) %>% select(X2, title, genres)
-arrange(P_df, desc(X2)) %>% tail(20) %>% select(X2, title, genres)
+arrange(P_df, desc(X2)) %>% 
+  head(50) %>% 
+  rename(FL = X2) %>% 
+  select(everything(), -starts_with("X")) %>% 
+  write_psv(., paste0(folder, "/factores_latentes_representantes/FL_2_head.psv"))
+
+arrange(P_df, desc(X2)) %>% 
+  tail(50) %>% 
+  rename(FL = X2) %>% 
+  select(everything(), -starts_with("X")) %>% 
+  write_psv(., paste0(folder, "/factores_latentes_representantes/FL_2_tail.psv"))
 
 # Factor latente 3:
-arrange(P_df, desc(X3)) %>% head(20) %>% select(X3, title, genres)
-arrange(P_df, desc(X3)) %>% tail(20) %>% select(X3, title, genres)
+arrange(P_df, desc(X3)) %>% 
+  head(50) %>%
+  rename(FL = X3) %>% 
+  select(everything(), -starts_with("X")) %>% 
+  write_psv(., paste0(folder, "/factores_latentes_representantes/FL_3_head.psv"))
+
+arrange(P_df, desc(X3)) %>% 
+  tail(50) %>% 
+  rename(FL = X3) %>% 
+  select(everything(), -starts_with("X")) %>% 
+  write_psv(., paste0(folder, "/factores_latentes_representantes/FL_3_tail.psv"))
 
 
 ################################
@@ -122,41 +171,55 @@ encontrar_vecinos <- function(id, k, P_df){
   n <- ncol(P_df)
   aa <- RANN::nn2(query = P_df %>% 
                     filter(itemId == id) %>% 
-                    .[,2:(n-3)],
-                  data = P_df[,2:(n-3)],
+                    select(starts_with("X")) %>% 
+                    as.matrix(),
+                  data = P_df %>% 
+                    select(starts_with("X")) %>% 
+                    as.matrix(),
                   k = k)
   out <- P_df %>% 
-    select(title, genres) %>% 
+    select(everything(), -starts_with("X")) %>% 
     .[aa[[1]],] %>% 
     mutate(distancia = as.vector(aa[[2]]))
   
   return(out)
 }
 
+if(dataset == "MovieLens"){
+  # Parecidas a Toy Story
+  encontrar_vecinos(1, 40, P_df)
+  
+  # Parecidas a Aladdin
+  encontrar_vecinos(583, 40, P_df)
+  
+  # Parecidas a Pulp Fiction
+  encontrar_vecinos(294, 40, P_df)
+  
+  # Parecidas a Interstellar
+  encontrar_vecinos(22802, 40, P_df)
+  
+  # Parecidas a Lion King
+  encontrar_vecinos(361, 40, P_df)
+  
+  # Parecidas a Hannibal
+  encontrar_vecinos(4055, 40, P_df)
+  
+  # Parecidas a Sin City
+  encontrar_vecinos(9933, 40, P_df)
+  
+  # Parecidas a Sin City 2
+  encontrar_vecinos(23754, 40, P_df)
+} else {
+  # Parecidos a Harry Potter and the Sorcerer's Stone
+  encontrar_vecinos(77945, 40, P_df) 
+  
+  # Parecidos a Harry Potter and the Chamber of Secrets
+  encontrar_vecinos(52606, 40, P_df) 
+  
+  
+}
 
-# Parecidas a Toy Story
-encontrar_vecinos(1, 40, P_df)
 
-# Parecidas a Aladdin
-encontrar_vecinos(583, 40, P_df)
-
-# Parecidas a Pulp Fiction
-encontrar_vecinos(294, 40, P_df)
-
-# Parecidas a Interstellar
-encontrar_vecinos(22802, 40, P_df)
-
-# Parecidas a Lion King
-encontrar_vecinos(361, 40, P_df)
-
-# Parecidas a Hannibal
-encontrar_vecinos(4055, 40, P_df)
-
-# Parecidas a Sin City
-encontrar_vecinos(9933, 40, P_df)
-
-# Parecidas a Sin City 2
-encontrar_vecinos(23754, 40, P_df)
 
 ################################
 ### Ejemplos de usuarios
