@@ -17,12 +17,12 @@ users <- read_delim("../data/BookCrossing/users_old.csv",
 
 write_csv(users, "../data/BookCrossing/users.csv")
 
-
 ratings <- read_delim("../data/BookCrossing/ratings_old.csv",
                     delim = ";",
                     escape_backslash = TRUE,
                     escape_double = F,
                     na = c("", "NA", "NULL")) %>%
-		filter(rating > 0)
+		filter(rating > 0,
+		       itemId %in% items$itemId)
 
 write_csv(ratings, "../data/BookCrossing/ratings.csv")
