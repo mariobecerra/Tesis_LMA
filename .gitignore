@@ -3,3 +3,7 @@ out/*
 .Rhistory
 .Rdata
 .RData
+*.bak
+*.log
+*.lot
+*.synctex.gz
