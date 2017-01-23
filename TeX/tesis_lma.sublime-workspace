@@ -1,0 +1,614 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"flag",
+				"flag_i_e"
+			],
+			[
+				"num",
+				"num_1"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "main.tex",
+			"settings":
+			{
+				"buffer_size": 2539,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/resultados.tex",
+			"settings":
+			{
+				"buffer_size": 847,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/trabajo_futuro.tex",
+			"settings":
+			{
+				"buffer_size": 56,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/problema_resolver.tex",
+			"settings":
+			{
+				"buffer_size": 22631,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/marco_teorico.tex",
+			"settings":
+			{
+				"buffer_size": 30167,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/introduccion.tex",
+			"settings":
+			{
+				"buffer_size": 3360,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/desarrollo.tex",
+			"settings":
+			{
+				"buffer_size": 52,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/conclusiones.tex",
+			"settings":
+			{
+				"buffer_size": 48,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Chapters/anexos.tex",
+			"settings":
+			{
+				"buffer_size": 42,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 112.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/TeX",
+		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/TeX/Chapters"
+	],
+	"file_history":
+	[
+		"/home/dell/Dropbox/Mario/Escuela/MCC/Compiladores/proyecto/pp1/Makefile",
+		"/home/dell/Dropbox/Mario/Escuela/MCC/Compiladores/Tarea_01_sum_parser/sum_parser.cpp",
+		"/home/dell/.config/sublime-text-3/Packages/User/LaTeXTools.sublime-settings",
+		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/TeX/Chapters/resultados.tex",
+		"/home/dell/Dropbox/Mario/Escuela/MCC/Compiladores/Tarea_01_sum_parser/out_file.c",
+		"/home/dell/Dropbox/Mario/Escuela/ITAM/MCC/Varios/Pre-requisitos para Arquitectura de Computadoras.txt",
+		"/home/dell/Dropbox/Mario/Escuela/MCC/Metodos_Gran_Escala/Notas.txt",
+		"/home/dell/Dropbox/Mario/Escuela/MCC/Lenguajes_Programacion/Proyecto_groovy/install_groovy.sh",
+		"/home/dell/Dropbox/Mario/Temporal/Downloads/comparch-syllabus-parsed.json",
+		"/home/dell/Dropbox/Mario/Temporal/ssh_servers.txt",
+		"/home/dell/Dropbox/Mario/Work/CAD Salud/MIDO Plus/diccionario_datos.csv",
+		"/home/dell/Dropbox/Mario/Pelis y series/Black.Mirror.S01.Season.1.1080p.Web-DL.ReEnc-DeeJayAhmed/Facebook Page & Website.txt",
+		"/home/dell/Dropbox/Mario/Work/CAD Salud/Vacunas/out/estimaciones_ninos_CLUES_CEV.psv",
+		"/home/dell/Desktop/Consulta[10-01-2017 18-04-05].csv",
+		"/home/dell/Dropbox/Mario/Work/CAD Salud/MIDO Plus/Correlaciones.csv",
+		"/home/dell/Desktop/siunitx/README.md",
+		"/home/dell/Dropbox/Mario/Escuela/ITAM/LMA/Tesis/Sistemas de recomendación/code/calc_error.cpp",
+		"/home/dell/.cache/.fr-uxRsSC/kile-2.1.3/README",
+		"/home/dell/Dropbox/Mario/Escuela/ITAM/LMA/Tesis/Sistemas de recomendación/out/BookCrossing/items_new_ids.csv",
+		"/home/dell/Dropbox/Mario/Escuela/ITAM/LMA/Tesis/Sistemas de recomendación/out/BookCrossing/items_new_ids.psv",
+		"/home/dell/Dropbox/Mario/Escuela/ITAM/LMA/Tesis/Sistemas de recomendación/out/MovieLens/2016-10-02_22_50_37/tables/errores_modelo_factorizacion.psv",
+		"/home/dell/Dropbox/Mario/Escuela/ITAM/LMA/Tesis/Sistemas de recomendación/out/BookCrossing/2016-08-26_17_59_50/tables/predicciones_modelo_vecindario.csv",
+		"/home/dell/Dropbox/Mario/Soluciones software/Linux/coursera-dl.txt",
+		"/home/dell/Dropbox/Mario/Escuela/ITAM/LMA/Programación Lineal/Proyecto 1_Git/SIMPLEXFASEII.m",
+		"/home/dell/Dropbox/Mario/Work/CAD Salud/Índice de Eficiencia Estratégico (SIIVAC)/other/Notas_base_de_datos.txt",
+		"/home/dell/Dropbox/Mario/Work/CAD Salud/Índice de Eficiencia Estratégico (SIIVAC)/reports/Tadeo/mail_Tadeo.txt",
+		"/home/dell/Dropbox/Mario/Work/CAD Salud/Índice de Eficiencia Estratégico (SIIVAC)/.git/config",
+		"/home/dell/Dropbox/Mario/Work/CAD Salud/Índice de Eficiencia Estratégico (SIIVAC)/.gitignore"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"rgx",
+			"substr",
+			"substr(str_in, i, i)",
+			":",
+			"#",
+			"208620",
+			"0805051732",
+			"Can She?,Molly Ivins,1992,Vintage Books USA,http",
+			"top-k"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"rgx_in",
+			"str_in[i]",
+			",",
+			"---",
+			"-"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "main.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2539,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Chapters/resultados.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 847,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Chapters/trabajo_futuro.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 56,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Chapters/problema_resolver.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22631,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Chapters/marco_teorico.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 30167,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Chapters/introduccion.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "Chapters/desarrollo.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 52,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "Chapters/conclusiones.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 48,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "Chapters/anexos.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 42,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.latextools":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "",
+	"project": "tesis_lma.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 282.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
