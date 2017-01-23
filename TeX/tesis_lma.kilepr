@@ -225,10 +225,10 @@ order=-1
 
 [item:Chapters/resultados.tex]
 archive=true
-column=77
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=5
+line=16
 mode=LaTeX
 open=true
 order=1
@@ -368,7 +368,7 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=62
+line=15
 mode=LaTeX
 open=true
 order=0
@@ -460,10 +460,10 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:Chapters/resultados.tex]
-CursorColumn=77
-CursorLine=5
+CursorColumn=0
+CursorLine=16
 JumpList=
-ViMarks=.,6,80,[,7,0,],-1,-1
+ViMarks=.,12,118,[,13,0,],-1,-1
 
 [view-settings,view=0,item:Chapters/trabajo_futuro.tex]
 CursorColumn=4
@@ -479,9 +479,9 @@ ViMarks=
 
 [view-settings,view=0,item:main.tex]
 CursorColumn=0
-CursorLine=62
+CursorLine=15
 JumpList=
-ViMarks=.,67,32,[,67,19,],67,32
+ViMarks=.,28,18,[,28,18,],28,18
 
 [view-settings,view=0,item:tesisITAM.cls]
 CursorColumn=0
