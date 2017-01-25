@@ -15,9 +15,12 @@
 %\usepackage{algorithmx}
 \usepackage[spanish,onelanguage]{algorithm2e} 
 \RestyleAlgo{boxruled} % Para que los algoritmos los ponga en caja
+\usepackage[backend=bibtex]{biblatex}
 
 %\usepackage[group-separator={,}]{siunitx}
 \usepackage{numprint}
+
+\addbibresource{bibliography.bib} %Imports bibliography file
 
 \title{Tesis de Mario}
 \author{Mario Humberto Becerra Contreras}
@@ -94,5 +97,9 @@
     % 			1994.
     %
 	% \end{thebibliography}
+
+
+\printbibliography
+\nocite{*}
 
 \end{document}
