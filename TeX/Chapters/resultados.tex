@@ -1,4 +1,4 @@
-%!TEX root = ../main.tex
+%!TEX root = ../tesis_mbc.tex
 
 \chapter{Resultados}
 
@@ -8,7 +8,15 @@ Los algoritmos presentados en este trabajo fueron implementados en el lenguaje p
 
 \subsubsection{\textit{MovieLens}}
 
-El conjunto de datos de \textit{MovieLens} consiste en \numprint{20000263} calificaciones de \numprint{26744} películas hechas por \numprint{138493} usuarios. Todos los usuarios habían calificado al menos 20 películas. Las calificaciones están en una escala del 1 al 5, con medios puntos. 
+El conjunto de datos de \textit{MovieLens} consiste en \numprint{20000263} calificaciones de \numprint{26744} películas hechas por \numprint{138493} usuarios. Todos los usuarios habían calificado al menos 20 películas. Las calificaciones están en una escala de $0.5$ a $5$, con intervalos de medio punto, es decir, se puede poner $0.5, 1, \hdots, 4.5, 5$ como calificación. La distribución de las calificaciones se puede ver en la figura \ref{fig:ML_frec_calificaciones}.
+
+\begin{figure}[!h]
+	\centering
+ 	\includegraphics[width=0.9\textwidth]{frecuencia_calificaciones_MovieLens.png}
+ 	\caption{Frecuencia de calificaciones del conjunto de datos \textit{MovieLens}.}
+ 	\label{fig:ML_frec_calificaciones}
+\end{figure}
+
 
 
 
