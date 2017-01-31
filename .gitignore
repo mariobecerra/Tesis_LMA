@@ -16,4 +16,4 @@ out/*
 *.run.xml
 *.tex
 *.toc
-
+*blx.bib
