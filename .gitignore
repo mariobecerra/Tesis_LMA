@@ -7,3 +7,5 @@ out/*
 *.log
 *.lot
 *.synctex.gz
+*.aux
+
