@@ -208,3 +208,15 @@ dimensiones_lat <- lapply(c(200, 1000), function(k) #Num dimensiones latentes
 
 cat("\n\n¡¡Listo!! :D\n\n")
 
+
+print_datos <- function(df){
+  print(df %>% .$itemId %>% unique() %>% length)
+  print(df %>% .$userId %>% unique() %>% length   )
+  print(nrow(df))
+}
+
+print_datos(train_data)
+print_datos(validation_data)
+print_datos(test_data)
+
+
