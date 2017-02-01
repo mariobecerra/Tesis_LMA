@@ -12,14 +12,14 @@ El conjunto de datos de \textit{MovieLens} consiste en \numprint{20000263} calif
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.9\textwidth]{frecuencia_calificaciones_MovieLens.png}
+ 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_MovieLens.png}
  	\caption{Frecuencia de calificaciones del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_frec_calificaciones}
 \end{figure}
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.9\textwidth]{calificacion_promedio_articulo_MovieLens.png}
+ 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_MovieLens.png}
  	\caption{Histograma del promedio de calificaciones por película del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_hist_prom_cals}
 \end{figure}
@@ -28,16 +28,10 @@ En la sección \ref{motivacion} se introduce el concepto de cola larga. En la fi
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.9\textwidth]{long_tail_MovieLens.png}
+ 	\includegraphics[width=0.8\textwidth]{long_tail_MovieLens.png}
  	\caption{Cola larga del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_long_tail}
 \end{figure}
-
-
-
-
-
-
 
 
 \subsubsection{\textit{BookCrossing}}
@@ -46,14 +40,14 @@ El conjunto de datos de \textit{BookCrossing} consiste en \numprint{1149780} cal
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.9\textwidth]{frecuencia_calificaciones_BookCrossing.png}
+ 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_BookCrossing.png}
  	\caption{Frecuencia de calificaciones del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_frec_calificaciones}
 \end{figure}
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.9\textwidth]{calificacion_promedio_articulo_BookCrossing.png}
+ 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_BookCrossing.png}
  	\caption{Histograma del promedio de calificaciones por película del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_hist_prom_cals}
 \end{figure}
@@ -62,7 +56,52 @@ En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.9\textwidth]{long_tail_BookCrossing.png}
+ 	\includegraphics[width=0.8\textwidth]{long_tail_BookCrossing.png}
  	\caption{Cola larga del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_long_tail}
 \end{figure}
+
+\subsection{Comparación de modelos}
+
+Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos escogidos aleatoriamente: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación.
+
+\subsubsection{\textit{MovieLens}}
+
+Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en cada uno de los conjuntos se puede ver en la tabla \ref{tab:ML_num_art_usu_cal}.
+
+\begin{table}[]
+	\centering
+	\caption{Número de usuarios, calificaciones y artículos en los conjuntos de \textit{MovieLens}.}
+	\label{tab:ML_num_art_usu_cal}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		Conjunto      & Número de artículos & Número de usuarios & Número de calificaciones \\ \hline
+		Entrenamiento & \numprint{26247}               & \numprint{138493}             & \numprint{18029206} \\ \hline
+		Validación    & \numprint{6256}                & \numprint{41483}              & \numprint{1469158} \\ \hline
+		Prueba        & \numprint{2895}                & \numprint{20676}              & \numprint{501899} \\  \hline
+	\end{tabular}
+\end{table}
+
+
+
+\subsubsection{\textit{BookCrossing}}
+
+Para \textit{BookCrossing}, el número de usuarios, artículos y calificaciones en cada uno de los conjuntos se puede ver en la tabla \ref{tab:BC_num_art_usu_cal}.
+
+\begin{table}[]
+	\centering
+	\caption{Número de usuarios, calificaciones y artículos en los conjuntos de \textit{BookCrossing}.}
+	\label{tab:BC_num_art_usu_cal}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		Conjunto      & Número de artículos & Número de usuarios & Número de calificaciones \\ \hline
+		Entrenamiento & \numprint{140807}               & \numprint{64459}             & \numprint{351217} \\ \hline
+		Validación    & \numprint{13072}                & \numprint{5332}              & \numprint{21224} \\ \hline
+		Prueba        & \numprint{5065}                & \numprint{2286}              & \numprint{7435} \\  \hline
+	\end{tabular}
+\end{table}
+
+
+
+
+
