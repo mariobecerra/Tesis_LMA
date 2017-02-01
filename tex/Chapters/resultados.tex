@@ -63,7 +63,7 @@ En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \
 
 \subsection{Comparación de modelos}
 
-Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos escogidos aleatoriamente: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación.
+Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos escogidos aleatoriamente: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para monitorear el error en un conjunto independiente y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación no fue utilizado.
 
 \subsubsection{\textit{MovieLens}}
 
@@ -81,6 +81,28 @@ Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en 
 		Prueba        & \numprint{2895}                & \numprint{20676}              & \numprint{501899} \\  \hline
 	\end{tabular}
 \end{table}
+
+En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor de $\gamma$.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.8\textwidth]{modelo_base_MovieLens.png}
+ 	\caption{Errores del modelo base en el conjunto de prueba de \textit{MovieLens}, de acuerdo al valor de $\gamma$.}
+ 	\label{fig:ML_modelo_base_errores}
+\end{figure}
+
+En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entrenamiento y de validación del modelo de factorización.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=\textwidth]{errores_ent_validacion_factorizacion_MovieLens.png}
+ 	\caption{Errores del modelo de factorización en el conjunto de prueba de \textit{MovieLens}. LR es la tasa de aprendizaje, DL es el número de dimensiones latentes y $\lambda$ el parámetro de regularización.}
+ 	\label{fig:ML_modelo_fact_errores}
+\end{figure}
+
+
+
+
 
 
 
