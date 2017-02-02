@@ -100,10 +100,15 @@ En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entre
  	\label{fig:ML_modelo_fact_errores}
 \end{figure}
 
+En la figura \ref{fig:ML_modelo_fact_error_por_iter} se pueden ver los errores de entrenamiento y de validación del modelo de factorización en cada iteración del algoritmo de optimización. Se puede ver cómo ambos errores disminuyen con cada iteración, sin embargo, el error de entrenamiento disminuye mucho más rápido. Podría darse el caso de que si no se hubiera tenido como criterio de paro el error de validación, el error de entrenamiento hubiera continuado disminuyendo.
 
 
-
-
+\begin{figure}
+	\centering
+ 	\includegraphics[width=\textwidth]{error_por_iteracion_modelo_fact_MovieLens.png}
+ 	\caption{Errores de entrenamiento y validación del modelo de factorización en cada iteración del algoritmo de optimización para \textit{MovieLens}.}
+ 	\label{fig:ML_modelo_fact_error_por_iter}
+\end{figure}
 
 
 \subsubsection{\textit{BookCrossing}}
