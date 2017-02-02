@@ -62,8 +62,26 @@ if(dataset == "BookCrossing"){
                       comment.char = "")
 }
 
+
 #lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds"))
 lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_200_learning_rate_0.001_lambda_0.01.rds"))
+
+(lista_fact$err %>% 
+  filter(iter > 2) %>% 
+  gather(tipo_error, error, erroresent:erroresval) %>% 
+  mutate(tipo_error = ifelse(tipo_error == "erroresent",
+                             "Entrena-\nmiento",
+                             "Valida-\nción")) %>% 
+  ggplot() +
+  geom_point(aes(iter, error, shape = tipo_error)) +
+  scale_shape_discrete(name = "Tipo de error") +
+  theme_bw() +
+  xlab("Número de iteración")) %>% 
+  ggsave(., 
+         file = paste0(folder, "/plots/error_por_iteracion_modelo_fact.png"),
+         dpi = 500)
+  
+  
 
 train <- read_rds(paste0(folder, "/train.rds"))
 test <- read_rds(paste0(folder, "/test.rds"))
