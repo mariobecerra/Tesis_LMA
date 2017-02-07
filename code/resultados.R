@@ -84,7 +84,8 @@ lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_200_l
   
 
 train <- read_rds(paste0(folder, "/train.rds"))
-test <- read_rds(paste0(folder, "/test.rds"))
+test <- read_rds(paste0(folder, "/test.rds")) %>% 
+    filter(itemId <= max(train$itemId)) # Para que no haya problema de suscript out of bounds en caso de que los últimos artículos de test no esté en train
 
 test_top_n_df <- read_rds(paste0(folder, "/test_top_n.rds"))
 
@@ -125,6 +126,8 @@ test_rmse <- calc_error(test$u_id,
                         lista_fact$a, 
                         lista_fact$b) %>% 
   sqrt()
+
+cat(test_rmse, file = paste0(folder, "/modelos_factorizacion/tables/test_rmse.txt"))
 
 ################################
 ### Top-N recommendations
