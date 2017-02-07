@@ -2,7 +2,7 @@
 
 \chapter{Resultados}
 
-Los algoritmos presentados en este trabajo fueron implementados en el lenguaje para cómputo estadístico R y fueron probados con un conjunto de películas calificadas de \textit{MovieLens}, una página que ofrece recomendaciones de películas, los cuales están disponibles al público. \textit{MovieLens} es un proyecto de \textit{GroupLens}, un equipo de investigación de la Universidad de Minnesota orientado al cómputo social.
+Los algoritmos presentados en este trabajo fueron implementados en el lenguaje para cómputo estadístico \texttt{R} y fueron probados con un conjunto de películas calificadas de \textit{MovieLens}, una página que ofrece recomendaciones de películas, los cuales están disponibles al público. \textit{MovieLens} es un proyecto de \textit{GroupLens}, un equipo de investigación de la Universidad de Minnesota orientado al cómputo social.
 
 \subsection{Análisis exploratorio de datos}
 
@@ -63,7 +63,7 @@ En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \
 
 \subsection{Comparación de modelos}
 
-Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} en la ecuación \ref{ec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos escogidos aleatoriamente: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para monitorear el error en un conjunto independiente y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación no fue utilizado.
+Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} en la ecuación \ref{ec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para estimar el error de predicción y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación no fue utilizado. La medida de error utilizada fue la raíz del error cuadrático medio (RMSE), definido en la ecuación \ref{ec:rmse}. De aquí en adelante, cuando se hable de error, es con referencia a la raíz del error cuadrático medio.
 
 \subsubsection{\textit{MovieLens}}
 
@@ -82,16 +82,18 @@ Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en 
 	\end{tabular}
 \end{table}
 
-En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor de $\gamma$.
+En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 19$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de prueba.
 
 \begin{figure}
 	\centering
  	\includegraphics[width=0.8\textwidth]{modelo_base_MovieLens.png}
- 	\caption{Errores del modelo base en el conjunto de prueba de \textit{MovieLens}, de acuerdo al valor de $\gamma$.}
+ 	\caption{Errores del modelo base en el conjunto de prueba de \textit{MovieLens}, de acuerdo al valor del parámetro de regularización $\gamma$.}
  	\label{fig:ML_modelo_base_errores}
 \end{figure}
 
-En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entrenamiento y de validación del modelo de factorización.
+En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entrenamiento y de validación del modelo de factorización con distintos valores en el número de dimensiones latentes, tasa de aprendizaje y parámetro de regularización $\lambda$. Como es de esperarse, el error de entrenamiento es menor en cada uno de los casos. También se podría esperar que mientras más dimensiones latentes haya, el error de entrenamiento sea menor, debido a que hay más dimensiones para aproximar la matriz que se quiere aproximar; y es justo lo que sucede: los modelos con más dimensiones latentes tienen menor error de entrenamiento. Sin embargo, se sabe que menor error de entrenamiento no implica necesariamente menor error de validación; por lo que se busca el modelo con menor error de validación. En este caso, todos los modelos tienen un error de validación relativamente parecido, siendo el de $500$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ el modelo con menor error ($0.763325$), siguiendo el de $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ con un error de $0.765166$. 
+
+Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo con $500$ dimensiones latentes tiene menor error, pero tiene más del doble de dimensiones latentes que el de $200$, el cual tiene un desempeño muy parecido, por lo que tal vez se preferiría utilizar el modelo con $200$ dimensiones latentes debido a que es más simple y tiene casi el mismo desempeño. El modelo que se utilizó como final fue el de $200$ dimensiones latentes, con un error en el conjunto de prueba de $0.7651675$ (muy parecido al del conjunto de validación).
 
 \begin{figure}
 	\centering
@@ -100,7 +102,7 @@ En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entre
  	\label{fig:ML_modelo_fact_errores}
 \end{figure}
 
-En la figura \ref{fig:ML_modelo_fact_error_por_iter} se pueden ver los errores de entrenamiento y de validación del modelo de factorización en cada iteración del algoritmo de optimización. Se puede ver cómo ambos errores disminuyen con cada iteración, sin embargo, el error de entrenamiento disminuye mucho más rápido. Podría darse el caso de que si no se hubiera tenido como criterio de paro el error de validación, el error de entrenamiento hubiera continuado disminuyendo.z
+En la figura \ref{fig:ML_modelo_fact_error_por_iter} se pueden ver los errores de entrenamiento y de validación del modelo de factorización final (i.e., $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$) en cada iteración del algoritmo de descenso en gradiente estocástico. Se puede ver cómo ambos errores disminuyen con cada iteración, sin embargo, el error de entrenamiento disminuye mucho más rápido. Si no se hubiera tenido como criterio de paro el error de validación, posiblemente el error de entrenamiento hubiera continuado disminuyendo, pero el de validación hubiera empezado a aumentar, debido al sobreajuste.
 
 
 \begin{figure}
