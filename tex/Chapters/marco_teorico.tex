@@ -355,9 +355,10 @@ r_{ij} = u_i^T p_j.
 
 Hay distintas formas de elegir qué función de pérdida utilizar para saber qué tan cerca el producto de matrices está de $R$, pero muchas veces se utiliza la raíz del error cuadrático medio (RMSE por \textit{root-mean-squared-error}), el cual se calcula de la siguiente forma:
 
-\[
-RMSE = \left ( \frac{1}{\vert A \vert} \sum_{(i,j) \in A} (r_{ij} - u_i^Tp_j )^2 \right ) ^ \frac{1}{2},
-\]
+\begin{equation}
+  \label{ec:rmse}
+  RMSE = \left ( \frac{1}{\vert A \vert} \sum_{(i,j) \in A} (r_{ij} - u_i^Tp_j )^2 \right ) ^ \frac{1}{2},
+\emd{equation}
 
 donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el conjunto de usuarios y artículos para los cuales se conoce la calificación $r_ij$, $ \vert A \vert$ es la cardinalidad de $A$ (o sea, el total de artículos calificados por todos los usuarios), $u_i$ es la i-ésima fila de la matriz $U$ y $p_j$ es la j-ésima fila de la matriz $P$. Es decir, el RMSE es la raíz cuadrada del promedio de las desviaciones de la aproximación de $R$ y la $R$ verdadera. 
 
