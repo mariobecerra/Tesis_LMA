@@ -207,9 +207,10 @@ donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el 
 
 A este sencillo modelo se le pueden agregar otros términos de regularización que ayuden a disminuir el ruido causado por artículos y usuarios con pocas calificaciones, al encoger las calificaciones a la media. Una vez que se calcularon $a_i$ y $b_j$ usando cualquiera de los métodos mencionados, se hace la predicción
 
-\[
-r_{ij} = \mu + \frac{M_i}{\gamma + M_i} a_i + \frac{N_j}{\gamma + N_j}b_j
-\]
+\begin{equation}
+  \label{ec:modelo_base}
+  r_{ij} = \mu + \frac{M_i}{\gamma + M_i} a_i + \frac{N_j}{\gamma + N_j}b_j
+\end{equation}
 
 donde $M_i$ es el número de artículos que ha calificado el usuario $i$, $N_j$ es el número de calificaciones que tiene el artículo $j$, y $\gamma$ es el parámetro de regularización.
 

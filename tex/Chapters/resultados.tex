@@ -63,7 +63,7 @@ En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \
 
 \subsection{Comparación de modelos}
 
-Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos escogidos aleatoriamente: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para monitorear el error en un conjunto independiente y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación no fue utilizado.
+Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} en la ecuación \ref{ec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos escogidos aleatoriamente: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para monitorear el error en un conjunto independiente y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación no fue utilizado.
 
 \subsubsection{\textit{MovieLens}}
 
@@ -100,7 +100,7 @@ En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entre
  	\label{fig:ML_modelo_fact_errores}
 \end{figure}
 
-En la figura \ref{fig:ML_modelo_fact_error_por_iter} se pueden ver los errores de entrenamiento y de validación del modelo de factorización en cada iteración del algoritmo de optimización. Se puede ver cómo ambos errores disminuyen con cada iteración, sin embargo, el error de entrenamiento disminuye mucho más rápido. Podría darse el caso de que si no se hubiera tenido como criterio de paro el error de validación, el error de entrenamiento hubiera continuado disminuyendo.
+En la figura \ref{fig:ML_modelo_fact_error_por_iter} se pueden ver los errores de entrenamiento y de validación del modelo de factorización en cada iteración del algoritmo de optimización. Se puede ver cómo ambos errores disminuyen con cada iteración, sin embargo, el error de entrenamiento disminuye mucho más rápido. Podría darse el caso de que si no se hubiera tenido como criterio de paro el error de validación, el error de entrenamiento hubiera continuado disminuyendo.z
 
 
 \begin{figure}
