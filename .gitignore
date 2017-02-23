@@ -17,3 +17,5 @@ out/*
 *.tex
 *.toc
 *blx.bib
+tex/tesis_lma.sublime-workspace
+*.sublime-workspace
