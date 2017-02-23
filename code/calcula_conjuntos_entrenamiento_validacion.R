@@ -25,18 +25,25 @@ calis <- readr::read_csv(archivo_calis) %>%
          itemId_orig = itemId,
          rating) %>% 
   mutate(itemId = as.integer(factor(itemId_orig)))
-head(calis)
 
 cant_usuarios <- length(unique(calis$userId))
 cant_pelis <- length(unique(calis$itemId))
 
+num_calis <- calis %>% 
+  group_by(itemId_orig) %>% 
+  summarise(num_calis = n()) %>% 
+  mutate(itemId_orig = as.character(itemId_orig))
+
 archivo_items <- paste0("../data/", dataset, "/items.csv")
+
 nombres_items <- readr::read_csv(archivo_items) %>% 
   rename(itemId_orig = itemId) %>% 
   left_join(unique(select(calis, itemId, itemId_orig))) %>% 
   mutate_all(funs(stri_replace_all_fixed(str = ., 
                                          pattern = "|", 
-                                         replacement = "")))
+                                         replacement = ""))) %>% 
+  left_join(num_calis) %>% 
+  mutate(num_calis = ifelse(is.na(num_calis), 0, num_calis))
 
 write.table(nombres_items, file = paste0("../out/", dataset, "/items_new_ids.psv"),
             sep = "|", row.names = F, col.names = T, quote = F)
