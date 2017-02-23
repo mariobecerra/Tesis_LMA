@@ -31,6 +31,7 @@ if(!interactive()){
   } 
 } else {
   dataset <- "BookCrossing"
+  # dataset <- "MovieLens"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
@@ -149,3 +150,10 @@ test_top_n_df <- test_max_rating %>%
   mutate(p = test_top_n,
          pred_rating = pred_ratings_out,
          number_of_items = n_items_user)
+
+# Dataframe con cada artículo calificado con la máxima calificación, el predicted 
+#rating y el lugar que ocupa entre mil artículos aleatorios
+saveRDS(test_top_n_df, paste0(folder, "/test_top_n_modelo_base.rds"))
+
+
+
