@@ -1,4 +1,8 @@
-
+# Basado en:
+# Performance of Recommender Algorithms on Top-N Recommendation Tasks 
+# Paolo Cremonesi
+# Yehuda Koren 
+# Roberto Turrin
 ################################
 ### Paquetes
 ################################
