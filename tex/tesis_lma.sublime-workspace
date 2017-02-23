@@ -28,33 +28,17 @@
 			"file": "Chapters/resultados.tex",
 			"settings":
 			{
-				"buffer_size": 10666,
+				"buffer_size": 8488,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Chapters/marco_teorico.tex",
+			"file": "Chapters/desarrollo.tex",
 			"settings":
 			{
-				"buffer_size": 30328,
+				"buffer_size": 57,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/dell/Dropbox/Mario/Escuela/MCC/Arquitectura_de_Computadoras/Archivos otros/Archivos Farid/RdSmSvEnd",
-			"settings":
-			{
-				"buffer_size": 35,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "",
-			"settings":
-			{
-				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		}
@@ -144,36 +128,18 @@
 	"expanded_folders":
 	[
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Figures"
 	],
 	"file_history":
 	[
-		"/home/dell/Dropbox/Mario/Escuela/MCC/Arquitectura_de_Computadoras/Tarea_01/tex/bibliography.bib",
-		"/home/dell/Dropbox/Mario/Escuela/MCC/Arquitectura_de_Computadoras/Tarea_01/tex/Tarea_01.tex",
-		"/home/dell/Dropbox/Mario/Work/CAD Salud/MIDO Plus/data/diccionario_datos_2.csv",
-		"/home/dell/Desktop/fwdpresentacionesynotas/out.txt",
-		"/home/dell/Dropbox/Mario/Work/CAD Salud/MIDO Plus/data/diccionario_datos.csv",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/code/resultados.R",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/out/MovieLens/modelos_factorizacion/tables/test_rmse.txt",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/out/MovieLens/factor_models_overfit/tables/errores_modelo_factorizacion.psv",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/out/MovieLens/modelos_factorizacion/tables/errores_modelo_factorizacion.psv",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/out/MovieLens/factor_models_overfit/tables/errores_modelo_base.psv",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/code/calc_error.cpp",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/code/calcula_conjuntos_entrenamiento_validacion.R",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/out/BookCrossing/modelos_factorizacion/tables/test_rmse.txt",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/code/calcula_modelo_base.R",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters/desarrollo.tex",
-		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/tesis_mbc.pdf",
-		"/home/dell/Dropbox/Mario/Escuela/MCC/Compiladores/proyecto_decaf_mbc/pp1/README.txt",
-		"/home/dell/Dropbox/Mario/Escuela/MCC/Compiladores/proyecto_decaf_mbc/README.md",
-		"/home/dell/Dropbox/Mario/Escuela/MCC/Compiladores/proyecto_decaf_mbc/pp1/errors.h",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Figures/modelo_base_MovieLens.png",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters/introduccion.tex",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters/conclusiones.tex",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters/anexos.tex",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters/marco_teorico.tex",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters/trabajo_futuro.tex",
+		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/out/MovieLens/factor_models_overfit/tables/errores_modelo_factorizacion.psv",
+		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/out/MovieLens/factor_models_overfit/tables/errores_modelo_base.psv",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/Chapters/problema_resolver.tex",
 		"/home/dell/Dropbox/Mario/Escuela/LMA/Tesis/Rec_Sys/tex/main.tex",
 		"/home/dell/Dropbox/Mario/Escuela/MCC/Compiladores/proyecto/pp1/Makefile",
@@ -207,7 +173,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -221,20 +187,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"\\n",
-			"\\n\\n",
-			"  +",
-			" +\\n",
-			"\t\\n",
-			"•",
-			"\\]",
-			".*\\:",
-			"q_0",
-			",",
-			"\\n\\n",
-			"emd",
-			"error cu",
-			"test_r",
 			"rgx",
 			"substr",
 			"substr(str_in, i, i)",
@@ -248,17 +200,9 @@
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
-			"\\n\\n",
-			"\\n",
-			" ",
-			"",
-			"\\item",
-			"\\]\\n",
-			"",
-			"\\n",
 			"rgx_in",
 			"str_in[i]",
 			",",
@@ -274,7 +218,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -290,8 +234,8 @@
 						"selection":
 						[
 							[
-								2842,
-								2842
+								1940,
+								1940
 							]
 						],
 						"settings":
@@ -300,10 +244,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 592.0,
+						"translation.y": 798.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -312,67 +256,36 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10666,
+						"buffer_size": 8488,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9485,
-								9485
+								7306,
+								7306
 							]
 						],
 						"settings":
 						{
-							"spell_check": true,
 							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 986.0,
+						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "Chapters/marco_teorico.tex",
+					"file": "Chapters/desarrollo.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 30328,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								24300,
-								24300
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2422.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/dell/Dropbox/Mario/Escuela/MCC/Arquitectura_de_Computadoras/Archivos otros/Archivos Farid/RdSmSvEnd",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 35,
+						"buffer_size": 57,
 						"regions":
 						{
 						},
@@ -385,43 +298,13 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -470,7 +353,7 @@
 	"project": "tesis_lma.sublime-project",
 	"replace":
 	{
-		"height": 62.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -514,3 +397,4 @@
 	{
 	}
 }
+
