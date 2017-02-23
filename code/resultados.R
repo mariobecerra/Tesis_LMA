@@ -286,7 +286,25 @@ if(dataset == "MovieLens"){
 ### Top-N recommendations
 ################################
 
-top_n <- readRDS(paste0(folder, "/test_top_n.rds"))
+# Basado en:
+# Performance of Recommender Algorithms on Top-N Recommendation Tasks 
+# Paolo Cremonesi, Yehuda Koren, Roberto Turrin
+
+N <- 20
+
+# Dataframe con todos los usuarios que calificaron con la máxima calificación algún artículo, los artículos que cada uno de esos usuarios calificó, el predicted  rating y el lugar que ocupa entre mil artículos aleatorios (p). También incluye el número de items que el usuario calificó.
+top_n <- readRDS(paste0(folder, "/test_top_n.rds")) %>% 
+  mutate(hit = p <= N) # si p <= 20 significa que el artículo está en los 20 más recomendados
+
+recall <- sum(top_n$hit)/(nrow(top_n))
+precision <- recall/N
+
+write_psv(recall, paste0(folder, "/modelos_factorizacion/tables/recall_top_", N, "_recommendations.psv"))
+write_psv(precision, paste0(folder, "/modelos_factorizacion/tables/precision_top_", N, "_recommendations.psv"))
+
+#### Predicciones del modelo base
+
+
 
 
 
