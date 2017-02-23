@@ -54,14 +54,20 @@ sourceCpp("calc_error.cpp")
 ### Top-N recommendations
 ################################
 
+# Máximo rating posible en el conjunto de prueba
 max_rating <- max(test$rating)
 
+# Filtra los artículos calificados con la máxima calificación
 test_max_rating <- test %>% 
   filter(rating == max_rating)
 
+# N de Top-N recommendations
 N <- 20
+
+# Número de artículos aleatorios con los que se compara
 k <- 1000
 
+# Usuarios que calificarion con la calificación máxima
 user_unique_test_max <- unique(test_max_rating$u_id)
 i <- 0
 non_rated_items <- lapply(user_unique_test_max, function(u_id_loop){
@@ -80,6 +86,7 @@ non_rated_items <- lapply(user_unique_test_max, function(u_id_loop){
                    itemId = items_sample_not_rated_2)
 }) %>% 
   bind_rows()
+# Dataframe que contiene, para cada usuario que calificó con la calificación máxima algún artículo, mil artículos aleatorios que no calificó antes.
 saveRDS(non_rated_items, paste0(folder, "/non_rated_items.rds"))
 
 
