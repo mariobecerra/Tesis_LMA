@@ -12,14 +12,14 @@ El conjunto de datos de \textit{MovieLens} consiste en \numprint{20000263} calif
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_MovieLens.png}
+ 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_MovieLens.pdf}
  	\caption{Frecuencia de calificaciones del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_frec_calificaciones}
 \end{figure}
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_MovieLens.png}
+ 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_MovieLens.pdf}
  	\caption{Histograma del promedio de calificaciones por película del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_hist_prom_cals}
 \end{figure}
@@ -28,7 +28,7 @@ En la sección \ref{motivacion} se introduce el concepto de cola larga. En la fi
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.8\textwidth]{long_tail_MovieLens.png}
+ 	\includegraphics[width=0.8\textwidth]{long_tail_MovieLens.pdf}
  	\caption{Cola larga del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_long_tail}
 \end{figure}
@@ -40,14 +40,14 @@ El conjunto de datos de \textit{BookCrossing} consiste en \numprint{1149780} cal
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_BookCrossing.png}
+ 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_BookCrossing.pdf}
  	\caption{Frecuencia de calificaciones del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_frec_calificaciones}
 \end{figure}
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_BookCrossing.png}
+ 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_BookCrossing.pdf}
  	\caption{Histograma del promedio de calificaciones por película del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_hist_prom_cals}
 \end{figure}
@@ -56,7 +56,7 @@ En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.8\textwidth]{long_tail_BookCrossing.png}
+ 	\includegraphics[width=0.8\textwidth]{long_tail_BookCrossing.pdf}
  	\caption{Cola larga del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_long_tail}
 \end{figure}
@@ -86,7 +86,7 @@ En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del mode
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=0.8\textwidth]{modelo_base_MovieLens.png}
+ 	\includegraphics[width=0.8\textwidth]{modelo_base_MovieLens.pdf}
  	\caption{Errores del modelo base en el conjunto de prueba de \textit{MovieLens}, de acuerdo al valor del parámetro de regularización $\gamma$.}
  	\label{fig:ML_modelo_base_errores}
 \end{figure}
@@ -97,8 +97,8 @@ Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=\textwidth]{errores_ent_validacion_factorizacion_MovieLens.png}
- 	\caption{Errores del modelo de factorización en el conjunto de prueba de \textit{MovieLens}. LR es la tasa de aprendizaje, DL es el número de dimensiones latentes y $\lambda$ el parámetro de regularización.}
+ 	\includegraphics[width=\textwidth]{errores_ent_validacion_factorizacion_MovieLens.pdf}
+ 	\caption{Errores del modelo de factorización en el conjunto de prueba de \textit{MovieLens}. LR es la tasa de aprendizaje, DL es el número de dimensiones latentes y L es el parámetro de regularización $\lambda$.}
  	\label{fig:ML_modelo_fact_errores}
 \end{figure}
 
@@ -107,11 +107,26 @@ En la figura \ref{fig:ML_modelo_fact_error_por_iter} se pueden ver los errores d
 
 \begin{figure}
 	\centering
- 	\includegraphics[width=\textwidth]{error_por_iteracion_modelo_fact_MovieLens.png}
+ 	\includegraphics[width=\textwidth]{error_por_iteracion_modelo_fact_MovieLens.pdf}
  	\caption{Errores de entrenamiento y validación del modelo de factorización en cada iteración del algoritmo de optimización para \textit{MovieLens}.}
  	\label{fig:ML_modelo_fact_error_por_iter}
 \end{figure}
 
+Un sistema de recomendación, además de ser evaluado con el RMSE, también se puede evaluar como un problema de clasificación en el cual se mide qué tan certero es en la tarea de recomendar $N$ artículos a cada usuario.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=\textwidth]{recall_base_fact_MovieLens.pdf}
+ 	\caption{Recall para cada valor de $N$ en la tarea de las mejores $N$ recomendaciones para \textit{MovieLens}.}
+ 	\label{fig:ML_recall_top_N}
+\end{figure}
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=\textwidth]{precision_base_fact_MovieLens.pdf}
+ 	\caption{Precisión para cada valor de $N$ en la tarea de las mejores $N$ recomendaciones para \textit{MovieLens}.}
+ 	\label{fig:ML_precision_top_N}
+\end{figure}
 
 \subsubsection{\textit{BookCrossing}}
 
