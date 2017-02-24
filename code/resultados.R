@@ -10,6 +10,7 @@ library(tidyverse)
 
 source("utils.R")
 
+theme_set(theme_bw(base_size = 20))
 
 ##############################################
 ## Determinar el dataset con el que se va a trabajar
@@ -26,8 +27,8 @@ if(!interactive()){
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  dataset <- "BookCrossing"
-  # dataset <- "MovieLens"
+  # dataset <- "BookCrossing"
+  dataset <- "MovieLens"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
@@ -86,17 +87,17 @@ sourceCpp("calc_error.cpp")
    filter(iter > 2) %>% 
    gather(tipo_error, error, erroresent:erroresval) %>% 
    mutate(tipo_error = ifelse(tipo_error == "erroresent",
-                              "Entrena-\nmiento",
-                              "Valida-\nción")) %>% 
-   ggplot() +
-   geom_point(aes(iter, error, shape = tipo_error)) +
+                              "Entrenamiento",
+                              "Validación")) %>% 
+   ggplot(aes(iter, error)) +
+   geom_point(aes(shape = tipo_error), size = 2.5) +
+   geom_line(aes(group = tipo_error)) +
    scale_shape_discrete(name = "Tipo de error") +
-   theme_bw() +
    xlab("Número de iteración")
 ) %>% 
   ggsave(., 
-         file = paste0(folder, "/plots/error_por_iteracion_modelo_fact.png"),
-         dpi = 500)
+         file = paste0(folder, "/plots/error_por_iteracion_modelo_fact.pdf"),
+         device = "pdf")
 
 
 # Gráfica de errores de entrenamiento y validación de cada modelo
@@ -105,20 +106,22 @@ sourceCpp("calc_error.cpp")
     gather(tipo_error, error, error_ent:error_val) %>% 
     mutate(modelo = paste0("DL: ", dim_lat, "\n",
                            "LR: ", learning_rate, "\n",
-                           "λ: ", lambda),
+                           "L: ", lambda),
            error = as.numeric(error),
            tipo_error = ifelse(tipo_error == "error_ent",
-                               "Entrena-\nmiento",
-                               "Valida-\nción")) %>% 
+                               "\nEntrena-\nmiento\n",
+                               "\nValida-\nción\n")) %>% 
     ggplot() + 
     geom_point(aes(modelo, error, shape = tipo_error), size = 2.3) +
     scale_shape_discrete(name = "Tipo de error") +
-    theme_bw() 
+    theme(axis.text=element_text(size = 11))
+  
 ) %>% 
-  ggsave(., file = paste0("../out/", 
-                          dataset, 
-                          "/plots/errores_ent_validacion_factorizacion.png"),
-         dpi = 400)
+  ggsave(., 
+         file = paste0("../out/", 
+                       dataset, 
+                       "/plots/errores_ent_validacion_factorizacion.pdf"),
+         device = 'pdf')
 
 
 P_df <- data.frame(itemId = 1:dim(lista_fact$P)[1], lista_fact$P) %>% 
@@ -290,19 +293,57 @@ if(dataset == "MovieLens"){
 # Performance of Recommender Algorithms on Top-N Recommendation Tasks 
 # Paolo Cremonesi, Yehuda Koren, Roberto Turrin
 
-N <- 20
-
 # Dataframe con todos los usuarios que calificaron con la máxima calificación algún artículo, los artículos que cada uno de esos usuarios calificó, el predicted  rating y el lugar que ocupa entre mil artículos aleatorios (p). También incluye el número de items que el usuario calificó.
-top_n <- readRDS(paste0(folder, "/test_top_n.rds")) %>% 
-  mutate(hit = p <= N) # si p <= 20 significa que el artículo está en los 20 más recomendados
+# Uno para el modelo de factorización y uno para el modelo base.
+top_n_fact <- readRDS(paste0(folder, "/test_top_n.rds"))
+top_n_mb <- readRDS(paste0(folder, "/test_top_n_modelo_base.rds"))
 
-recall <- sum(top_n$hit)/(nrow(top_n))
-precision <- recall/N
+calcular_precision_recall <- function(df, N){
+  num_filas <- nrow(df)
+  df <- df %>% 
+    mutate(hit = p <= N)
+  recall <- sum(df$hit)/num_filas
+  precision <- recall/N
+  return(c(precision, recall))
+}
 
-write_psv(recall, paste0(folder, "/modelos_factorizacion/tables/recall_top_", N, "_recommendations.psv"))
-write_psv(precision, paste0(folder, "/modelos_factorizacion/tables/precision_top_", N, "_recommendations.psv"))
+precision_recall <- lapply(1:25, function(N){
+  vec_mb <- calcular_precision_recall(top_n_mb, N)
+  vec_fact <- calcular_precision_recall(top_n_fact, N)
+  return(tibble(
+    modelo = c("Fact", "Base"),
+    N = c(N, N), 
+    precision = c(vec_fact[1], vec_mb[1]), 
+    recall = c(vec_fact[2], vec_mb[1])
+  ))
+}) %>% 
+  bind_rows() %>% 
+  arrange(modelo)
 
-#### Predicciones del modelo base
+(precision_recall %>% 
+    ggplot(aes(N, recall, group = modelo)) + 
+    geom_point(aes(shape = modelo), size = 2) + 
+    geom_line(aes(linetype = modelo))
+) %>% 
+  ggsave(., 
+         file = paste0(folder, "/plots/recall_base_fact.pdf"),
+         device = "pdf")
+
+
+(precision_recall %>% 
+    ggplot(aes(N, precision, group = modelo)) + 
+    geom_point(size = 0.7) + 
+    geom_line(aes(linetype = modelo)) +
+    ylab("Precisión")
+) %>% 
+  ggsave(., 
+         file = paste0(folder, "/plots/precision_base_fact.pdf"),
+         device = "pdf")
+
+system(paste0("mkdir ", folder, "/tables"))
+
+write_psv(precision_recall, 
+          paste0(folder, "/tables/precision_recall_top_N_recommendations.psv"))
 
 
 
