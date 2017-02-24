@@ -323,7 +323,8 @@ precision_recall <- lapply(1:25, function(N){
 (precision_recall %>% 
     ggplot(aes(N, recall, group = modelo)) + 
     geom_point(aes(shape = modelo), size = 2) + 
-    geom_line(aes(linetype = modelo))
+    geom_line(aes(linetype = modelo)) +
+    ylab("Recall")
 ) %>% 
   ggsave(., 
          file = paste0(folder, "/plots/recall_base_fact.pdf"),
@@ -332,7 +333,7 @@ precision_recall <- lapply(1:25, function(N){
 
 (precision_recall %>% 
     ggplot(aes(N, precision, group = modelo)) + 
-    geom_point(size = 0.7) + 
+    geom_point(aes(shape = modelo), size = 2) + 
     geom_line(aes(linetype = modelo)) +
     ylab("Precisión")
 ) %>% 
