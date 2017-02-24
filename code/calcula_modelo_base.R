@@ -2,6 +2,8 @@ library(Matrix)
 library(Rcpp)
 library(tidyverse)
 
+theme_set(theme_bw(base_size = 20))
+
 if(!interactive()){ 
   args <- commandArgs(TRUE)
   dataset <- args[1]
@@ -11,7 +13,8 @@ if(!interactive()){
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  dataset <- "BookCrossing"
+  #dataset <- "BookCrossing"
+  dataset <- "MovieLens"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
@@ -78,11 +81,10 @@ gamma_min <- errores_gamma %>%
   geom_line(aes(group = 1)) + 
   geom_point() +
   geom_abline(slope = 0, intercept = gamma_min$error, linetype = 'dotted') +
-  geom_vline(xintercept = gamma_min$gamma, linetype = 'dotted') +
-  theme_bw()) %>% 
+  geom_vline(xintercept = gamma_min$gamma, linetype = 'dotted')) %>% 
   ggsave(., 
-         file = paste0(folder_plots, "/modelo_base.png"),
-         dpi = 500)
+         file = paste0(folder_plots, "/modelo_base.pdf"),
+         device = 'pdf')
 
 write.table(errores_gamma, 
             file = paste0(folder_tables, "/errores_modelo_base.psv"),
