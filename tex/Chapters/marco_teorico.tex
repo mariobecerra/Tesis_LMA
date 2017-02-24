@@ -472,13 +472,20 @@ Entonces, para resolver \ref{func_opt_sesgos}, se inicia con un unas matrices $P
     }
 \end{algorithm}
 
-\subsection{Evaluación de modelos}
+\subsection{Evaluación de modelos}\label{sec:evaluacion_modelos}
 
 Una primera medida para evaluar un sistema de recomendación que ya fue presentada anteriormente es el RMSE. Esta medida da una idea de el desempeño del modelo para todos los artículos ya conocidos, sin embargo, no es suficiente para ofrecer recomendaciones que le vayan a gustar al usuario. La mayoría de las veces se busca recomendar cierto número de artículos a un usuario, digamos $N$, y se desea que estos $N$ artículos sean de agrado del usuario, o a veces los usuarios están interesados en descubrir cosas nuevas. Es por esto que también se debe de evaluar cómo los sistemas se desempeñan en este tipo de situaciones.
 
-Una forma de evaluar este tipo de recomendaciones es tomar esto como un problema de clasificación binario, en el cual se tiene un acierto si a un usuario se le recomendó un artículo en los top-$N$ y este usuario lo vio/compró \textbf{VER SI TIENE SENTIDO PONER 1 EN EL CASO EN QUE EL USUARIO CALIFICÓ POR ENCIMA DE LA MEDIA}, y no se acierta en otro caso. Con este tipo de problemas se pueden obtener las medidas típicas en un problema de clasificación binario (precisión, tasa de verdaderos positivos, tasa de falsos negativos, etc).
+Una forma de evaluar este tipo de recomendaciones es tomar esto como un problema de clasificación binario, en el cual se tiene un acierto si a un usuario se le recomendó un artículo en los mejores $N$ (top-$N$) y este usuario lo vio/compró, y no se acierta en otro caso. Con este tipo de problemas se pueden obtener las medidas típicas en un problema de clasificación binario (precisión, tasa de verdaderos positivos, tasa de falsos negativos, etc). 
 
-Conforme $N$ crece, se puede esperar que aumente la tasa de verdaderos positivos, pero que disminuya la precisión.
+En \cite{Cremonesi:2010:PRA:1864708.1864721} se muestra una forma de evaluar de esta forma un sistema de recomendación, la cual consiste en seleccionar cada elemento $i$ calificado con la calificación máxima por cada usuario $u$ en el conjunto de prueba:
+
+\begin{enumerate}
+  \item Seleccionar 1000 artículos adicionales que no fueron calificados por el usuario $u$. Se asume que la mayoría de ellos no van a ser de interés para el usuario $u$.
+  \item Calcular la calificación de acuerdo al modelo para el artículo $i$ y cada uno de los 1000 artículos adicionales.
+  \item Se forma una lista ordenada de acuerdo a las calificaciones predichas por el modelo para los 1001 artículos. Sea $p$ el lugar que ocupa el artículo de prueba $i$ entre todos los elementos de la lista. El mejor resultado corresponde al caso en que el artículo de prueba $i$ está antes de todos los artículos aleatorios (esto es, $p = 1$).
+  \item Se forma una lista de las mejores $N$ recomendaciones al seleccionar los $N$ artículos mejor calificados en la lista. Si $p \leq N$ entonces se tiene un acierto, en otro caso se tiene un desacierto. La probabilidad de obtener aciertos aumenta si $N$ aumenta, y si $N = 1001$, siempre se tiene un acierto.
+\end{enumerate}
 
 
 
