@@ -5,6 +5,8 @@ library(ggplot2)
 
 source("utils.R")
 
+theme_set(theme_bw(base_size = 20))
+
 ##############################################
 ## Determinar el dataset con el que se va a trabajar
 ##############################################
@@ -20,7 +22,8 @@ if(!interactive()){
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  dataset <- "MovieLens"
+  # dataset <- "MovieLens"
+  dataset <- "BookCrossing"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
@@ -62,13 +65,13 @@ cat("Porcentaje de matriz llena: ", round(100*num_calis/(num_items*num_items), 3
     xlab("Calificación") +
     ylab("Número de artículos") +
     ggtitle("Frecuencias de calificaciones de artículos") +
-    theme(plot.title = element_text(hjust = 0.5)) +
-    theme_minimal()) %>% 
+    theme(plot.title = element_text(hjust = 0.5))
+  ) %>% 
   ggsave(filename = paste0(folder_plots, 
                            "/frecuencia_calificaciones_", 
                            dataset, 
-                           ".png"),
-         device = "png")
+                           ".pdf"),
+         device = "pdf")
 
 
 ratings_prom <- ratings %>% 
@@ -83,14 +86,13 @@ ratings_prom <- ratings %>%
     ggplot() +
     geom_histogram(aes(rating_prom)) +
     xlab("Calificación promedio") +
-    ylab("Número de artículos") +
-    theme_minimal()
+    ylab("Número de artículos")
 ) %>% 
   ggsave(filename = paste0(folder_plots, 
                            "/calificacion_promedio_articulo_", 
                            dataset, 
-                           ".png"),
-         device = "png")
+                           ".pdf"),
+         device = "pdf")
 
 
 # Long tail distribution
@@ -100,57 +102,55 @@ ratings_prom <- ratings %>%
     ggplot(aes(ix, num_ratings)) + 
     geom_line() +
     xlab("Artículos") +
-    ylab("Número de calificaciones") +
-    theme_minimal()
+    ylab("Número de calificaciones")
 ) %>% 
   ggsave(filename = paste0(folder_plots, 
                            "/long_tail_", 
                            dataset, 
-                           ".png"),
-         device = 'png')
+                           ".pdf"),
+         device = 'pdf')
 
-
-
-plot_histogram_quantiles <- function(data, 
-                                     variable, 
-                                     quantiles, 
-                                     cut_quantile = 1){
-  ix_col <- which(names(data) == variable)
-  quantiles2 <- c(cut_quantile, quantiles)
-  q <- quantile(data[[ix_col]], quantiles2)
-  data %>% 
-    rename_("variable2" = variable) %>% 
-    filter(variable2 <= q[1]) %>% 
-    ggplot() +
-    geom_histogram(aes(variable2)) +
-    geom_vline(xintercept = q[2:length(q)], color = 'red')
-}
-
-plot_histogram_quantiles(ratings_prom, 
-                         "num_ratings", 
-                         c(0.5, 0.7, 0.9)) +
-  ggtitle("Histograma del número de calificaciones de cada artículo") +
-  xlab("Número de calificaciones") +
-  ylab("Número de artículos") +
-  theme_minimal()
-
-plot_histogram_quantiles(ratings_prom, 
-                         "num_ratings", 
-                         c(0.5, 0.7), 0.75) +
-  ggtitle("Histograma del número de calificaciones de cada artículo") +
-  xlab("Número de calificaciones") +
-  ylab("Número de artículos") +
-  theme_minimal()
-
-ratings_prom %>% 
-  arrange(desc(rating_prom)) %>% 
-  head(15)
-
-ratings_prom %>% 
-  filter(num_ratings > quantile(num_ratings, 0.7)) %>% 
-  arrange(desc(rating_prom)) %>% 
-  head(30)
-
-
-
-
+# 
+# 
+# plot_histogram_quantiles <- function(data, 
+#                                      variable, 
+#                                      quantiles, 
+#                                      cut_quantile = 1){
+#   ix_col <- which(names(data) == variable)
+#   quantiles2 <- c(cut_quantile, quantiles)
+#   q <- quantile(data[[ix_col]], quantiles2)
+#   data %>% 
+#     rename_("variable2" = variable) %>% 
+#     filter(variable2 <= q[1]) %>% 
+#     ggplot() +
+#     geom_histogram(aes(variable2)) +
+#     geom_vline(xintercept = q[2:length(q)], color = 'red')
+# }
+# 
+# plot_histogram_quantiles(ratings_prom, 
+#                          "num_ratings", 
+#                          c(0.5, 0.7, 0.9)) +
+#   ggtitle("Histograma del número de calificaciones de cada artículo") +
+#   xlab("Número de calificaciones") +
+#   ylab("Número de artículos")
+# 
+# plot_histogram_quantiles(ratings_prom, 
+#                          "num_ratings", 
+#                          c(0.5, 0.7), 0.75) +
+#   ggtitle("Histograma del número de calificaciones de cada artículo") +
+#   xlab("Número de calificaciones") +
+#   ylab("Número de artículos") +
+#   theme_minimal()
+# 
+# ratings_prom %>% 
+#   arrange(desc(rating_prom)) %>% 
+#   head(15)
+# 
+# ratings_prom %>% 
+#   filter(num_ratings > quantile(num_ratings, 0.7)) %>% 
+#   arrange(desc(rating_prom)) %>% 
+#   head(30)
+# 
+# 
+# 
+# 
