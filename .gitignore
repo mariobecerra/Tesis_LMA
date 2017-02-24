@@ -18,5 +18,4 @@ out/*
 *.toc
 *blx.bib
 tex/tesis_lma.sublime-workspace
-tex/tesis_lma.sublime-project
 *.sublime-workspace

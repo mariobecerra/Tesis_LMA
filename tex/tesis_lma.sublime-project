@@ -1,0 +1,10 @@
+{
+	"spell_check":true,
+	"folders":
+	[
+		{
+			"path": ".",
+  			"file_exclude_patterns": [ "*.log", "*.aux", "*.blg", "*.lof", "*.lot", "*.toc", "*.kilepr", "*.xml", "*.fdb_latexmk", "*blx.bib", "*.bbl", "*.fls", "*.synctex.gz"]
+		}
+	]
+}
