@@ -183,3 +183,6 @@ Kevin Beyer, Jonathan Goldstein, Raghu Ramakrishnan, and Uri Shaft - When Is “
 
 Collaborative Filtering at Spotify
 http://www.slideshare.net/erikbern/collaborative-filtering-at-spotify-16182818
+
+ANN:
+http://www.cs.umd.edu/~mount/ANN/Files/1.1.2/ANNmanual_1.1.pdf
