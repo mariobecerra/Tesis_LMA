@@ -2,7 +2,7 @@
 
 \chapter{Resultados}
 
-Los algoritmos presentados en este trabajo fueron implementados en el lenguaje para cómputo estadístico \texttt{R} y fueron probados con un conjunto de películas calificadas de \textit{MovieLens}, una página que ofrece recomendaciones de películas, los cuales están disponibles al público. \textit{MovieLens} es un proyecto de \textit{GroupLens}, un equipo de investigación de la Universidad de Minnesota orientado al cómputo social.
+Los algoritmos presentados en este trabajo fueron implementados en el lenguaje para cómputo estadístico \texttt{R} \cite{R_manual} y fueron probados con un conjunto de películas calificadas de \textit{MovieLens}, una página que ofrece recomendaciones de películas, los cuales están disponibles al público. \textit{MovieLens} es un proyecto de \textit{GroupLens}, un equipo de investigación de la Universidad de Minnesota orientado al cómputo social. Algunas de las funciones utilizadas fueron implementadas en el lenguaje \texttt{C++} y compiladas en \texttt{R} con el paquete \texttt{Rcpp} \cite{Rcpp_Book_Eddelbuettel} \cite{Rcpp_Article_Eddelbuettel_Francois}.
 
 \subsection{Análisis exploratorio de datos}
 
@@ -128,17 +128,19 @@ Como se menciona en \ref{sec:evaluacion_modelos}, además del RMSE, una forma de
  	\label{fig:ML_precision_top_N}
 \end{figure}
 
-Como se mencionó antes, cada artículo es expresado como una combinación lineal de distintos factores latentes, por lo que artículos y usuarios son mapeados a un mismo espacio latente. Por ende, cada artículo tiene un vector representante en un espacio euclidiano, por lo que se pueden calcular distancias y encontrar vecinos con estas distancias. Con esta idea, además de recomendar directamente a un usuario artículos personalizados, se pueden encontrar los artículos más parecidos a un determinado artículo mediante la norma euclidiana de la diferencia o la similitud coseno.
+Como se mencionó antes, cada artículo es expresado como una combinación lineal de distintos factores latentes, por lo que artículos y usuarios son mapeados a un mismo espacio latente. Por ende, cada artículo tiene un vector representante en un espacio euclidiano, por lo que se pueden calcular distancias y encontrar vecinos con estas distancias. Con esta idea, además de recomendar directamente a un usuario artículos personalizados, se pueden encontrar los artículos más parecidos a un determinado artículo mediante la norma euclidiana de la diferencia o la similitud coseno. 
 
-Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cercanos para algunas películas selectas. 
+Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cercanos para algunas películas selectas. Se utilizó la distancia euclidiana y se calculó con el paquete \texttt{RANN} \cite{RANN_package} de \texttt{R}. Estos vecinos se pueden ver en las tablas \ref{tab:ML_vecinos_cercanos_1} y \ref{tab:ML_vecinos_cercanos_2}, y se puede apreciar que en cierta forma, los vecinos más cercanos de cada película sí son parecidos.
 
 \begin{table}[H]
 	\centering
+	\caption{Algunas películas y sus vecinos más cercanos.}
+	\label{tab:ML_vecinos_cercanos_1}
 	\begin{tabular}{ |l|l|l| }
+		%\hline
+		%\multicolumn{3}{ |c| }{Vecinos} \\
 		\hline
-		\multicolumn{3}{ |c| }{Vecinos} \\
-		\hline
-		Película & Película más cercana & Distancia \\ \hline
+		\textbf{Película} & \textbf{Película más cercana} & \textbf{Distancia} \\ \hline
 		\multirow{10}{*}{ Aladdin (1992) } &  Lion King, The (1994)  &  1.74  \\
 		 &  Beauty and the Beast (1991)  &  1.79  \\
 		 &  Little Mermaid, The (1989)  &  2.09  \\
@@ -161,16 +163,16 @@ Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cer
 		 &  Taking Lives (2004)  &  2.93  \\
 		 &  Don't Say a Word (2001)  &  2.93  \\
 		\hline
-		\multirow{10}{*}{ Harry Potter 1 (2001) } &  Harry Potter and the Chamber of Secrets (2002)  &  0.47  \\
-		 &  Harry Potter and the Prisoner of Azkaban (2004)  &  1.11  \\
-		 &  Harry Potter and the Goblet of Fire (2005)  &  1.13  \\
-		 &  Harry Potter and the Order of the Phoenix (2007)  &  1.33  \\
-		 &  Harry Potter and the Half-Blood Prince (2009)  &  1.59  \\
-		 &  Harry Potter and the Deathly Hallows: Part 2 (2011)  &  1.83  \\
-		 &  Harry Potter and the Deathly Hallows: Part 1 (2010)  &  1.87  \\
-		 &  Narnia: The Voyage of the Dawn Treader, The (2010)  &  2.76  \\
-		 &  Narnia: Prince Caspian, The (2008)  &  2.88  \\
-		 &  Lion King 1 1/2 , The (2004)  &  2.91  \\
+		\multirow{10}{*}{ \shortstack{Harry Potter and the \\ Sorcerer's Stone (2001)} } &  HP and the Chamber of Secrets (2002)  &  0.47  \\
+		 &  HP and the Prisoner of Azkaban (2004)  &  1.11  \\
+		 &  HP and the Goblet of Fire (2005)  &  1.13  \\
+		 &  HP and the Order of the Phoenix (2007)  &  1.33  \\
+		 &  HP and the Half-Blood Prince (2009)  &  1.59  \\
+		 &  HP and the Deathly Hallows: Part 2 (2011)  &  1.83  \\
+		 &  HP and the Deathly Hallows: Part 1 (2010)  &  1.87  \\
+		 &  Narnia: The Voyage of the Dawn Treader (2010)  &  2.76  \\
+		 &  Narnia: Prince Caspian (2008)  &  2.88  \\
+		 &  The Lion King 1 1/2 (2004)  &  2.91  \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -178,11 +180,13 @@ Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cer
 
 \begin{table}[H]
 	\centering
+	\caption{Algunas películas y sus vecinos más cercanos.}
+	\label{tab:ML_vecinos_cercanos_2}
 	\begin{tabular}{ |l|l|l| }
+		%\hline
+		%\multicolumn{3}{ |c| }{Vecinos} \\
 		\hline
-		\multicolumn{3}{ |c| }{Vecinos} \\
-		\hline
-		Película & Película más cercana & Distancia \\ \hline
+		\textbf{Película} & \textbf{Película más cercana} & \textbf{Distancia} \\ \hline
 		\multirow{10}{*}{ Lion King, The (1994) } &  Aladdin (1992)  &  1.74  \\
 		 &  Beauty and the Beast (1991)  &  2.1  \\
 		 &  Mulan (1998)  &  2.4  \\
@@ -195,9 +199,9 @@ Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cer
 		 &  How to Train Your Dragon 2 (2014)  &  2.55  \\
 		\hline
 		\multirow{10}{*}{ Pulp Fiction (1994) } &  Reservoir Dogs (1992)  &  2.26  \\
-		 &  Inglorious Bastards (Quel maledetto treno blindato) (1978)  &  3.03  \\
+		 &  Inglorious Bastards (1978)  &  3.03  \\
 		 &  Goodfellas (1990)  &  3.15  \\
-		 &  Evening with Kevin Smith 2: Evening Harder, An (2006)  &  3.19  \\
+		 &  An Evening with Kevin Smith 2 (2006)  &  3.19  \\
 		 &  Black Mirror (2011)  &  3.2  \\
 		 &  Ricky Gervais Live 3: Fame (2007)  &  3.23  \\
 		 &  Nightcrawler (2014)  &  3.24  \\
