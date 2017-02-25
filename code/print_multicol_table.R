@@ -1,6 +1,7 @@
-library(utilsMBC)
 library(dplyr)
 library(stringi)
+
+source("utils.R")
 
 ##############################################
 ## Determinar el dataset con el que se va a trabajar
