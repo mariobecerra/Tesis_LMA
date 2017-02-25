@@ -314,7 +314,7 @@ precision_recall <- lapply(1:25, function(N){
     modelo = c("Fact", "Base"),
     N = c(N, N), 
     precision = c(vec_fact[1], vec_mb[1]), 
-    recall = c(vec_fact[2], vec_mb[1])
+    recall = c(vec_fact[2], vec_mb[2])
   ))
 }) %>% 
   bind_rows() %>% 
@@ -327,7 +327,7 @@ precision_recall <- lapply(1:25, function(N){
     ylab("Recall")
 ) %>% 
   ggsave(., 
-         file = paste0(folder, "/plots/recall_base_fact.pdf"),
+         file = paste0(folder, "/plots/recall_base_fact_", dataset, ".pdf"),
          device = "pdf")
 
 
@@ -338,7 +338,7 @@ precision_recall <- lapply(1:25, function(N){
     ylab("Precisión")
 ) %>% 
   ggsave(., 
-         file = paste0(folder, "/plots/precision_base_fact.pdf"),
+         file = paste0(folder, "/plots/precision_base_fact_", dataset, ".pdf"),
          device = "pdf")
 
 system(paste0("mkdir ", folder, "/tables"))
