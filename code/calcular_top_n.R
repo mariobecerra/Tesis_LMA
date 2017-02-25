@@ -40,20 +40,20 @@ folder <- paste0("../out/", dataset)
 ### Leer datos
 ################################
 
+
+#lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds"))
+lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_200_learning_rate_0.001_lambda_0.01.rds"))
+
+test <- read_rds(paste0(folder, "/test.rds"))
+
 items <- read.table(paste0(folder, "/items_new_ids.psv"), 
                     stringsAsFactors = F,
                     header = T,
                     quote = "",
                     sep = "|",
-                    comment.char = "")
+                    comment.char = "") %>% 
+  filter(!is.na(itemId)) # Filtrar los artículos que no tienen NA en itemId. Esto es porque los que tienen NA significa que no tienen calificaciones en el conjunto de calificaciones.
 
-#lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_1000_learning_rate_0.001_lambda_0.01.rds"))
-lista_fact <- readRDS(paste0(folder, "/modelos_factorizacion/models/dimlat_200_learning_rate_0.001_lambda_0.01.rds"))
-
-#train <- read_rds(paste0(folder, "/train.rds"))
-test <- read_rds(paste0(folder, "/test.rds"))
-
-sourceCpp("calc_error.cpp")
 
 ################################
 ### Top-N recommendations
@@ -65,9 +65,6 @@ max_rating <- max(test$rating)
 # Filtra los artículos calificados con la máxima calificación
 test_max_rating <- test %>% 
   filter(rating == max_rating)
-
-# N de Top-N recommendations
-N <- 20
 
 # Número de artículos aleatorios con los que se compara
 k <- 1000
@@ -109,11 +106,12 @@ for(u_id_loop in user_unique_test_max){
   items_loop <- test_max_rating %>% 
     filter(u_id == u_id_loop) %>% 
     .$itemId
-  # Este paso se puede acelerar usando los índices del dataframe (van de 1000 en 1000)
-  items_sample_not_rated <- non_rated_items %>%
-    filter(u_id == u_id_loop) %>%
-    .$itemId
-  # items_sample_not_rated <- non_rated_items$itemId[(j*1000 + 1):((j+1)*1000)]
+  # # Este paso se puede acelerar usando los índices del dataframe (van de 1000 en 1000)
+  # items_sample_not_rated <- non_rated_items %>%
+  #   filter(u_id == u_id_loop) %>%
+  #   .$itemId
+  items_sample_not_rated <- non_rated_items$itemId[((j-1)*1000 + 1):((j)*1000)]
+  items_sample_not_rated[items_sample_not_rated > dim(lista_fact$P)[1]] <- NA # Hacer NA los items que están fuera del índice de la matriz P
   items_of_interest <- c(items_loop, items_sample_not_rated)
   pred_ratings <- lista_fact$a[u_id_loop] + lista_fact$b[items_of_interest] + 
     (lista_fact$U[u_id_loop,] %*% 
