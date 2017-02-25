@@ -10,23 +10,23 @@ Los algoritmos presentados en este trabajo fueron implementados en el lenguaje p
 
 El conjunto de datos de \textit{MovieLens} consiste en \numprint{20000263} calificaciones de \numprint{26744} películas hechas por \numprint{138493} usuarios. Todos los usuarios habían calificado al menos 20 películas. Las calificaciones están en una escala de $0.5$ a $5$, con intervalos de medio punto, es decir, se puede poner $0.5, 1, \hdots, 4.5, 5$ como calificación \cite{harper2016movielens}. La distribución de las calificaciones se puede ver en la figura \ref{fig:ML_frec_calificaciones}; mientras que en la figura \ref{fig:ML_hist_prom_cals} se puede ver el histograma de los promedios por película.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_MovieLens.pdf}
+ 	\includegraphics[width=0.7\textwidth]{frecuencia_calificaciones_MovieLens.pdf}
  	\caption{Frecuencia de calificaciones del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_frec_calificaciones}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_MovieLens.pdf}
+ 	\includegraphics[width=0.7\textwidth]{calificacion_promedio_articulo_MovieLens.pdf}
  	\caption{Histograma del promedio de calificaciones por película del conjunto de datos \textit{MovieLens}.}
  	\label{fig:ML_hist_prom_cals}
 \end{figure}
 
 En la sección \ref{motivacion} se introduce el concepto de cola larga. En la figura \ref{fig:ML_long_tail} se puede ver cómo este fenómeno ocurre en los datos de \textit{MovieLens}, donde es claro que muy pocas películas tienen una gran cantidad de calificaciones, mientras que muchos artículos tienen pocas calificaciones.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
  	\includegraphics[width=0.8\textwidth]{long_tail_MovieLens.pdf}
  	\caption{Cola larga del conjunto de datos \textit{MovieLens}.}
@@ -38,23 +38,23 @@ En la sección \ref{motivacion} se introduce el concepto de cola larga. En la fi
 
 El conjunto de datos de \textit{BookCrossing} consiste en \numprint{1149780} calificaciones de \numprint{271379} libros hechas por \numprint{278858} usuarios. Los datos se obtuvieron durante cuatro semanas de agosto a septiembre de 2004. Las calificaciones están en una escala de $1$ a $10$, con intervalos de un punto, es decir, se puede poner $1, 2, \hdots, 9, 10$ como calificación. Se tiene como calificación especial el $0$, el cual es solamente una calificación implícita, es decir, si leyó o no el libro \cite{ziegler2005improving}. Debido a que para usar el método presentado en este trabajo se necesitan calificaciones explícitas, se filtraron estas del conjunto de datos original. Con esta operación, quedaron \numprint{383852} calificaciones de \numprint{153683} libros hechas por \numprint{68092} usuarios. La distribución de las calificaciones filtradas se puede ver en la figura \ref{fig:BC_frec_calificaciones}; mientras que en la figura \ref{fig:BC_hist_prom_cals} se puede ver el histograma de los promedios por libro.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=0.8\textwidth]{frecuencia_calificaciones_BookCrossing.pdf}
+ 	\includegraphics[width=0.7\textwidth]{frecuencia_calificaciones_BookCrossing.pdf}
  	\caption{Frecuencia de calificaciones del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_frec_calificaciones}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=0.8\textwidth]{calificacion_promedio_articulo_BookCrossing.pdf}
+ 	\includegraphics[width=0.7\textwidth]{calificacion_promedio_articulo_BookCrossing.pdf}
  	\caption{Histograma del promedio de calificaciones por película del conjunto de datos \textit{BookCrossing}.}
  	\label{fig:BC_hist_prom_cals}
 \end{figure}
 
 En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \textit{BookCrossing}, donde nuevamente es claro que muy pocas películas tienen una gran cantidad de calificaciones, mientras que muchos artículos tienen pocas calificaciones.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
  	\includegraphics[width=0.8\textwidth]{long_tail_BookCrossing.pdf}
  	\caption{Cola larga del conjunto de datos \textit{BookCrossing}.}
@@ -69,7 +69,7 @@ Para cada conjunto de datos se calculó un modelo base como el descrito en la se
 
 Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en cada uno de los conjuntos se puede ver en la tabla \ref{tab:ML_num_art_usu_cal}.
 
-\begin{table}[]
+\begin{table}[H]
 	\centering
 	\caption{Número de usuarios, calificaciones y artículos en los conjuntos de \textit{MovieLens}.}
 	\label{tab:ML_num_art_usu_cal}
@@ -84,9 +84,9 @@ Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en 
 
 En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 19$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de prueba.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=0.8\textwidth]{modelo_base_MovieLens.pdf}
+ 	\includegraphics[width=0.7\textwidth]{modelo_base_MovieLens.pdf}
  	\caption{Errores del modelo base en el conjunto de prueba de \textit{MovieLens}, de acuerdo al valor del parámetro de regularización $\gamma$.}
  	\label{fig:ML_modelo_base_errores}
 \end{figure}
@@ -95,9 +95,9 @@ En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entre
 
 Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo con $500$ dimensiones latentes tiene menor error, pero tiene más del doble de dimensiones latentes que el de $200$, el cual tiene un desempeño muy parecido, por lo que tal vez se preferiría utilizar el modelo con $200$ dimensiones latentes debido a que es más simple y tiene casi el mismo desempeño. El modelo que se utilizó como final fue el de $200$ dimensiones latentes, con un error en el conjunto de prueba de $0.7651675$ (muy parecido al del conjunto de validación).
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=\textwidth]{errores_ent_validacion_factorizacion_MovieLens.pdf}
+ 	\includegraphics[width=0.85\textwidth]{errores_ent_validacion_factorizacion_MovieLens.pdf}
  	\caption{Errores del modelo de factorización en el conjunto de prueba de \textit{MovieLens}. LR es la tasa de aprendizaje, DL es el número de dimensiones latentes y L es el parámetro de regularización $\lambda$.}
  	\label{fig:ML_modelo_fact_errores}
 \end{figure}
@@ -105,25 +105,25 @@ Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo
 En la figura \ref{fig:ML_modelo_fact_error_por_iter} se pueden ver los errores de entrenamiento y de validación del modelo de factorización final (i.e., $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$) en cada iteración del algoritmo de descenso en gradiente estocástico. Se puede ver cómo ambos errores disminuyen con cada iteración, sin embargo, el error de entrenamiento disminuye mucho más rápido. Si no se hubiera tenido como criterio de paro el error de validación, posiblemente el error de entrenamiento hubiera continuado disminuyendo, pero el de validación hubiera empezado a aumentar, debido al sobreajuste.
 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=\textwidth]{error_por_iteracion_modelo_fact_MovieLens.pdf}
+ 	\includegraphics[width=0.8\textwidth]{error_por_iteracion_modelo_fact_MovieLens.pdf}
  	\caption{Errores de entrenamiento y validación del modelo de factorización en cada iteración del algoritmo de optimización para \textit{MovieLens}.}
  	\label{fig:ML_modelo_fact_error_por_iter}
 \end{figure}
 
-Un sistema de recomendación, además de ser evaluado con el RMSE, también se puede evaluar como un problema de clasificación en el cual se mide qué tan certero es en la tarea de recomendar $N$ artículos a cada usuario.
+Como se menciona en \ref{sec:evaluacion_modelos}, además del RMSE, una forma de evaluar un sistema de recomendación es como un problema de clasificación con la tarea de recomendar los mejores $N$ artículos. En las figuras \ref{fig:ML_recall_top_N} y \ref{fig:ML_precision_top_N} se puede ver el resultado de esta tarea comparando el modelo base y el modelo de factorización como función de $N$, el número de artículos recomendados. Se puede observar que el modelo de factorización es superior que el modelo base para todas las $N$ para las que se calcularon las medidas. Por ejemplo, para $N = 10$, el recall del modelo de factorización es de 0.429, lo cual significa que el modelo tiene una probabilidad de 0.429 de poner en el top-10 de recomendaciones una película que atraiga a un usuario; mientras que el recall del modelo base en $N = 10$ es de 0.059, lo cual significa que la probabilidad mencionada es de 0.059.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=\textwidth]{recall_base_fact_MovieLens.pdf}
+ 	\includegraphics[width=0.8\textwidth]{recall_base_fact_MovieLens.pdf}
  	\caption{Recall para cada valor de $N$ en la tarea de las mejores $N$ recomendaciones para \textit{MovieLens}.}
  	\label{fig:ML_recall_top_N}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=\textwidth]{precision_base_fact_MovieLens.pdf}
+ 	\includegraphics[width=0.8\textwidth]{precision_base_fact_MovieLens.pdf}
  	\caption{Precisión para cada valor de $N$ en la tarea de las mejores $N$ recomendaciones para \textit{MovieLens}.}
  	\label{fig:ML_precision_top_N}
 \end{figure}
@@ -132,7 +132,7 @@ Un sistema de recomendación, además de ser evaluado con el RMSE, también se p
 
 Para \textit{BookCrossing}, el número de usuarios, artículos y calificaciones en cada uno de los conjuntos se puede ver en la tabla \ref{tab:BC_num_art_usu_cal}.
 
-\begin{table}[]
+\begin{table}[H]
 	\centering
 	\caption{Número de usuarios, calificaciones y artículos en los conjuntos de \textit{BookCrossing}.}
 	\label{tab:BC_num_art_usu_cal}
