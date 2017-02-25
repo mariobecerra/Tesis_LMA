@@ -55,7 +55,8 @@ if(dataset == "BookCrossing"){
            itemId_orig,
            title = Book.Title,
            author = Book.Author,
-           year = Year.Of.Publication)
+           year = Year.Of.Publication,
+           num_calis)
 } else{
   items <- read.table(paste0(folder, "/items_new_ids.psv"), 
                       stringsAsFactors = F,
@@ -259,13 +260,18 @@ if(dataset == "MovieLens"){
   
 } else {
   # Parecidos a Harry Potter and the Sorcerer's Stone
-  encontrar_vecinos(77945, 40, P_df) 
+  encontrar_vecinos(68903, 15, P_df, folder_vecinos)
   
-  # Parecidos a Harry Potter and the Chamber of Secrets
-  encontrar_vecinos(52606, 40, P_df) 
+  # Parecidos a Fellowship of the Ring
+  encontrar_vecinos(71463, 15, P_df, folder_vecinos)
+  
+  # Parecidos a Catcher in the Rye
+  encontrar_vecinos(22054, 15, P_df, folder_vecinos)
+  
+  
 }
 
-
+system(paste0("Rscript print_multicol_table.R ", dataset))
 
 ################################
 ### Ejemplos de usuarios
