@@ -6,6 +6,10 @@ Los algoritmos presentados en este trabajo fueron implementados en el lenguaje p
 
 \subsection{Análisis exploratorio de datos}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% MovieLens
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsubsection{\textit{MovieLens}}
 
 El conjunto de datos de \textit{MovieLens} consiste en \numprint{20000263} calificaciones de \numprint{26744} películas hechas por \numprint{138493} usuarios. Todos los usuarios habían calificado al menos 20 películas. Las calificaciones están en una escala de $0.5$ a $5$, con intervalos de medio punto, es decir, se puede poner $0.5, 1, \hdots, 4.5, 5$ como calificación \cite{harper2016movielens}. La distribución de las calificaciones se puede ver en la figura \ref{fig:ML_frec_calificaciones}; mientras que en la figura \ref{fig:ML_hist_prom_cals} se puede ver el histograma de los promedios por película.
@@ -33,6 +37,9 @@ En la sección \ref{motivacion} se introduce el concepto de cola larga. En la fi
  	\label{fig:ML_long_tail}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BookCrossing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{\textit{BookCrossing}}
 
@@ -61,9 +68,17 @@ En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \
  	\label{fig:BC_long_tail}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Comparación
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Comparación de modelos}
 
 Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} en la ecuación \ref{ec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para estimar el error de predicción y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación no fue utilizado. La medida de error utilizada fue la raíz del error cuadrático medio (RMSE), definido en la ecuación \ref{ec:rmse}. De aquí en adelante, cuando se hable de error, es con referencia a la raíz del error cuadrático medio.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% MovieLens
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{\textit{MovieLens}}
 
@@ -82,7 +97,7 @@ Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en 
 	\end{tabular}
 \end{table}
 
-En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 19$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de prueba.
+En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 19$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de prueba, siendo este de aproximadamente 0.8707.
 
 \begin{figure}[H]
 	\centering
@@ -93,7 +108,7 @@ En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del mode
 
 En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entrenamiento y de validación del modelo de factorización con distintos valores en el número de dimensiones latentes, tasa de aprendizaje y parámetro de regularización $\lambda$. Como es de esperarse, el error de entrenamiento es menor en cada uno de los casos. También se podría esperar que mientras más dimensiones latentes haya, el error de entrenamiento sea menor, debido a que hay más dimensiones para aproximar la matriz que se quiere aproximar; y es justo lo que sucede: los modelos con más dimensiones latentes tienen menor error de entrenamiento. Sin embargo, se sabe que menor error de entrenamiento no implica necesariamente menor error de validación; por lo que se busca el modelo con menor error de validación. En este caso, todos los modelos tienen un error de validación relativamente parecido, siendo el de $500$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ el modelo con menor error ($0.763325$), siguiendo el de $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ con un error de $0.765166$. 
 
-Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo con $500$ dimensiones latentes tiene menor error, pero tiene más del doble de dimensiones latentes que el de $200$, el cual tiene un desempeño muy parecido, por lo que tal vez se preferiría utilizar el modelo con $200$ dimensiones latentes debido a que es más simple y tiene casi el mismo desempeño. El modelo que se utilizó como final fue el de $200$ dimensiones latentes, con un error en el conjunto de prueba de $0.7651675$ (muy parecido al del conjunto de validación).
+Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo con $500$ dimensiones latentes tiene menor error, pero tiene más del doble de dimensiones latentes que el de $200$, el cual tiene un desempeño muy parecido, por lo que tal vez se preferiría utilizar el modelo con $200$ dimensiones latentes debido a que es más simple y tiene casi el mismo desempeño. El modelo que se utilizó como final fue el de $200$ dimensiones latentes, con un error en el conjunto de prueba de $0.7651675$ (muy parecido al del conjunto de validación). Se hace notar que en todos los casos, el algoritmo de factorización presenta un error menor que el modelo base.
 
 \begin{figure}[H]
 	\centering
@@ -223,9 +238,16 @@ Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cer
 	\end{tabular}
 \end{table}
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BookCrossing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsubsection{\textit{BookCrossing}}
 
-Para \textit{BookCrossing}, el número de usuarios, artículos y calificaciones en cada uno de los conjuntos se puede ver en la tabla \ref{tab:BC_num_art_usu_cal}.
+En esta subsección se presentan los mismos resultados en el mismo orden que en la sección anterior para \textit{BookCrossing}. El número de usuarios, artículos y calificaciones en cada uno de los conjuntos se puede ver en la tabla \ref{tab:BC_num_art_usu_cal}.
 
 \begin{table}[H]
 	\centering
@@ -241,6 +263,88 @@ Para \textit{BookCrossing}, el número de usuarios, artículos y calificaciones 
 \end{table}
 
 
+En la figura \ref{fig:BC_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 6$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de prueba, siendo este de aproximadamente 1.7022.
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{modelo_base_BookCrossing.pdf}
+ 	\caption{Errores del modelo base en el conjunto de prueba de \textit{BookCrossing}, de acuerdo al valor del parámetro de regularización $\gamma$.}
+ 	\label{fig:BC_modelo_base_errores}
+\end{figure}
+
+En el caso de \textit{BookCrossing}, el modelo de factorización utilizado y para el cual se presentan resultados es, al igual que con \textit{MovieLens}, uno con $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$. Este modelo presentó con un error en el conjunto de prueba de $1.586566$. Nuevamente, este error es menor al error del modelo base.
+
+En la figura \ref{fig:BC_modelo_fact_error_por_iter} se puede ver, como en la subsección anterior, los errores de entrenamiento y de validación del modelo de factorización final en cada iteración del algoritmo de optimización.
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=0.8\textwidth]{error_por_iteracion_modelo_fact_BookCrossing.pdf}
+ 	\caption{Errores de entrenamiento y validación del modelo de factorización en cada iteración del algoritmo de optimización para \textit{BookCrossing}.}
+ 	\label{fig:BC_modelo_fact_error_por_iter}
+\end{figure}
+
+En las figuras \ref{fig:BC_recall_top_N} y \ref{fig:BC_precision_top_N} se puede ver el desempeño del modelo base y del modelo de factorización como problema de clasificación y como función de $N$ (el número de artículos recomendados). Nuevamente, el modelo de factorización es superior que el modelo base para todas las $N$ para las que se calcularon las medidas. Si se compara con el desempeño del conjunto de datos de \textit{MovieLens}, los resultados son mucho peores en este caso. Por ejemplo, para $N = 10$, el recall del modelo de factorización de \textit{MovieLens} es de 0.429, mientras que el del modelo de factorización de \textit{BookCrossing} es de 0.1144. Aún así, en la tarea de recomendar artículos, el algoritmo de factorización supera al modelo base. En el caso de $N = 10$, el modelo base presenta un recall de aproximadamente 0.008, menos de una décima parte que el de factorización.
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=0.8\textwidth]{recall_base_fact_BookCrossing.pdf}
+ 	\caption{Recall para cada valor de $N$ en la tarea de las mejores $N$ recomendaciones para \textit{BookCrossing}.}
+ 	\label{fig:BC_recall_top_N}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=0.8\textwidth]{precision_base_fact_BookCrossing.pdf}
+ 	\caption{Precisión para cada valor de $N$ en la tarea de las mejores $N$ recomendaciones para \textit{BookCrossing}.}
+ 	\label{fig:BC_precision_top_N}
+\end{figure}
+
+Para el conjunto de datos de \textit{BookCrossing} también se calculan los vecinos más cercanos para algunos libros mediante distancia euclidiana y con el paquete \texttt{RANN}. Los resultados se pueden ver en la tabla \ref{tab:BC_vecinos_cercanos}. Nótese que en este caso, aunque sí se puede apreciar similitud, no es tanta como en el caso de \textit{MovieLens}. Esto se debe a que el conjunto de datos de \textit{BookCrossing} es mucho más ralo.
+
+\begin{table}[H]
+	\centering
+	\caption{Algunos libros y sus vecinos más cercanos.}
+	\label{tab:BC_vecinos_cercanos}
+	\begin{tabular}{ |l|l|l| }
+		%\hline
+		%\multicolumn{3}{ |c| }{Vecinos} \\
+		\hline
+		\textbf{Libro} & \textbf{Libro más cercano} & \textbf{Distancia} \\ \hline
+		\multirow{10}{*}{ \shortstack{Harry Potter \\and the \\Sorcerer's Stone} } &  Who in Hell Is Wanda Fuca?  &  1.71  \\
+		 &  A Ranking of the Most Influential Persons in History  &  1.75  \\
+		 &  Harry Potter and the Goblet of Fire (Book 4)  &  1.77  \\
+		 &  Surviving Production: The Art of Production ...  &  1.77  \\
+		 &  Just Tell Me When We're Dead  &  1.79  \\
+		 &  The Conquest  &  1.8  \\
+		 &  The Ghosts of Cougar Island  &  1.8  \\
+		 &  Dr. Death (Alex Delaware Novels (Paperback))  &  1.81  \\
+		 &  Familiar Obsession (Fear Familiar) (Intrigue, 570)  &  1.81  \\
+		 &  My Gal Sunday  &  1.81  \\
+		\hline
+		\multirow{10}{*}{ \shortstack{The Catcher \\in the Rye} } &  Soul Stories  &  4.18  \\
+		 &  Enchanting Baby The Birth Place &  4.18  \\
+		 &  The Road To Echo Point  &  4.29  \\
+		 &  The Rosewood Casket  &  4.3  \\
+		 &  The Real Allie Newman &  4.32  \\
+		 &  Holman Concise Topical Concordance  &  4.35  \\
+		 &  East of Eden  &  4.36  \\
+		 &  No Lesser Plea  &  4.36  \\
+		 &  Juxtaposition (Apprentice Adept)  &  4.37  \\
+		 &  Jane Eyre (Puffin Classics)  &  4.37  \\
+		\hline
+		\multirow{10}{*}{ \shortstack{The Fellowship\\ of the Ring} } &  I Hate Texas: 303 Reasons Why You Should, Too &  0.69  \\
+		 &  King Lear  &  0.73  \\
+		 &  When Your Marriage Needs Repair &  0.73  \\
+		 &  365 Things Every Couple Should Know  &  0.73  \\
+		 &  So You Want to Be a Witch  &  0.74  \\
+		 &  Keeping of Customers: A Treasury of Facts, Tips \& ...  &  0.74  \\
+		 &  Zin! Zin! Zin! A Violin  &  0.74  \\
+		 &  Midsummer Nights Dream  &  0.75  \\
+		 &  Pinky And Rex And The Mean Old Witch  &  0.75  \\
+		 &  Miss Nelson Is Missing!  &  0.75  \\
+		\hline
+	\end{tabular}
+\end{table}
 
 
 
