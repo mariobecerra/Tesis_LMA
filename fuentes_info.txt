@@ -129,10 +129,10 @@ Cap 5. Discusión.
 Cap 6. Conclusiones.
 Bibliografía y Apéndices.
 
-Understanding the Bias-Variance Tradeoff:
+Accurately Measuring Model Prediction Error:
 http://scott.fortmann-roe.com/docs/MeasuringError.html
 
-Accurately Measuring Model Prediction Error:
+Understanding the Bias-Variance Tradeoff:
 http://scott.fortmann-roe.com/docs/BiasVariance.html	
 
 Competing in a data science contest without reading the data
@@ -186,3 +186,5 @@ http://www.slideshare.net/erikbern/collaborative-filtering-at-spotify-16182818
 
 ANN:
 http://www.cs.umd.edu/~mount/ANN/Files/1.1.2/ANNmanual_1.1.pdf
+
+
