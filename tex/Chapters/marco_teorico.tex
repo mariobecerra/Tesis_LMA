@@ -4,9 +4,9 @@
 
 \section{Aprendizaje estadístico}
 
-El aprendizaje estadístico se refiere a un conjunto de herramientas para modelar y entender conjuntos de datos complejos. Es un área relativamente moderna, y tiene componentes de computación, en particular del aprendizaje de máquina. Aunque estas disciplinas van de la mano, no son totalmente equivalentes, teniendo ciertas diferencias filosóficas en cuanto a qué se hace en cada una.
+Las definiciones enunciadas en esta sección son una mezcla de \cite{christopher2006pattern}, \cite{friedman2001elements} y \cite{james2013introduction}.
 
-Con la enorme cantidad de datos a los que se tiene acceso ahora, el aprendizaje estadístico se ha vuelto un campo muy demandado y fructífero en muchas áreas. El progreso que se ha logrado en los últimos años se ha debido en gran parte al desarrollo del poder de cómputo, sin el cual muchas de las técnicas modernas sería imposible tener un resultado.
+El aprendizaje estadístico se refiere a un conjunto de herramientas para modelar y entender conjuntos de datos complejos. Es un área relativamente moderna, y tiene componentes de computación. Con la enorme cantidad de datos a los que se tiene acceso ahora, el aprendizaje estadístico se ha vuelto un campo muy demandado y fructífero en muchas áreas. El progreso que se ha logrado en los últimos años se ha debido en gran parte al desarrollo del poder de cómputo, sin el cual muchas de las técnicas modernas sería imposible tener un resultado.
 
 Usualmente se divide al aprendizaje estadístico en dos vertientes: aprendizaje supervisado y aprendizaje no supervisado. El primero involucra construir un modelo estadístico para predecir o estimar una variable llamada \textit{de respuesta} basado en una o más variables llamadas \textit{de entrada}; mientras que en el aprendizaje no supervisado se tienen variables de entrada pero no de salida, se desea aprender relaciones y estructura de los datos.
 
@@ -15,9 +15,13 @@ Un ejemplo de aprendizaje supervisado es estimar el ingreso de un hogar a partir
 \subsection{Aprendizaje supervisado}
 
 Como se mencionó, en el aprendizaje supervisado, se tiene una variable respuesta, la cual será denotada como el vector $Y$ de dimensión $n$, y cada variable de entrada se denomina $X_i$, con $i$ desde $0$ hasta $p$. Cada $X_i$, al igual que $Y$, es un vector de dimensión $n$, por lo que el conjunto de datos $\left \{ X_1, ..., X_p \right \}$ se puede escribir como una matriz  $X = \left[ X_1, ..., X_p \right ]$ de dimensiones $n \times p$. Se asume que existe una relación entre $Y$ y $X$ que se puede escribir de forma general como
-$$Y = f(X) + \varepsilon.$$
 
-Aquí, $f$ es una función de $X$ fija pero desconocida, la cual tiene información sistemático de $X$ acerca de $Y$, y $\varepsilon$ es un término de error aleatorio. La esencia del aprendizaje supervisado es poder encontrar o aprender $f$ a partir del \textit{conjunto de entrenamiento} denominado $\mathcal{L}$, tal que $\mathcal{L} = \left\{ (x_1, y_1), ..., (x_n, y_n) \right\}$. En este caso, cada $y_i$ es un escalar y cada $x_i$ es un vector de dimensión $p$. Con $\mathcal{L}$ se construye un predictor $\hat{f}$, que es una estimación de $f$, de tal forma que se tiene una estimación $\hat{Y}$ de $Y$ aplicando $X$ a $\hat{f}$, es decir
+\begin{equation}
+  \label{eq:modelo_gral_aprendizaje}
+  Y = f(X) + \varepsilon. 
+\end{equation}
+
+Aquí, $f$ es una función de $X$ fija pero desconocida, la cual tiene información sistemática de $X$ acerca de $Y$, y $\varepsilon$ es un término de error aleatorio, independiente de $X$ y con media cero. El objetivo esencial del aprendizaje supervisado es poder encontrar o aprender $f$ a partir del \textit{conjunto de entrenamiento} denominado $\mathcal{L}$, tal que $\mathcal{L} = \left\{ (x_1, y_1), ..., (x_n, y_n) \right\}$. En este caso, cada $y_i$ es un escalar y cada $x_i$ es un vector de dimensión $p$. Con $\mathcal{L}$ se construye un predictor $\hat{f}$, que es una estimación de $f$, de tal forma que se tiene una estimación $\hat{Y}$ de $Y$ aplicando $X$ a $\hat{f}$, es decir
 
 $$\hat{Y} = \hat{f}(X).$$
 
@@ -46,10 +50,35 @@ El aprendizaje supervisado, a su vez, puede ser dividido en dos tipos de problem
 
 \subsection{Aprendizaje no supervisado}
 
-El aprendizaje no supervisado describe un problema más retador en cuanto a que para cada $i = 1, .., n$, se tiene un vector de observaciones $x_i$ para el cual no se tiene una respuesta asociada $y_i$. Es por esto que se le llama \textit{no supervisado}, pues no hay una variable respuesta en el análisis. Uno de los principales análisis que se hace en el aprendizaje no supervisado es \textit{análisis de conglomerados}, en el cual a cada una de las observaciones $x_1, ..., x_n$ se clasifica en un grupo. Existen muchos métodos de análisis de conglomerados, sin embargo, no es el objetivo de este trabajo estudiarlas.
+El aprendizaje no supervisado describe un problema más retador en cuanto a que para cada $i = 1, .., n$, se tiene un vector de observaciones $x_i$ para el cual no se tiene una respuesta asociada $y_i$. Es por esto que se le llama \textit{no supervisado}, pues no hay una variable respuesta en el análisis. Uno de los principales análisis que se hace en el aprendizaje no supervisado es \textit{análisis de conglomerados}, en el cual a cada una de las observaciones $x_1, ..., x_n$ se clasifica en un grupo. Existen muchos métodos de análisis de conglomerados, sin embargo, no es el objetivo de este trabajo estudiarlas, por lo que no se mencionará más al respecto.
 
 
-\subsection{Regularización}
+\subsection{Sobreajuste y regularización}
+
+Para explicar el concepto de sobreajuste (\textit{overfitting}, considérese el caso de regresión de una variable $Y$ con el modelo propuesto en \ref{eq:modelo_gral_aprendizaje}. Si la función $f$ es muy flexible, se tiene que estimar un mayor número de parámetros, lo cual lleva a que parte del error sea capturado por estos parámetros. A este fenómeno de le conoce como sobreajuste, y el problema con él es que un modelo sobreajustado va a tender a dar malas predicciones con datos no observados previamente. Es por esto que los modelos sobreajustados tienen un error de entrenamiento pequeño, pero el error de prueba es mucho más grande.
+
+Una forma de controlar el problema de sobreajuste en un modelo es con regularización, la cual es una técnica que agrega un término de penalización a la función de error para evitar que los parámetros alcancen valores muy grandes. La forma más simple y de las más utilizadas es la de la suma de los parámetros al cuadrado. 
+
+Para ilustrar esto, se toma el caso de regresión lineal múltiple con pérdida cuadrática y penalización cuadrática, en el cual se tiene una función $f$ de la forma $f(X) = X \beta$. Sin regularización, la función de pérdida que se quiere minimizar es
+
+\begin{equation}
+  \label{eq:func_perdida_reg_lineal}
+  \sum_{i = 1}^n{ \left( y_i - \sum_{k = 0}^p \left( \beta_k x_k \right) \right) ^ 2},
+\end{equation}
+
+pero con el término de penalización de la regularización, \ref{eq:func_perdida_reg_lineal} se modifica para obtener
+
+\begin{equation}
+  \label{eq:func_perdida_reg_lineal_reg}
+  \sum_{i = 1}^n{ \left( y_i - \sum_{k = 0}^p \left( \beta_k x_k \right) \right) ^ 2} 
+  + \lambda \left( \sum_{k = 1}^p \beta_k^2 \right),
+\end{equation}
+
+donde $\lambda$ es llamado el parámetro de regularización, y controla la importancia relativa entre los dos términos principales de la suma. Este caso particular de regularización en regresión lineal es llamado regresión cordillera (o \textit{ridge}). Nótese que la suma de los cuadrados de los coeficientes puede ser expresado como la norma $\ell_2$ al cuadrado del vector de coeficientes $\left( \beta_1, \beta_2, \hdots, \beta_p \right)^T$. Al ser una función cuadrática, es diferenciable y se puede encontrar una forma cerrada al problema de minimización.
+
+El valor del parámetro de regularización $\lambda$ puede tener mucho impacto en la reducción de los parámetros. Si es muy grande, entonces se va a penalizar demasiado y la mayoría de los parámetros estarán cerca de 0; por el contrario, si $\lambda$ es muy chico, entonces no se tiene el efecto de la regularización y es como si no se penalizara nada. Es común en la práctica elegir distintos valores de $\lambda$ y probar con un conjunto de validación cuál de los valores da un menor error.
+
+Otro tipo de regularización involucra la norma $\ell_1$ del vector de parámetros y, en el caso de regresión, es llamada regresión LASSO, pero su estudio va más allá del objetivo de este trabajo.
 
 \subsection{Evaluación de desempeño}
 
@@ -485,6 +514,7 @@ En \cite{Cremonesi:2010:PRA:1864708.1864721} se muestra una forma de evaluar de 
   \item Calcular la calificación de acuerdo al modelo para el artículo $i$ y cada uno de los 1000 artículos adicionales.
   \item Se forma una lista ordenada de acuerdo a las calificaciones predichas por el modelo para los 1001 artículos. Sea $p$ el lugar que ocupa el artículo de prueba $i$ entre todos los elementos de la lista. El mejor resultado corresponde al caso en que el artículo de prueba $i$ está antes de todos los artículos aleatorios (esto es, $p = 1$).
   \item Se forma una lista de las mejores $N$ recomendaciones al seleccionar los $N$ artículos mejor calificados en la lista. Si $p \leq N$ entonces se tiene un acierto, en otro caso se tiene un desacierto. La probabilidad de obtener aciertos aumenta si $N$ aumenta, y si $N = 1001$, siempre se tiene un acierto.
+  
 \end{enumerate}
 
 
