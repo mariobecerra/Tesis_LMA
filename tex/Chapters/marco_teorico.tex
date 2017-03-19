@@ -74,7 +74,7 @@ pero con el término de penalización de la regularización, \ref{eq:func_perdid
   + \lambda \left( \sum_{k = 1}^p \beta_k^2 \right),
 \end{equation}
 
-donde $\lambda$ es llamado el parámetro de regularización, y controla la importancia relativa entre los dos términos principales de la suma. Este caso particular de regularización en regresión lineal es llamado regresión cordillera (o \textit{ridge}). Nótese que la suma de los cuadrados de los coeficientes puede ser expresado como la norma $\ell_2$ al cuadrado del vector de coeficientes $\left( \beta_1, \beta_2, \hdots, \beta_p \right)^T$. Al ser una función cuadrática, es diferenciable y se puede encontrar una forma cerrada al problema de minimización.
+donde $\lambda > 0$ es llamado el parámetro de regularización, y controla la importancia relativa entre los dos términos principales de la suma. Este caso particular de regularización en regresión lineal es llamado regresión cordillera (o \textit{ridge}). Nótese que la suma de los cuadrados de los coeficientes puede ser expresado como la norma $\ell_2$ al cuadrado del vector de coeficientes $\left( \beta_1, \beta_2, \hdots, \beta_p \right)^T$. Al ser una función cuadrática, es diferenciable y se puede encontrar una forma cerrada al problema de minimización.
 
 El valor del parámetro de regularización $\lambda$ puede tener mucho impacto en la reducción de los parámetros. Si es muy grande, entonces se va a penalizar demasiado y la mayoría de los parámetros estarán cerca de 0; por el contrario, si $\lambda$ es muy chico, entonces no se tiene el efecto de la regularización y es como si no se penalizara nada. Es común en la práctica elegir distintos valores de $\lambda$ y probar con un conjunto de validación cuál de los valores da un menor error.
 
