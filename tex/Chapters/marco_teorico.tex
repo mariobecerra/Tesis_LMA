@@ -80,11 +80,54 @@ El valor del parámetro de regularización $\lambda$ puede tener mucho impacto e
 
 Otro tipo de regularización involucra la norma $\ell_1$ del vector de parámetros y, en el caso de regresión, es llamada regresión LASSO, pero su estudio va más allá del objetivo de este trabajo.
 
-\subsection{Evaluación de desempeño}
+% \subsection{Evaluación de desempeño}
 
 \section{Optimización de funciones de pérdida}
 
+Ya que se han dado a conocer los principales conceptos del aprendizaje estadístico, incluyendo el de función de pérdida y minimización del error, resta conocer cómo encontrar los parámetros que minimizan las funciones de pérdida. En algunos casos, como en el de regresión lineal y regresión \textit{ridge}, se tiene una fórmula cerrada obtenida a partir de las condiciones de primer y segundo orden. Sin embargo, hay muchos otros casos en los que no se puede llegar a una forma cerrada de los parámetros. En estos casos es útil conocer el área de optimización numérica. La mayoría de las definiciones de esta sección fueron obtenidas de \cite{nocedal2006numerical}.
+
+El problema general de optimización sin restricciones se expresa de la siguiente forma
+
+\begin{equation}
+  \label{eq:prob_opt_gral}
+  \min_{x \in \mathbb{R}^n} L(x).
+\end{equation}
+
+En el caso de este trabajo, la función $L$ en \ref{eq:prob_opt_gral} es una función de pérdida. En muchos casos del aprendizaje estadístico, la función $L$ es convexa (como en regresión lineal), por lo que encontrar un mínimo local asegura que se tiene un mínimo global; pero en muchos otros casos no lo es, y el encontrar un óptimo local no asegura tener un óptimo global, por lo que se tienen que tomar precauciones.
+
+En general, los algoritmos de optimización numérica son iterativos: empiezan con ciertos valores iniciales y en cada iteración van mejorando el valor de la función objetivo hasta que terminan. Cuando han terminado, se espera que hayan obtenido una solución. Una solución es un vector $x^*$ llamado minimizador local, el cual hace que la función $L$ sea mínima en una vecindad. Formalmente, un vector $x^*$ es un minimizador local si existe un vecindario $\mathcal{N}$ de $x^*$ tal que $L(x^*) \leq L(x)$ para todo $x \in \mathcal{N}$.
+
+Es evidente que para saber si un punto $x^*$ es un minimizador local, no es necesario revisar todos los puntos en su vecindad, sino que se tienen herramientas matemáticas para esto. En particular, se tienen las condiciones suficientes de segundo orden para una función continuamente diferenciable $L$, definidas a continuación.
+
+Supóngase que la Hessiana $\nabla^2 L$ es continua en una vecindad abierta de $x^*$, que el gradiente $\nabla L(x^*) = 0$ y que $\nabla^2 L(x^*)$ es positiva definida; entonces $x^*$ es un minimizador local de $L$.
+
+Este resultado se basa en cálculo elemental, pero provee la base de los algoritmos de optimización numérica. En general, todos los algoritmos buscan un punto $x^*$ tal que $\nabla L(x^*) = 0$. 
+
 \subsection{Descenso en gradiente}
+
+El descenso en gradiente pertenece a un tipo de algoritmos llamados de \textbf{búsqueda de línea}. Estos algoritmos buscan en cada iteración una dirección y actualizan el valor actual de acuerdo a esa dirección. Es decir, en la $k$-ésima iteración, se tiene un valor $x_k$, y se busca una dirección $p_k$ para actualizar al valor $x_{k+1} = x_k + \alpha p_k$, donde $\alpha > 0$ es la 'distancia' que se recorre en la dirección $p_k$, y es llamada la \textbf{longitud de paso}. Una vez que se actualizó el valor de la iteración, se encuentra una nueva dirección de avance y se actualiza el valor. Esto se hace hasta que se cumpla cierto criterio de paro.
+
+En el caso del descenso en gradiente, la dirección de avance $p_k$ es la del máximo descenso, es decir, el negativo del gradiente en la iteración actual $-\nabla L(x_k)$. 
+
+% Para demostrar que la dirección de máximo descenso es necesario recurrir al teorema de Taylor, el cual establece que para algún $t \in \left( 0, \alpha \right)$,
+
+% $$
+%   L(x_k + \alpha p_k) = L(x_k) + \alpha p_k^T \nabla L(x_k) + \frac{1}{2} \alpha^2 p_k^T \nabla^2 L(x_k + t p_k) p_k.
+% $$
+
+% Ahora, la tasa de cambio de $L$ en la dirección $p_k$ en $x_k$ es $p_k^T \nabla L(x_k)$. 
+
+Al calcular la longitud de paso $\alpha_k$ se tiene un problema: se quiere un valor tal que la función objetivo $L$ se reduzca lo más posible, pero tampoco se quiere desperdiciar mucho tiempo escogiendo el valor. La mejor opción es el minimizador global de la función $\phi(\alpha_k) = L(x_k + \alpha_k p_k)$, pero es muy caro de calcular. Generalmente se utilizan heurísticas que consisten en elegir una sucesión de valores para $\alpha_k$ y probar cuál de todos satisface ciertas condiciones.
+
+Una de estas condiciones es llamada la condición de Armijo, y estipula que $\alpha_k$ debe generar un descenso suficiente en la función objetivo $L$, medido como
+
+$$
+  L(x_k + \alpha_k p_k) \leq L(x_k) + c_1 \alpha_k \nabla L(x_k)^T p_k,
+$$
+
+para alguna constante $c_1 \in (0, 1)$. Usualmente $c_1$ es pequeño, como $10^{-4}$. Esta condición puede no ser suficiente, pues valores muy pequeños de $\alpha_k$ pueden hacer que se cumpla, y longitudes de paso muy pequeñas no son deseables. Una forma de arreglar esto es usar \textit{backtracking} en el algoritmo. Este consiste en elegir un valor relativamente grande de $\alpha_k$ (algunos métodos inician con $\alpha_k = 1$), y se inicia un subalgoritmo iterativo el cual reduce el valor de $\alpha_k$ hasta que se cumple la condición de Armijo.
+
+Hay muchas otras formas de escoger la longitud de paso $\alpha_k$, las cuales van más allá del objetivo de este trabajo. Si se quisiera estudiar más a fondo este tema, se puede consultar \cite{nocedal2006numerical} para más detalles.
 
 \subsection{Descenso en gradiente estocástico}
 
