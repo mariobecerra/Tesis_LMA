@@ -129,6 +129,142 @@ para alguna constante $c_1 \in (0, 1)$. Usualmente $c_1$ es pequeño, como $10^{
 
 Hay muchas otras formas de escoger la longitud de paso $\alpha_k$, las cuales van más allá del objetivo de este trabajo. Si se quisiera estudiar más a fondo este tema, se puede consultar \cite{nocedal2006numerical} para más detalles.
 
+Para explicar un poco mejor el concepto de descenso en gradiente, se presentan dos ejemplos, uno para regresión lineal y otro para regresión logística. Ambos ejemplos fueron implementados en el lenguaje para cómputo estadístico \texttt{R} \cite{R_manual}.
+
+En el caso de regresión lineal, en el caso general, se busca minimizar la función de pérdida cuadrática
+
+\begin{equation}
+  \label{eq:perd_cuadratica_reg_lineal}
+  L(x, \beta) = \frac{1}{n} \sum_{i = 1}^n \left( y_i - \beta_0 - \beta_1 x_{i1} - \hdots  \beta_p x_{ip} \right)^2
+\end{equation}
+
+Tomando las derivadas parciales de \ref{eq:perd_cuadratica_reg_lineal}, se tiene que para cada $j \in \left\{0, \hdots, p \right\}$
+
+\begin{equation}
+  \frac{\partial L}{\partial \beta_j} = 
+    -\frac{2}{n} \sum_{i = 1}^n \left( x_{ij} \ell_i(x, \beta) \right)
+\end{equation}
+
+donde $x_{i1} = 1$ para toda $i \in \left\{1, \hdots, n \right\}$ y
+
+$$
+  \ell_i(x, \beta) = \left( y_i - \beta_0 - \beta_1 x_{i1} - \hdots  \beta_p x_{ip} \right).
+$$
+
+De aquí, se llega a que la dirección de descenso en gradiente en cada iteración es
+
+$$
+  \nabla_{\beta} L(x, \beta) = \left( \frac{\partial L}{\partial \beta_0}, \hdots, \frac{\partial L}{\partial \beta_p} \right)^T.
+$$
+
+En el ejemplo implementado, se generó un vector $x \in \mathbb{R}^n$ con $n = 1000$ tal que $x_i \sim N(0, 1)$ para cada $i \in \left\{1, \hdots, n \right\}$ y se construyó la variable respuesta $y = \beta_0 + \beta_1x + \varepsilon$ con $\varepsilon \sim N(0, 1)$, $\beta_0 = 2$ y $\beta_1 = 1$. Los datos generados se pueden ver en la figura \ref{fig:reg_lineal_ejemplo}.
+
+Entonces, para minimizar la pérdida cuadrática \ref{eq:perd_cuadratica_reg_lineal}, se empieza con un vector $\beta^0 \in \mathbb{R}^2$, y en cada iteración, se actualiza 
+
+$$
+  \beta^{k+1} = \beta^k - \alpha_k \nabla_{\beta} L(x, \beta)
+$$
+
+hasta un criterio de paro. En este caso, el criterio de paro era que la norma del gradiente $\nabla_{\beta} L(x, \beta)$ fuera menor a $0.000001$ o que se excediera de 100 iteraciones. El vector de parámetros inicial fue $\beta^0 = (0, 0)^T$. 
+
+Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_lineal_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 2 y 1), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{lm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores.
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{lin_reg_example_1.pdf}
+  \caption{Datos generados para una regresión lineal simple.}
+  \label{fig:reg_lineal_ejemplo}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{lin_reg_example_1_GD_iter.pdf}
+  \caption{Iteraciones del algoritmo de descenso en gradiente para regresión lineal.}
+  \label{fig:reg_lineal_ejemplo_GD_iter}
+\end{figure}
+
+
+En el caso de regresión logística, en el caso general, se busca minimizar la función de pérdida llamada \textbf{devianza}, definida como
+
+\begin{equation}
+  \label{eq:devianza_reg_log}
+  L(x, \beta) = - \frac{2}{n} \sum_{i=1}^{n}{y_i \log(h(\beta^T x_i)) + (1-y_i) \log(1-h(\beta^T x_i))} = 
+     - \frac{2}{n} \sum_{i=1}^{n}{\ell_i(\beta)}
+\end{equation}
+
+donde 
+$$
+  \beta^T x_i = \sum_{j=0}^{p}{\beta_j x_{ij}},
+$$ 
+
+$$
+  h(w) = \frac{e^w}{1+e^w}
+$$ 
+
+y 
+
+$$
+\ell_i(x) = y_i \log(h(\beta^T x_i)) + (1-y_i) \log(1-h(\beta^T x_i)).
+$$
+
+Se tiene que 
+
+$$
+  \frac{\partial L}{\partial \beta_j} = -\frac{2}{n} \sum_{i = 1}^n { \frac{\partial \ell_i}{\partial \beta_j} }
+$$
+
+y además, usando el hecho de que $h'(w) = h(w)(1-h(w))$, se tiene
+
+\begin{equation*}
+  \begin{split}
+    \frac{\partial \ell_i}{\partial \beta_j} & = 
+      \frac{y_i h'(\beta^T x_i) x_{ij} }  {h(\beta^T x_i)} + \frac{(1 - y_i) (-1) h'(\beta^T x_i) x_{ij}} {1 - h(\beta^T x_i)} \\
+      & = \frac{h'(\beta^T x_i) x_{ij} y_i}{h(\beta^T x_i)} - \frac{(1 - y_i) h'(\beta^T x_i) x_{ij}}{1 - h((\beta^T x_i))} \\
+      & = h'(\beta^T x_i) x_{ij} (\frac{y_i}{h(\beta^T x_i)} - \frac{1-y_i}{1-h(\beta^T x_i)}) \\
+      & = h'(\beta^T x_i) x_{ij} \left(\frac{y_i - y_i h(\beta^T x_i) - 
+          h(\beta^T x_i) + y_i h(\beta^T x_i)}{h(\beta^T x_i)(1-h(\beta^T x_i))} \right) \\
+      & = x_{ij}(y_i - h(\beta^T x_i)).
+  \end{split}
+\end{equation*}
+
+Por lo tanto, se tiene que 
+
+$$
+  \frac{\partial L}{\partial \beta_j} = -\frac{2}{n} \sum_{i = 1}^n { x_{ij}(y_i - h(\sum_{j=0}^{p}{\beta_j x_{ij}})) },
+$$
+
+donde nuevamente $x_{i1} = 1$ para toda $i \in \left\{1, \hdots, n \right\}$.
+
+
+En el ejemplo implementado, se generó un vector $x \in \mathbb{R}^n$ con $n = 1000$ tal que $x_i \sim N(0, 1)$ para cada $i \in \left\{1, \hdots, n \right\}$ y se construyó la variable auxiliar $p_i = \frac{1}{\exp \left( - \beta_0 - \beta_1 x_i \right)}$ con $\beta_0 = 1$ y $\beta_1 = 4$. Finalmente, la variable respuesta $y$ se construyó simulando una variables aleatorias Bernoulli, de tal forma que $y_i \sim Bern(p_i)$. Los datos generados se pueden ver en la figura \ref{fig:reg_log_ejemplo}.
+
+Entonces, para minimizar la devianza \ref{eq:devianza_reg_log}, exactamente igual que en el otro caso, se empieza con un vector $\beta^0 \in \mathbb{R}^2$, y en cada iteración, se actualiza 
+
+$$
+  \beta^{k+1} = \beta^k - \alpha_k \nabla_{\beta} L(x, \beta)
+$$
+
+hasta un criterio de paro. En este caso, el criterio de paro fue un poco más estricto: la norma del gradiente $\nabla_{\beta} L(x, \beta)$ debía ser menor a $0.0001$, o el cociente de normas entre cada iteración fuera mayor a $0.8$, o que se excediera de 500 iteraciones. El vector de parámetros inicial fue $\beta^0 = (-10, 10)^T$. 
+
+Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_log_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 1 y 4), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{glm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores.
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{log_reg_example_1.pdf}
+  \caption{Datos generados para una regresión logística.}
+  \label{fig:reg_log_ejemplo}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{log_reg_example_1_GD_iter.pdf}
+  \caption{Iteraciones del algoritmo de descenso en gradiente para regresión logística.}
+  \label{fig:reg_log_ejemplo_GD_iter}
+\end{figure}
+
 \subsection{Descenso en gradiente estocástico}
 
 \section{Sistemas de recomendación}
