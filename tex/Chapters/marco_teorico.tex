@@ -105,7 +105,7 @@ Este resultado se basa en cálculo elemental, pero provee la base de los algorit
 
 \subsection{Descenso en gradiente}
 
-El descenso en gradiente pertenece a un tipo de algoritmos llamados de \textbf{búsqueda de línea}. Estos algoritmos buscan en cada iteración una dirección y actualizan el valor actual de acuerdo a esa dirección. Es decir, en la $k$-ésima iteración, se tiene un valor $x_k$, y se busca una dirección $p_k$ para actualizar al valor $x_{k+1} = x_k + \alpha p_k$, donde $\alpha > 0$ es la 'distancia' que se recorre en la dirección $p_k$, y es llamada la \textbf{longitud de paso}. Una vez que se actualizó el valor de la iteración, se encuentra una nueva dirección de avance y se actualiza el valor. Esto se hace hasta que se cumpla cierto criterio de paro.
+El descenso en gradiente pertenece a un tipo de algoritmos llamados de \textbf{búsqueda de línea}. Estos algoritmos buscan en cada iteración una dirección y actualizan el valor actual de acuerdo a esa dirección. Es decir, en la $k$-ésima iteración, se tiene un valor $x_k$, y se busca una dirección $p_k$ para actualizar al valor $x_{k+1} = x_k + \alpha p_k$, donde $\alpha > 0$ es la 'distancia' que se recorre en la dirección $p_k$, y es llamada la \textbf{longitud de paso}. Una vez que se actualizó el valor de la iteración, se encuentra una nueva dirección de avance y se actualiza el valor. Esto se hace hasta que se cumpla cierto criterio de paro, siendo este usualmente que la norma del gradiente sea menor a un escalar pequeño y positivo.
 
 En el caso del descenso en gradiente, la dirección de avance $p_k$ es la del máximo descenso, es decir, el negativo del gradiente en la iteración actual $-\nabla L(x_k)$. 
 
@@ -167,7 +167,7 @@ $$
 
 hasta un criterio de paro. En este caso, el criterio de paro era que la norma del gradiente $\nabla_{\beta} L(x, \beta)$ fuera menor a $0.000001$ o que se excediera de 100 iteraciones. El vector de parámetros inicial fue $\beta^0 = (0, 0)^T$. 
 
-Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_lineal_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 2 y 1), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{lm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores.
+Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_lineal_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 2 y 1), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{lm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores. De hecho, el valor obtenido con el método implementado es exactamente igual al que regresa \texttt{lm}.
 
 
 \begin{figure}[H]
@@ -221,7 +221,7 @@ y además, usando el hecho de que $h'(w) = h(w)(1-h(w))$, se tiene
     \frac{\partial \ell_i}{\partial \beta_j} & = 
       \frac{y_i h'(\beta^T x_i) x_{ij} }  {h(\beta^T x_i)} + \frac{(1 - y_i) (-1) h'(\beta^T x_i) x_{ij}} {1 - h(\beta^T x_i)} \\
       & = \frac{h'(\beta^T x_i) x_{ij} y_i}{h(\beta^T x_i)} - \frac{(1 - y_i) h'(\beta^T x_i) x_{ij}}{1 - h((\beta^T x_i))} \\
-      & = h'(\beta^T x_i) x_{ij} (\frac{y_i}{h(\beta^T x_i)} - \frac{1-y_i}{1-h(\beta^T x_i)}) \\
+      & = h'(\beta^T x_i) x_{ij} \left(\frac{y_i}{h(\beta^T x_i)} - \frac{1-y_i}{1-h(\beta^T x_i)} \right) \\
       & = h'(\beta^T x_i) x_{ij} \left(\frac{y_i - y_i h(\beta^T x_i) - 
           h(\beta^T x_i) + y_i h(\beta^T x_i)}{h(\beta^T x_i)(1-h(\beta^T x_i))} \right) \\
       & = x_{ij}(y_i - h(\beta^T x_i)).
@@ -247,7 +247,7 @@ $$
 
 hasta un criterio de paro. En este caso, el criterio de paro fue un poco más estricto: la norma del gradiente $\nabla_{\beta} L(x, \beta)$ debía ser menor a $0.0001$, o el cociente de normas entre cada iteración fuera mayor a $0.8$, o que se excediera de 500 iteraciones. El vector de parámetros inicial fue $\beta^0 = (-10, 10)^T$. 
 
-Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_log_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 1 y 4), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{glm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores.
+Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_log_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 1 y 4), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{glm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores y, nuevamente, el valor obtenido con el método implementado es exactamente igual al que regresa el paquete utilizado (\texttt{glm}).
 
 
 \begin{figure}[H]
