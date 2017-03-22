@@ -105,24 +105,24 @@ Otro tipo de regularización involucra la norma $\ell_1$ del vector de parámetr
 
 \section{Optimización de funciones de pérdida}
 
-Ya que se han dado a conocer los principales conceptos del aprendizaje estadístico, incluyendo el de función de pérdida y minimización del error, resta conocer cómo encontrar los parámetros que minimizan las funciones de pérdida. En algunos casos, como en el de regresión lineal y regresión \textit{ridge}, se tiene una fórmula cerrada obtenida a partir de las condiciones de primer y segundo orden. Sin embargo, hay muchos otros casos en los que no se puede llegar a una forma cerrada de los parámetros. En estos casos es útil conocer el área de optimización numérica. La mayoría de las definiciones de esta sección fueron obtenidas de \cite{nocedal2006numerical}.
+Ya que se han dado a conocer los principales conceptos del aprendizaje estadístico, incluyendo el de función de pérdida y minimización del error, resta conocer cómo encontrar los parámetros que minimizan las funciones de pérdida. En algunos casos, como en el de regresión lineal y regresión \textit{ridge}, se tiene una fórmula cerrada obtenida a partir de las condiciones de primer y segundo orden. Sin embargo, hay muchos otros casos en los que no se puede llegar a una forma cerrada de los parámetros. En estos casos es útil conocer el área de optimización numérica. Las definiciones de esta sección fueron obtenidas de \cite{1606.04838}, \cite{johnson2013accelerating}, \cite{nocedal2006numerical} y \cite{roux2012stochastic}.
 
 El problema general de optimización sin restricciones se expresa de la siguiente forma
 
 \begin{equation}
   \label{eq:prob_opt_gral}
-  \min_{x \in \mathbb{R}^n} L(x).
+  \min_{\theta \in \mathbb{R}^p} L(\theta).
 \end{equation}
 
 En el caso de este trabajo, la función $L$ en \ref{eq:prob_opt_gral} es una función de pérdida. En muchos casos del aprendizaje estadístico, la función $L$ es convexa (como en regresión lineal), por lo que encontrar un mínimo local asegura que se tiene un mínimo global; pero en muchos otros casos no lo es, y el encontrar un óptimo local no asegura tener un óptimo global, por lo que se tienen que tomar precauciones.
 
-En general, los algoritmos de optimización numérica son iterativos: empiezan con ciertos valores iniciales y en cada iteración van mejorando el valor de la función objetivo hasta que terminan. Cuando han terminado, se espera que hayan obtenido una solución. Una solución es un vector $x^*$ llamado minimizador local, el cual hace que la función $L$ sea mínima en una vecindad. Formalmente, un vector $x^*$ es un minimizador local si existe un vecindario $\mathcal{N}$ de $x^*$ tal que $L(x^*) \leq L(x)$ para todo $x \in \mathcal{N}$.
+En general, los algoritmos de optimización numérica son iterativos: empiezan con ciertos valores iniciales y en cada iteración van mejorando el valor de la función objetivo hasta que terminan. Cuando han terminado, se espera que hayan obtenido una solución. Una solución es un vector $\theta^*$ llamado minimizador local, el cual hace que la función $L$ sea mínima en una vecindad. Formalmente, un vector $x^*$ es un minimizador local si existe un vecindario $\mathcal{N}$ de $\theta^*$ tal que $L(\theta^*) \leq L(\theta)$ para todo $\theta \in \mathcal{N}$.
 
-Es evidente que para saber si un punto $x^*$ es un minimizador local, no es necesario revisar todos los puntos en su vecindad, sino que se tienen herramientas matemáticas para esto. En particular, se tienen las condiciones suficientes de segundo orden para una función continuamente diferenciable $L$, definidas a continuación.
+Es evidente que para saber si un punto $\theta^*$ es un minimizador local, no es necesario revisar todos los puntos en su vecindad, sino que se tienen herramientas matemáticas para esto. En particular, se tienen las condiciones suficientes de segundo orden para una función continuamente diferenciable $L$, definidas a continuación.
 
-Supóngase que la Hessiana $\nabla^2 L$ es continua en una vecindad abierta de $x^*$, que el gradiente $\nabla L(x^*) = 0$ y que $\nabla^2 L(x^*)$ es positiva definida; entonces $x^*$ es un minimizador local de $L$.
+Supóngase que la Hessiana $\nabla^2 L$ es continua en una vecindad abierta de $\theta^*$, que el gradiente $\nabla L(\theta^*) = 0$ y que $\nabla^2 L(\theta^*)$ es positiva definida; entonces $\theta^*$ es un minimizador local de $L$.
 
-Este resultado se basa en cálculo elemental, pero provee la base de los algoritmos de optimización numérica. En general, todos los algoritmos buscan un punto $x^*$ tal que $\nabla L(x^*) = 0$. 
+Este resultado se basa en cálculo elemental, pero provee la base de los algoritmos de optimización numérica. En general, todos los algoritmos buscan un punto $\theta^*$ tal que $\nabla L(\theta^*) = 0$. 
 
 
 
@@ -132,10 +132,16 @@ Este resultado se basa en cálculo elemental, pero provee la base de los algorit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Descenso en gradiente}
+\label{sec:descenso_gradiente}
 
-El descenso en gradiente pertenece a un tipo de algoritmos llamados de \textbf{búsqueda de línea}. Estos algoritmos buscan en cada iteración una dirección y actualizan el valor actual de acuerdo a esa dirección. Es decir, en la $k$-ésima iteración, se tiene un valor $x_k$, y se busca una dirección $p_k$ para actualizar al valor $x_{k+1} = x_k + \alpha p_k$, donde $\alpha > 0$ es la 'distancia' que se recorre en la dirección $p_k$, y es llamada la \textbf{longitud de paso}. Una vez que se actualizó el valor de la iteración, se encuentra una nueva dirección de avance y se actualiza el valor. Esto se hace hasta que se cumpla cierto criterio de paro, siendo este usualmente que la norma del gradiente sea menor a un escalar pequeño y positivo.
+El descenso en gradiente pertenece a un tipo de algoritmos llamados de \textbf{búsqueda de línea}. Estos algoritmos buscan en cada iteración una dirección y actualizan el valor actual de acuerdo a esa dirección. Es decir, en la $k$-ésima iteración, se tiene un valor $\theta_k$, y se busca una dirección $p_k$ para actualizar al valor $\theta_{k+1} = \theta_k + \alpha_k p_k$, donde $\alpha_k > 0$ es la 'distancia' que se recorre en la dirección $p_k$, y es llamada la \textbf{longitud de paso}. Una vez que se actualizó el valor de la iteración, se encuentra una nueva dirección de avance y se actualiza el valor. Esto se hace hasta que se cumpla cierto criterio de paro, siendo este usualmente que la norma del gradiente sea menor a un escalar pequeño y positivo.
 
-En el caso del descenso en gradiente, la dirección de avance $p_k$ es la del máximo descenso, es decir, el negativo del gradiente en la iteración actual $-\nabla L(x_k)$. 
+En el caso del descenso en gradiente, la dirección de avance $p_k$ es la del máximo descenso, es decir, el negativo del gradiente en la iteración actual $-\nabla L(\theta_k)$, por lo que en cada iteración se hace
+
+\begin{equation}
+  \label{eq:iteracion_descenso_grad}
+  \theta_{k+1} = \theta_k - \alpha_k \nabla L(\theta_k).
+\end{equation}
 
 % Para demostrar que la dirección de máximo descenso es necesario recurrir al teorema de Taylor, el cual establece que para algún $t \in \left( 0, \alpha \right)$,
 
@@ -145,12 +151,12 @@ En el caso del descenso en gradiente, la dirección de avance $p_k$ es la del m�
 
 % Ahora, la tasa de cambio de $L$ en la dirección $p_k$ en $x_k$ es $p_k^T \nabla L(x_k)$. 
 
-Al calcular la longitud de paso $\alpha_k$ se tiene un problema: se quiere un valor tal que la función objetivo $L$ se reduzca lo más posible, pero tampoco se quiere desperdiciar mucho tiempo escogiendo el valor. La mejor opción es el minimizador global de la función $\phi(\alpha_k) = L(x_k + \alpha_k p_k)$, pero es muy caro de calcular. Generalmente se utilizan heurísticas que consisten en elegir una sucesión de valores para $\alpha_k$ y probar cuál de todos satisface ciertas condiciones.
+Al calcular la longitud de paso $\alpha_k$ se tiene un problema: se quiere un valor tal que la función objetivo $L$ se reduzca lo más posible, pero tampoco se quiere desperdiciar mucho tiempo escogiendo el valor. La mejor opción es el minimizador global de la función $\phi(\alpha_k) = L(\theta_k + \alpha_k p_k)$, pero es muy caro de calcular. Generalmente se utilizan heurísticas que consisten en elegir una sucesión de valores para $\alpha_k$ y probar cuál de todos satisface ciertas condiciones.
 
 Una de estas condiciones es llamada la condición de Armijo, y estipula que $\alpha_k$ debe generar un descenso suficiente en la función objetivo $L$, medido como
 
 $$
-  L(x_k + \alpha_k p_k) \leq L(x_k) + c_1 \alpha_k \nabla L(x_k)^T p_k,
+  L(\theta_k + \alpha_k p_k) \leq L(\theta_k) + c_1 \alpha_k \nabla L(\theta_k)^T p_k,
 $$
 
 para alguna constante $c_1 \in (0, 1)$. Usualmente $c_1$ es pequeño, como $10^{-4}$. Esta condición puede no ser suficiente, pues valores muy pequeños de $\alpha_k$ pueden hacer que se cumpla, y longitudes de paso muy pequeñas no son deseables. Una forma de arreglar esto es usar \textit{backtracking} en el algoritmo. Este consiste en elegir un valor relativamente grande de $\alpha_k$ (algunos métodos inician con $\alpha_k = 1$), y se inicia un subalgoritmo iterativo el cual reduce el valor de $\alpha_k$ hasta que se cumple la condición de Armijo.
@@ -158,6 +164,10 @@ para alguna constante $c_1 \in (0, 1)$. Usualmente $c_1$ es pequeño, como $10^{
 Hay muchas otras formas de escoger la longitud de paso $\alpha_k$, las cuales van más allá del objetivo de este trabajo. Si se quisiera estudiar más a fondo este tema, se puede consultar \cite{nocedal2006numerical} para más detalles.
 
 Para explicar un poco mejor el concepto de descenso en gradiente, se presentan dos ejemplos, uno para regresión lineal y otro para regresión logística. Ambos ejemplos fueron implementados en el lenguaje para cómputo estadístico \texttt{R} \cite{R_manual}.
+
+%%%%%%%%%%%%%%%%
+%%% Reg lineal
+%%%%%%%%%%%%%%%%
 
 En el caso de regresión lineal, en el caso general, se busca minimizar la función de pérdida cuadrática
 
@@ -175,9 +185,10 @@ Tomando las derivadas parciales de \ref{eq:perd_cuadratica_reg_lineal}, se tiene
 
 donde $x_{i1} = 1$ para toda $i \in \left\{1, \hdots, n \right\}$ y
 
-$$
+\begin{equation}
+  \label{eq:ele_i_reg_lineal}
   \ell_i(x, \beta) = \left( y_i - \beta_0 - \beta_1 x_{i1} - \hdots  \beta_p x_{ip} \right).
-$$
+\end{equation}
 
 De aquí, se llega a que la dirección de descenso en gradiente en cada iteración es
 
@@ -212,12 +223,15 @@ Los valores del vector de parámetros en cada iteración se pueden ver en la fig
   \label{fig:reg_lineal_ejemplo_GD_iter}
 \end{figure}
 
+%%%%%%%%%%%%%%%%
+%%% Reg logística
+%%%%%%%%%%%%%%%%
 
 En el caso de regresión logística, en el caso general, se busca minimizar la función de pérdida llamada \textbf{devianza}, definida como
 
 \begin{equation}
   \label{eq:devianza_reg_log}
-  L(x, \beta) = - \frac{2}{n} \sum_{i=1}^{n}{y_i \log(h(\beta^T x_i)) + (1-y_i) \log(1-h(\beta^T x_i))} = 
+  L(x, \beta) = - \frac{2}{n} \sum_{i=1}^{n} \left[ y_i \log(h(\beta^T x_i)) + (1-y_i) \log(1-h(\beta^T x_i)) \right] = 
      - \frac{2}{n} \sum_{i=1}^{n}{\ell_i(\beta)}
 \end{equation}
 
@@ -244,7 +258,8 @@ $$
 
 y además, usando el hecho de que $h'(w) = h(w)(1-h(w))$, se tiene
 
-\begin{equation*}
+\begin{equation}
+  \label{eq:derivacion_ell_i_reg_log}
   \begin{split}
     \frac{\partial \ell_i}{\partial \beta_j} & = 
       \frac{y_i h'(\beta^T x_i) x_{ij} }  {h(\beta^T x_i)} + \frac{(1 - y_i) (-1) h'(\beta^T x_i) x_{ij}} {1 - h(\beta^T x_i)} \\
@@ -254,7 +269,7 @@ y además, usando el hecho de que $h'(w) = h(w)(1-h(w))$, se tiene
           h(\beta^T x_i) + y_i h(\beta^T x_i)}{h(\beta^T x_i)(1-h(\beta^T x_i))} \right) \\
       & = x_{ij}(y_i - h(\beta^T x_i)).
   \end{split}
-\end{equation*}
+\end{equation}
 
 Por lo tanto, se tiene que 
 
@@ -280,7 +295,7 @@ Los valores del vector de parámetros en cada iteración se pueden ver en la fig
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{log_reg_example_1.pdf}
+  \includegraphics[width=0.9\textwidth]{log_reg_example_1.pdf}
   \caption{Datos generados para una regresión logística.}
   \label{fig:reg_log_ejemplo}
 \end{figure}
@@ -288,7 +303,7 @@ Los valores del vector de parámetros en cada iteración se pueden ver en la fig
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{log_reg_example_1_GD_iter.pdf}
+  \includegraphics[width=0.9\textwidth]{log_reg_example_1_GD_iter.pdf}
   \caption{Iteraciones del algoritmo de descenso en gradiente para regresión logística.}
   \label{fig:reg_log_ejemplo_GD_iter}
 \end{figure}
@@ -303,30 +318,109 @@ Los valores del vector de parámetros en cada iteración se pueden ver en la fig
 
 \subsection{Descenso en gradiente estocástico}
 
+En el aprendizaje estadístico es muy común encontrar problemas de optimización de la forma
+
+\begin{equation}
+  \label{eq:perd_gral_apr_est}
+  \min_{\theta \in \mathbb{R}^p} L(x, \theta), \quad \text{donde} \, \, 
+    L(\theta) = \frac{1}{n} \sum_{i = 1}^n { \psi_i(x, \theta) }.
+\end{equation}
+
+En los ejemplos de la subsección \ref{sec:descenso_gradiente} se puede ver esto con claridad: las funciones de pérdida a minimizar son de la forma \ref{eq:perd_gral_apr_est}. El método de descenso en gradiente presentado en \ref{sec:descenso_gradiente} utiliza iteraciones de la forma de la ecuación \ref{eq:iteracion_descenso_grad}, es decir, 
+
+\[
+  \theta_{k+1} = \theta_k - \alpha_k \nabla L(\theta_k) :=\theta_k - \frac{\alpha_k}{n} \sum_{i = 1}^n \nabla \psi_i(\theta_k),
+\]
+
+lo cual involucra la evaluación de $n$ gradientes para después promediarlos. En los casos de aprendizaje automático de gran escala, el número de observaciones $n$ es grande, por lo que calcular estos gradientes puede resultar costoso. Debido a esto, surgen los métodos como descenso en gradiente estocástico, en los cuales el número de gradientes a evaluar no depende de $n$, sino que es constante. Este método utiliza iteraciones de la forma
+
+\[
+  \theta_{k+1} = \theta_k - \frac{\alpha_k}{n} \nabla \psi_{i_k}(\theta_k),
+\]
+
+donde $i_k \in \left\{1, 2, \hdots, n \right\}$ es escogido aleatoriamente. El gradiente $\nabla \psi_{i_k}(\theta_k)$ es un estimador insesgado de $\nabla L(\theta_k)$. De esta forma, cada iteración es muy barata pues involucra la evaluación de solamente un gradiente. Puede suceder que alguna $\nabla \psi_{i_k}(\theta_k)$ particular no otorgue una dirección de descenso partiendo de $\theta_k$, pero, intuitivamente, en promedio sí se dan direcciones de descenso, de tal forma que le sucesión $\left\{ \theta_0, \theta_1, \hdots \right\}$ puede ser guiada a un minimizador $\theta^*$.
+
+Para ilustrar este método, se implementaron los dos mismos ejemplos que en la sección \ref{sec:descenso_gradiente}, es decir, la regresión lineal y la regresión logística.
+
+
+%%%%%%%%%%%%%%%%
+%%% Reg lineal
+%%%%%%%%%%%%%%%%
+
+En el caso de la regresión lineal, se desea minimizar la pérdida cuadrática definida en la ecuación \ref{eq:perd_cuadratica_reg_lineal}. Aquí, si se utiliza la notación utilizada en la ecuación \ref{eq:perd_gral_apr_est}, cada $\psi_i(x, \theta)$ es 
+
+$$
+  \psi_i(x, \theta) = \left( y_i - \beta_0 - \beta_1 x_{i1} - \hdots  \beta_p x_{ip} \right)^2 = \ell_i^2(x, \beta),
+$$ 
+
+con $\ell_i(x, \beta)$ definido en la ecuación \ref{eq:ele_i_reg_lineal}. Se puede ver que la derivada parcial de $\psi_i(x, \beta)$ respecto a cada $\beta_j$ con $j \in \left\{ 0, \hdots, p \right\}$ es
+
+\[
+  \frac{\partial \psi_i}{\partial \beta_j} = \frac{\partial \ell^2_i}{\partial \beta_j} = -2 x_{ij} \ell_i(x, \beta),
+\]
+
+por lo que la dirección de avance en cada iteración del algoritmo es
+
+\[
+  \nabla_{\beta} \psi_i(x, \beta) = 
+    \left( \frac{\partial \psi_i}{\partial \beta_0}, \hdots, \frac{\partial \psi_i}{\partial \beta_p} \right).
+\]
+
+Nuevamente, el vector de parámetros iniciales fue $\beta^0 = (0, 0)^T$.  El criterio de paro era que la norma del gradiente $\nabla_{\beta} L(x, \beta)$ fuera menor a $0.000001$, que se excediera de 300 iteraciones o que la norma dos al cuadrado de las diferencias del vector de parámetros entre una iteración y otra (i.e. $\norm{\beta^{k+1} - \beta^k}^2_2$) fuera menor a $10^{-15}$. 
+
+Los valores del vector de parámetros en cada iteración se pueden ver en las figuras \ref{fig:lin_reg_example_1_SGD_iter_all} y \ref{fig:lin_reg_example_1_SGD_each_epoch}. Para entender mejor estas imágenes, es pertinente explicar qué es un \textit{epoch}. Un \textit{epoch} es un conjunto de $n$ accesos al conjunto de datos. Es decir, en cada \textit{epoch}, se evalúan los gradientes de todos los datos en el conjunto de entrenamiento.
+
+En la figura \ref{fig:lin_reg_example_1_SGD_iter_all} se muestran los valores de los parámetros para todos los gradientes en todos los \textit{epochs}. En la figura \ref{fig:lin_reg_example_1_SGD_each_epoch} se muestran solo los valores al final de cada \textit{epoch} para tener mayor claridad en la visualización. Se puede apreciar en la figura \ref{fig:lin_reg_example_1_SGD_iter_all} que, a diferencia de la figura \ref{fig:reg_lineal_ejemplo_GD_iter} donde las direcciones de descenso se ven más uniformes hacia una misma dirección, las direcciones van hacia todos lados en una especie de \textit{zig-zag} que eventualmente llega a la solución.
+
+En ambas figuras se muestra un punto grande que representa el valor real de los parámetros ($\beta_0=2$ y $\beta_1 = 1$) y el tache que representa el valor obtenido utilizando el paquete \texttt{lm} de \texttt{R}, pero en la figura \ref{fig:lin_reg_example_1_SGD_iter_all} no se alcanza a distinguir tan bien, pero en ambas imágenes se puede ver que el algoritmo implementado converge a los valores deseados.
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{lin_reg_example_1_SGD_iter_all.pdf}
+  \includegraphics[width=0.9\textwidth]{lin_reg_example_1_SGD_iter_all.pdf}
   \caption{Iteraciones del algoritmo de descenso en gradiente estocástico para regresión lineal.}
   \label{fig:lin_reg_example_1_SGD_iter_all}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{lin_reg_example_1_SGD_each_epoch.pdf}
+  \includegraphics[width=0.9\textwidth]{lin_reg_example_1_SGD_each_epoch.pdf}
   \caption{Iteraciones del algoritmo de descenso en gradiente para regresión lineal. Cada flecha apunta al valor de los parámetros después de cada \textit{epoch}.}
   \label{fig:lin_reg_example_1_SGD_each_epoch}
 \end{figure}
 
+
+
+%%%%%%%%%%%%%%%%
+%%% Reg logística
+%%%%%%%%%%%%%%%%
+
+Para la regresión logística ya se tienen hechos casi todos los cálculos necesarios en la subsección \ref{sec:descenso_gradiente}. Con la notación utilizada en la ecuación \ref{eq:perd_gral_apr_est}, cada $\psi_i(x, \theta)$ es 
+
+$$
+  \psi_i(x, \theta) = y_i \log(h(\beta^T x_i)) + (1-y_i) \log(1-h(\beta^T x_i)) = \ell_i(x, \beta).
+$$ 
+
+Además, en las ecuaciones \ref{eq:derivacion_ell_i_reg_log} se llega a que
+
+\[
+  \frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial \psi_i}{\partial \beta_j} = x_{ij}(y_i - h(\beta^T x_i)).
+\]
+
+Por lo que ya se tiene todo lo necesario. En la implementación, el criterio de paro fue el mismo que en descenso en gradiente estocástico para regresión lineal: que la norma del gradiente $\nabla_{\beta} L(x, \beta)$ fuera menor a $0.000001$, que se excediera de 300 iteraciones o que la norma dos al cuadrado de las diferencias del vector de parámetros entre una iteración y otra fuera menor a $10^{-15}$. 
+
+Los valores del vector de parámetros en cada iteración se pueden ver en las figuras \ref{fig:log_reg_example_1_SGD_iter_all} y \ref{fig:log_reg_example_1_SGD_each_epoch}. Las explicaciones de estas dos imágenes son análogas a las de regresión lineal. Nuevamente, el valor obtenido con el método implementado converge al valor real y al que se obtuvo con el paquete \texttt{glm}.
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{log_reg_example_1_SGD_iter_all.pdf}
+  \includegraphics[width=0.9\textwidth]{log_reg_example_1_SGD_iter_all.pdf}
   \caption{Iteraciones del algoritmo de descenso en gradiente para regresión logística.}
   \label{fig:log_reg_example_1_SGD_iter_all}
 \end{figure}
 
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{log_reg_example_1_SGD_each_epoch.pdf}
+  \includegraphics[width=0.9\textwidth]{log_reg_example_1_SGD_each_epoch.pdf}
   \caption{Iteraciones del algoritmo de descenso en gradiente para regresión logística. Cada flecha apunta al valor de los parámetros después de cada \textit{epoch}.}
   \label{fig:log_reg_example_1_SGD_each_epoch}
 \end{figure}
