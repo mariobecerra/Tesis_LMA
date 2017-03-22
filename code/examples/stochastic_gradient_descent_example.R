@@ -2,7 +2,7 @@ library(tidyverse)
 
 theme_set(theme_bw(base_size = 20))
 
-system("mkdir ../out/optim")
+system("mkdir ../../out/optim")
 
 ###################################
 ###################################
@@ -106,11 +106,11 @@ while(i < max_it){
 data_gradient_descent <- data_gradient_descent[1:(i*n),]
 data_gradient_descent$it <- 1:nrow(data_gradient_descent)
 
-data_gradient_descent %>% 
-  filter(it %% n == 1) %>% 
-  ggplot(aes(it, gradient_norm)) +
-  geom_point(size = 0.7) +
-  geom_line(size = 0.4)
+# data_gradient_descent %>% 
+#   filter(it %% n == 1) %>% 
+#   ggplot(aes(it, gradient_norm)) +
+#   geom_point(size = 0.7) +
+#   geom_line(size = 0.4)
 
 
 plot_gd_iter <- function(data_gradient_descent, modelo, beta_0, beta_1, denom = 0){
@@ -137,7 +137,7 @@ plot_gd_iter <- function(data_gradient_descent, modelo, beta_0, beta_1, denom = 
       arrow = arrow(length = unit(0.18, "cm"))
     ) +
     #geom_path(size = 0.6, color = 'red') +
-    geom_point(size = 0.1, color = 'black', alpha = 0.4) +
+    geom_point(size = 0.3, color = 'black') +
     geom_point(aes(x, y),
                data = tibble(x = beta_0,
                              y = beta_1)) +
@@ -159,7 +159,9 @@ plot_gd_iter <- function(data_gradient_descent, modelo, beta_0, beta_1, denom = 
 plot_gd_iter(data_gradient_descent, modelo, beta_0, beta_1, 1) %>% 
   ggsave(.,
          file = "../../out/optim/lin_reg_example_1_SGD_each_epoch.pdf",
-         device = 'pdf')
+         device = 'pdf',
+         width = 8,
+         height = 5)
 
 # Plots all iterations in all epochs
 (data_gradient_descent %>% 
@@ -182,7 +184,9 @@ plot_gd_iter(data_gradient_descent, modelo, beta_0, beta_1, 1) %>%
 ) %>% 
   ggsave(.,
          file = "../../out/optim/lin_reg_example_1_SGD_iter_all.pdf",
-         device = 'pdf')
+         device = 'pdf',
+         width = 8,
+         height = 5)
 
 ###################################
 ###################################
@@ -259,7 +263,9 @@ data_gradient_descent$it <- 1:nrow(data_gradient_descent)
 plot_gd_iter(data_gradient_descent, modelo, beta_0, beta_1, 1) %>% 
   ggsave(.,
          file = "../../out/optim/log_reg_example_1_SGD_each_epoch.pdf",
-         device = 'pdf')
+         device = 'pdf',
+         width = 8,
+         height = 5)
 
 # Plots all iterations in all epochs
 (data_gradient_descent %>% 
@@ -281,4 +287,6 @@ plot_gd_iter(data_gradient_descent, modelo, beta_0, beta_1, 1) %>%
 ) %>% 
   ggsave(.,
          file = "../../out/optim/log_reg_example_1_SGD_iter_all.pdf",
-         device = 'pdf')
+         device = 'pdf',
+         width = 8,
+         height = 5)
