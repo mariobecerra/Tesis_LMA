@@ -113,7 +113,9 @@ data_gradient_descent %>%
 ) %>% 
   ggsave(.,
          file = "../../out/optim/lin_reg_example_1_GD_iter.pdf",
-         device = 'pdf')
+         device = 'pdf',
+         width = 8,
+         height = 5)
 
 
 ###################################
@@ -271,91 +273,9 @@ data_gradient_descent %>%
 ) %>% 
   ggsave(.,
          file = "../../out/optim/log_reg_example_1_GD_iter.pdf",
-         device = 'pdf')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+         device = 'pdf',
+         width = 8,
+         height = 5)
 
 
 
