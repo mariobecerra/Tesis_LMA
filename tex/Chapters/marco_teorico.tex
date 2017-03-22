@@ -2,6 +2,14 @@
 
 \chapter{Marco teórico}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Aprendizaje estadístico
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Aprendizaje estadístico}
 
 Las definiciones enunciadas en esta sección son una mezcla de \cite{christopher2006pattern}, \cite{friedman2001elements} y \cite{james2013introduction}.
@@ -82,6 +90,19 @@ Otro tipo de regularización involucra la norma $\ell_1$ del vector de parámetr
 
 % \subsection{Evaluación de desempeño}
 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Optimización
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Optimización de funciones de pérdida}
 
 Ya que se han dado a conocer los principales conceptos del aprendizaje estadístico, incluyendo el de función de pérdida y minimización del error, resta conocer cómo encontrar los parámetros que minimizan las funciones de pérdida. En algunos casos, como en el de regresión lineal y regresión \textit{ridge}, se tiene una fórmula cerrada obtenida a partir de las condiciones de primer y segundo orden. Sin embargo, hay muchos otros casos en los que no se puede llegar a una forma cerrada de los parámetros. En estos casos es útil conocer el área de optimización numérica. La mayoría de las definiciones de esta sección fueron obtenidas de \cite{nocedal2006numerical}.
@@ -102,6 +123,13 @@ Es evidente que para saber si un punto $x^*$ es un minimizador local, no es nece
 Supóngase que la Hessiana $\nabla^2 L$ es continua en una vecindad abierta de $x^*$, que el gradiente $\nabla L(x^*) = 0$ y que $\nabla^2 L(x^*)$ es positiva definida; entonces $x^*$ es un minimizador local de $L$.
 
 Este resultado se basa en cálculo elemental, pero provee la base de los algoritmos de optimización numérica. En general, todos los algoritmos buscan un punto $x^*$ tal que $\nabla L(x^*) = 0$. 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% GD
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Descenso en gradiente}
 
@@ -265,7 +293,54 @@ Los valores del vector de parámetros en cada iteración se pueden ver en la fig
   \label{fig:reg_log_ejemplo_GD_iter}
 \end{figure}
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% SGD
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Descenso en gradiente estocástico}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{lin_reg_example_1_SGD_iter_all.pdf}
+  \caption{Iteraciones del algoritmo de descenso en gradiente estocástico para regresión lineal.}
+  \label{fig:lin_reg_example_1_SGD_iter_all}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{lin_reg_example_1_SGD_each_epoch.pdf}
+  \caption{Iteraciones del algoritmo de descenso en gradiente para regresión lineal. Cada flecha apunta al valor de los parámetros después de cada \textit{epoch}.}
+  \label{fig:lin_reg_example_1_SGD_each_epoch}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{log_reg_example_1_SGD_iter_all.pdf}
+  \caption{Iteraciones del algoritmo de descenso en gradiente para regresión logística.}
+  \label{fig:log_reg_example_1_SGD_iter_all}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{log_reg_example_1_SGD_each_epoch.pdf}
+  \caption{Iteraciones del algoritmo de descenso en gradiente para regresión logística. Cada flecha apunta al valor de los parámetros después de cada \textit{epoch}.}
+  \label{fig:log_reg_example_1_SGD_each_epoch}
+\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Sistemas de recomendación
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Sistemas de recomendación}
 
