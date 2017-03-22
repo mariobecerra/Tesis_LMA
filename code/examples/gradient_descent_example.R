@@ -2,7 +2,7 @@ library(tidyverse)
 
 theme_set(theme_bw(base_size = 20))
 
-system("mkdir ../out/optim")
+system("mkdir ../../out/optim")
 
 ###################################
 ###################################
@@ -27,7 +27,7 @@ modelo <- lm(y~x, data = data)
   geom_abline(slope = beta_1, intercept = beta_0)
 ) %>% 
   ggsave(.,
-         file = "../out/optim/lin_reg_example_1.pdf",
+         file = "../../out/optim/lin_reg_example_1.pdf",
          device = 'pdf')
 
 gradient <- function(data, betas){
@@ -112,7 +112,7 @@ data_gradient_descent %>%
     )
 ) %>% 
   ggsave(.,
-         file = "../out/optim/lin_reg_example_1_GD_iter.pdf",
+         file = "../../out/optim/lin_reg_example_1_GD_iter.pdf",
          device = 'pdf')
 
 
@@ -147,7 +147,7 @@ modelo <- glm(y ~ x, data = data, family = "binomial")
               color = 'black')
 ) %>% 
   ggsave(.,
-         file = "../out/optim/log_reg_example_1.pdf",
+         file = "../../out/optim/log_reg_example_1.pdf",
          device = 'pdf')
 
 h <- function(x){
@@ -270,7 +270,7 @@ data_gradient_descent %>%
   theme(panel.grid.minor = element_blank())
 ) %>% 
   ggsave(.,
-         file = "../out/optim/log_reg_example_1_GD_iter.pdf",
+         file = "../../out/optim/log_reg_example_1_GD_iter.pdf",
          device = 'pdf')
 
 
