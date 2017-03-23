@@ -438,6 +438,8 @@ Los valores del vector de parámetros en cada iteración se pueden ver en las fi
 
 \section{Sistemas de recomendación}
 
+Las definiciones de esta sección fueron obtenidas de \cite{recommenderlab_manual}, \cite{koren2009matrix} y \cite{leskovec_mining_2014}.
+
 El objetivo de los sistemas de recomendación es predecir las respuestas de los usuarios a distintas opciones. Dos clasificaciones muy amplias de los sistemas de recomendación son: basados en contenido y filtrado colaborativo. Existen dos grandes tipos de sistemas de recomendación de acuerdo a las técnicas que usan.
 
 \begin{itemize}
@@ -467,43 +469,41 @@ Para este tipo de recomendaciones se construye un \textbf{perfil} para cada prod
 
 Una vez construidos los perfiles, el proceso que queda es de alguna forma emparejar los gustos del usuario obtenidos de la matriz de utilidad con los perfiles de los productos.
 
-Un ejemplo muy sencillo es el siguiente. Imaginemos dos películas con 5 actores cada una y que dos actores están en las dos películas, y que además las calificaciones promedio de cada película son 3 y 4. Entonces los perfiles de dos películas se ven como:
+Un ejemplo muy sencillo es el siguiente. Supóngase dos películas con 8 actores en total ($A_1$, ..., $A_8$), cinco actores cada una y que dos actores están en las dos películas, y que además las calificaciones promedio de cada película son 3 y 4. Entonces los perfiles de dos películas se ven como:
 
 \begin{center}
-\begin{tabular}{ c | c  c c c c c c c c}
-    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
-  \hline                       
-$P_1$ & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 3 \\
-$P_2$ & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 4 \\
-  \hline  
-\end{tabular}
+  \begin{tabular}{ c | c  c c c c c c c c}
+      & $A_1$ & $A_2$ & $A_3$ & $A_4$ & $A_5$ & $A_6$ & $A_7$ & $A_8$ & Calif \\
+      \hline                       
+      $P_1$ & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 3 \\
+      $P_2$ & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 4 \\
+      \hline  
+  \end{tabular}
 \end{center}
 
-Con esta información se puede obtener una medida de similitud entre las películas. Una medida muy utilizada es la distancia coseno, definida como
+Con esta información se puede obtener una medida de similitud entre las películas. Una medida muy utilizada es la similitud coseno, definida como
 
-\begin{equation}
-sim(P_1, P_2) = \dfrac{P_1 \cdot P_2}{\vert \vert P_1 \vert \vert \times \vert \vert P_2 \vert \vert}
-\end{equation}
+\[
+  sim(P_1, P_2) = \frac{P_1^T P_2}{\norm{P_1} \norm{P_2} }.
+\]
 
-Dos películas son más similares si tienen una distancia coseno menor.
+Supóngase ahora que los usuarios $U_k$ y $U_j$ solo han calificado dos película. Si el usuario $U_k$ calificó con 2 y 4 las películas $P_1$ y $P_2$ respectivamente y si el usuario $U_j$ calificó con 4 y 4 las películas $P_1$ y $P_2$ respectivamente, entonces se puede ver esto en forma matricial:
 
-Supongamos ahora que los usuarios $U_k$ y $U_j$ solo han calificado dos película. Si el usuario $U_k$ calificó con 2 y 4 las películas $P_1$ y $P_2$ respectivamente y si el usuario $U_j$ calificó con 4 y 4 las películas $P_1$ y $P_2$ respectivamente, entonces se puede ver esto en forma matricial.
+\begin{center}
+  \begin{tabular}{ c | c  c }
+      & $P_1$ & $P_2$ \\
+    \hline                       
+    $U_k$ & 2 & 4 \\
+    $U_j$ & 4 & 4 \\
+    \hline  
+  \end{tabular}
+\end{center}
+
+Tiene sentido centrar las calificaciones por usuario (restarle la media) para reducir un poco la heterogeneidad de la escala, entonces se tiene:
 
 \begin{center}
 \begin{tabular}{ c | c  c }
-    & $P_1$ & $P_2$ \\ \\
-  \hline                       
-$U_k$ & 2 & 4 \\
-$U_j$ & 4 & 4 \\
-  \hline  
-\end{tabular}
-\end{center}
-
-Tiene sentido centrar las calificaciones por usuario (restarle la media) para reducir un poco la heterogeneidad de la escala, entonces tenemos
-
-\begin{center}
-\begin{tabular}{ c | c  c }
-    & $P_1$ & $P_2$ \\ \\
+    & $P_1$ & $P_2$ \\
   \hline                       
 $U_k$ & -1 & 1 \\
 $U_j$ & 0 & 0 \\
@@ -511,11 +511,11 @@ $U_j$ & 0 & 0 \\
 \end{tabular}
 \end{center}
 
-Así, para el usuario $U_k$ tenemos que los perfiles para cada película se ven como
+Así, para el usuario $U_k$ se tiene que los perfiles para cada película se ven como:
 
 \begin{center}
 \begin{tabular}{ c | c  c c c c c c c c}
-    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
+    & $A_1$ & $A_2$ & $A_3$ & $A_4$ & $A_5$ & $A_6$ & $A_7$ & $A_8$ & Calif \\
   \hline                       
 $P_1$ & 0 & -1 & -1 & 0 & -1 & -1 & 0 & -1 & 2 \\
 $P_2$ & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 4 \\
@@ -523,11 +523,11 @@ $P_2$ & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 4 \\
 \end{tabular}
 \end{center}
 
-Y para el usuario $U_j$ tenemos que los perfiles para cada película se ven como
+Y para el usuario $U_j$ se ven como:
 
 \begin{center}
 \begin{tabular}{ c | c  c c c c c c c c}
-    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
+    & $A_1$ & $A_2$ & $A_3$ & $A_4$ & $A_5$ & $A_6$ & $A_7$ & $A_8$ & Calif \\
   \hline                       
 $P_1$ & 0 & 4 & 4 & 0 & 4 & 4 & 0 & 4 & 4 \\
 $P_2$ & 4 & 4 & 0 & 4 & 0 & 4 & 4 & 0 & 4 \\
@@ -535,11 +535,11 @@ $P_2$ & 4 & 4 & 0 & 4 & 0 & 4 & 4 & 0 & 4 \\
 \end{tabular}
 \end{center}
 
-Entonces, para el perfil general de cada usuario, se promedian por película los perfiles de cada uno y obtenemos
+Entonces, para el perfil general de cada usuario, se promedian por película los perfiles de cada uno y se obtiene
 
 \begin{center}
 \begin{tabular}{ c | c  c c c c c c c c}
-    & Actor 1 & Actor 2 & Actor 3 & Actor 4 & Actor 5 & Actor 6 & Actor 7 & Actor 8 & Calif \\ \\
+    & $A_1$ & $A_2$ & $A_3$ & $A_4$ & $A_5$ & $A_6$ & $A_7$ & $A_8$ & Calif \\
   \hline                       
 $U_k$ & 0.5 & 0 & -0.5 & 0.5 & -0.5 & 0 & 0.5 & -0.5 & 3 \\
 $U_j$ & 2 & 4 & 2 & 2 & 2 & 4 & 2 & 2 & 4 \\
@@ -547,7 +547,7 @@ $U_j$ & 2 & 4 & 2 & 2 & 2 & 4 & 2 & 2 & 4 \\
 \end{tabular}
 \end{center}
 
-Con esto podemos estimar qué tanto le va a gustar a un usuario una película calculando la distancia coseno entre el perfil del usuario y el perfil de la película. Esta forma es muy rudimentaria y sencilla, pero puede servir como base para otros modelos.
+Con esto se puede estimar qué tanto le va a gustar a un usuario una película calculando la similitud coseno entre el perfil del usuario y el perfil de la película. Esta forma es muy rudimentaria y sencilla, pero puede servir como base para otros modelos.
 
 \subsection{Colaborativos}
 
@@ -568,13 +568,16 @@ Una forma de estimar los sesgos es calculando
 \[
 a_i = \frac{1}{M_i} \sum_t r_{it} - \mu,
 \]
+
 y 
+
 \[
 b_j = \frac{1}{N_j} \sum_s r_{sj} - \mu,
 \]
+
 donde donde $M_i$ es el número de artículos calificados por el usuario $i$ y $N_j$ es el número de calificaciones que tiene el artículo $j$.
 
-Otra forma un poco más precisa es resolver el problema de mínimos cuadrados
+Otra forma un poco más precisa es resolver el problema de mínimos cuadrados regularizado
 
 \[
 \min_{b} \sum_{(i, j) \in A} \left( r_{ij} - \mu - a_i - b_j \right) ^2 + \lambda \left( \sum_{i} a_i^2 + \sum_{j} b_j^2 \right)
@@ -595,7 +598,7 @@ donde $M_i$ es el número de artículos que ha calificado el usuario $i$, $N_j$ 
 
 Este tipo de modelos se centran en la similitud de los usuarios y los artículos. Los usuarios son similares si los vectores que los representan (es decir, las filas en la matriz de calificaciones) están cercanos de acuerdo a alguna similitud definida. Una recomendación para un usuario $i$ se hace al ver a los usuarios más parecidos a $i$ y recomendando artículos que hayan sido del agrado de estos usuarios parecidos.
 
-El primer problema con estos métodos surge al definir una medida de similitud entre artículos o usuarios. Dos medidas muy utilizadas son la similitud de Jaccard y la similitud coseno. En el caso de una matriz de calificaciones binaria, la similitud Jaccard tendría más sentido, pero si son calificaciones explícitas conviene más utilizar similitud coseno. Una desventaja de utilizar la similitud coseno es que los elementos faltantes son tratados como $0$, lo cual tiene el efecto de tratar la falta de calificación como disgusto hacia el artículo. Una forma de solucionar esto es centrando las calificaciones por usuario al restar la media, de esta forma el faltante al ser tratado como cero tiene el efecto de que al usuario ni le gusta ni le disgusta el artículo.
+El primer problema con estos métodos surge al definir una medida de similitud entre artículos o usuarios. Dos medidas muy utilizadas son la similitud de Jaccard y, nuevamente, la similitud coseno. En el caso de una matriz de calificaciones binaria, la similitud Jaccard tendría más sentido, pero si son calificaciones explícitas conviene más utilizar similitud coseno. Una desventaja de utilizar la similitud coseno es que los elementos faltantes son tratados como $0$, lo cual tiene el efecto de tratar la falta de calificación como disgusto hacia el artículo. Una forma de solucionar esto es centrando las calificaciones por usuario al restar la media, de esta forma el faltante al ser tratado como cero tiene el efecto de que al usuario ni le gusta ni le disgusta el artículo.
 
 Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artículo $j$ es encontrar los un vecindario de los $n$ usuarios más parecidos a $i$ y tomar el promedio de las calificaciones del artículo $j$. O de forma dual, se podría encontrar un vecindario con los $n$ artículos más parecidos a $j$ y tomar el promedio de las calificaciones que el usuario $i$ ha dado a esos artículos. Aquí se hace una vertiente en los métodos de vecindario, dependiendo de si se centran en las similitudes de los usuarios o de los artículos.
 
@@ -603,17 +606,13 @@ Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artí
 
 Este tipo de algoritmos pretenden imitar las recomendaciones de boca en boca al asumir que los usuarios con preferencias similares calificarán los artículos de forma similar. De esta manera, para hacer una predicción para el usuario $i$ y el artículo $j$ habría que encontrar un vecindario de $i$, denotado como $N(i)$, y tomar el promedio de las calificaciones en el vecindario:
 
-\begin{equation}\label{predic_modelo_usuario_sencillo}
+\begin{equation}\label{eq:predic_modelo_usuario_sencillo}
  \hat{r_{ij}} = \frac{\sum_{a \in N(i)} r_{aj}}{\vert N(i) \vert}.
 \end{equation}
 
-Por ejemplo,
+La ecuación \ref{eq:predic_modelo_usuario_sencillo} está ignorando el hecho de que algunos usuarios en el vecindario son más similares a otros, por lo que es una buena idea tener un ponderador de similitud. Así, en lugar de \ref{eq:predic_modelo_usuario_sencillo}, la predicción es
 
-\textbf{PONER EJEMPLO DE CUADERNO!!!}.
-
-Este ejemplo está ignorando el hecho de que algunos usuarios en el vecindario son más similares a otros, por lo que es una buena idea tener un ponderador de similitud. Así, en lugar de \ref{predic_modelo_usuario_sencillo}, la predicción es
-
-\begin{equation}\label{predic_modelo_usuario_ponderado}
+\begin{equation}\label{eq:predic_modelo_usuario_ponderado}
  \hat{r_{ij}} = \frac{\sum_{a \in N(i)} s_{ia} r_{aj}}{\sum_{a \in N(i)} s_{ia}},
 \end{equation}
 
@@ -629,9 +628,6 @@ Este tipo de algoritmos asumen que los usuarios prefieren artículos que son sim
 
 donde $s_{ja}$ es la similitud entre el artículo $j$ y el artículo $a$ perteneciente al vecindario de $j$.
 
-Por ejemplo,
-
-\textbf{PONER EJEMPLO DE CUADERNO!!!}.
 
 \subsubsection{Métodos de factorización de matrices} \label{sec:modelo_factorizacion}
 
