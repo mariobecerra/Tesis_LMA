@@ -317,6 +317,7 @@ Los valores del vector de parámetros en cada iteración se pueden ver en la fig
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Descenso en gradiente estocástico}
+\label{sec:descenso_gradiente_estocastico}
 
 En el aprendizaje estadístico es muy común encontrar problemas de optimización de la forma
 
@@ -784,10 +785,10 @@ L
 \end{split}
 \]
 
-Para utilizar descenso en gradiente estocástico, se define la función de pérdida $l_{ij}$ como
+Como ya se había mencionado en al subsección \ref{sec:descenso_gradiente_estocastico}, el descenso en gradiente estocástico utiliza únicamente una observación para calcular la dirección de descenso, por lo que se define la función de pérdida $\ell_{ij}$ como
 
 \[
-l_{ij} = \left( x_{ij} - a_i - b_j - u_i^T p_j \right) ^2
+\ell_{ij} = \left( x_{ij} - a_i - b_j - u_i^T p_j \right) ^2
 + \lambda \left( 
 \sum_{m = 1}^{k}p_{jm}^2 + 
 \sum_{m = 1}^{k}u_{im}^2 + 
@@ -795,23 +796,23 @@ a_i^2 +
 b_j^2 \right) .
 \]
 
-Notar que $L = \sum_{(i,j) \in A)} l_{ij}$.
+Notar que $L = \sum_{(i,j) \in A)} \ell_{ij}$.
 
-Las derivadas parciales de $l_{ij}$ son
+Las derivadas parciales de $\ell_{ij}$ son
 
 \[
 \begin{split}
-\frac{\partial l_{ij}}{\partial u_{im}} = -2 e_{ij} p_{jm} + 2 \lambda u_{im} 
+\frac{\partial \ell_{ij}}{\partial u_{im}} = -2 e_{ij} p_{jm} + 2 \lambda u_{im} 
 \qquad
-\frac{\partial l_{ij}}{\partial p_{jm}} = -2 e_{ij} u_{im} + 2 \lambda v_{jm}
+\frac{\partial \ell_{ij}}{\partial p_{jm}} = -2 e_{ij} u_{im} + 2 \lambda v_{jm}
 \end{split}
 \]
 
 \[
 \begin{split}
-\frac{\partial l_{ij}}{\partial a_i} = -2 e_{ij} + 2 \lambda a_i 
+\frac{\partial \ell_{ij}}{\partial a_i} = -2 e_{ij} + 2 \lambda a_i 
 \qquad
-\frac{\partial l_{ij}}{\partial b_j} = -2 e_{ij} + 2 \lambda b_j
+\frac{\partial \ell_{ij}}{\partial b_j} = -2 e_{ij} + 2 \lambda b_j
 \end{split}
 \]
 
@@ -819,7 +820,7 @@ donde $e_{ij} =  x_{ij} - a_i - b_j - u_i^T p_j$ es el residual de la calificaci
 
 Entonces, para resolver \ref{func_opt_sesgos}, se inicia con un unas matrices $P$ y $Q$, y los vectores $a_i$ y $b_j$ para todos los usuarios $i$ y artículos $j$, con valores arbitrarios. Y se prosigue a ajustar $U$, $P$, $a$ y $b$ iterativamente usando la dirección contraria al gradiente en cada punto hasta cierto criterio de paro.
 
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
  \caption{Algoritmo de descenso en gradiente estocástico para \ref{func_opt_sesgos}}
     \SetAlgoLined
     Iniciar vectores $a$, $b$ y matrices $P$ y $Q$\\
@@ -858,12 +859,19 @@ En \cite{Cremonesi:2010:PRA:1864708.1864721} se muestra una forma de evaluar de 
   \item Calcular la calificación de acuerdo al modelo para el artículo $i$ y cada uno de los 1000 artículos adicionales.
   \item Se forma una lista ordenada de acuerdo a las calificaciones predichas por el modelo para los 1001 artículos. Sea $p$ el lugar que ocupa el artículo de prueba $i$ entre todos los elementos de la lista. El mejor resultado corresponde al caso en que el artículo de prueba $i$ está antes de todos los artículos aleatorios (esto es, $p = 1$).
   \item Se forma una lista de las mejores $N$ recomendaciones al seleccionar los $N$ artículos mejor calificados en la lista. Si $p \leq N$ entonces se tiene un acierto, en otro caso se tiene un desacierto. La probabilidad de obtener aciertos aumenta si $N$ aumenta, y si $N = 1001$, siempre se tiene un acierto.
-  
 \end{enumerate}
 
+Después de hacer eso, se puede calcular la precisión y el \textit{recall}. Estos están definidos como:
 
+\[
+  \text{recall}(N) = \frac{\# hits}{\vert T \vert}
+\]
 
+\[
+  \text{prec}(N) = \frac{\# hits}{N \cdot \vert T \vert} = \frac{\text{recall}(N)}{N}
+\]
 
+donde $\vert T \vert$ es el número de calificaciones en el conjunto de prueba.
 
 
 
