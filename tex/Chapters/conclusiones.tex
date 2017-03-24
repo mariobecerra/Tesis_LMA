@@ -1,3 +1,7 @@
 %!TEX root = ../tesis_mbc.tex
 
 \chapter{Conclusiones}
+
+El modelo de factorización de matrices implementado es una buena alternativa para un sistema de recomendación en el que se tienen calificaciones explícitas. Mejora sustancialmente el modelo base planteado, tanto en RMSE como en la tarea de \textit{top-N recommendations}. El método de descenso en gradiente estocástico permite optimizar la función de pérdida de una manera rápida y barata sin la necesidad de \textit{hardware} especializado: todo se puede implementar y ejecutar desde una computadora personal.
+
+Este método tiene sus limitantes: el tener acceso a conjuntos de datos con calificaciones explícitas no es algo tan común, de hecho, muchos de los datos que se generan en áreas en las que se podría utilizar la tecnología aquí descrita tienen más comúnmente datos con calificaciones implícitas. Sin embargo, este trabajo puede servir como base, y la teoría de aplicaciones que usan datos implícitos no difiere mucho de la que es presentada aquí.
