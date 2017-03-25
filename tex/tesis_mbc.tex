@@ -1,0 +1,111 @@
+% Tesis ITAM CLASS -- version 0.1 (13 - Abr - 2015)
+% Clase para las tesis del ITAM
+% 
+% 13 - Abr - 2015 	Victor Martinez 	victor.martinez (at) itam.mx
+% LICENSE: Creative Commons SA-BY 3.0
+%
+%
+% Este documento presenta un ejemplo de uso de la plantilla
+% El estudiante es libre de modificar este archivo a su gusto
+% 
+\documentclass{tesisITAM}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+%\usepackage{algorithmx}
+\usepackage[spanish,onelanguage]{algorithm2e} 
+\RestyleAlgo{boxruled} % Para que los algoritmos los ponga en caja
+\usepackage[backend=bibtex]{biblatex}
+%\usepackage[paperwidth=17cm, paperheight=22.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm, headheight=13.08pt]{geometry}
+%\usepackage[group-separator={,}]{siunitx}
+\usepackage{numprint}
+\usepackage{csquotes}
+\usepackage{float}
+\usepackage{multirow}
+% \usepackage{xr}
+% 
+% \externaldocument{../Chapters/problema_resolver.tex}
+
+\addbibresource{bibliography.bib} %Imports bibliography file
+
+\title{Un sistema de recomendación basado en factorización de matrices y descenso en gradiente estocástico}
+\author{Mario Humberto Becerra Contreras}
+\degree{Licenciado en Matemáticas Aplicadas}
+\advisor{Fernando Esponda Darlington}
+\year{2017}
+
+\begin{document}
+	\npthousandsep{,}
+	\pagenumbering{gobble}
+	\maketitle
+	\publicationrights
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% ABSTRACT
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{abstract}{spanish}
+		Este documento presenta una plantilla para usar en las tesis y tesinas del ITAM. Se provee de manera gratuita y sin ninguna responsabilidad bajo la licencia \emph{creative commons BY-SA 3.0}.
+	\end{abstract}
+
+	\selectlanguage{spanish}
+	\setcounter{page}{1}
+	\pagenumbering{roman}
+
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	\newpage
+
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% CONTENT
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\include{Chapters/introduccion}
+	
+	\include{Chapters/marco_teorico}
+	
+	%\include{Chapters/problema_resolver}
+	
+	%\include{Chapters/desarrollo}
+
+	\include{Chapters/resultados}
+
+	\include{Chapters/conclusiones}
+	
+	% \include{Chapters/trabajo_futuro}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% APPENDIX
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\appendix
+	% \include{Chapters/appendixA}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% BIBLIOGRAPHY
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\clearpage
+	\addcontentsline{toc}{chapter}{References} %Añadimos la bibliografia a la lista de contenidos.
+	
+	%%%%%%%%% Referencias usando el sistema embedido %%%%%%%%%%%
+	% e.g. (Ejemplo tomado de https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management)
+	%
+	% \begin{thebibliography}{9}
+	%
+	%	\bibitem{lamport94}
+    %			Leslie Lamport,
+    %			\emph{\LaTeX: a document preparation system},
+    %			Addison Wesley, Massachusetts,
+  	%			2nd edition,
+    % 			1994.
+    %
+	% \end{thebibliography}
+
+
+\printbibliography
+\nocite{*}
+
+\end{document}

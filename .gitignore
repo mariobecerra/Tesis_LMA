@@ -14,7 +14,6 @@ out/*
 *.fls
 *.lof
 *.run.xml
-*.tex
 *.toc
 *blx.bib
 tex/tesis_lma.sublime-workspace
