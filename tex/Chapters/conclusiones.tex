@@ -1,7 +1,13 @@
 %!TEX root = ../tesis_mbc.tex
 
-\chapter{Conclusiones}
+\chapter{Conclusiones y trabajo futuro}
 
-El modelo de factorización de matrices implementado es una buena alternativa para un sistema de recomendación en el que se tienen calificaciones explícitas. Mejora sustancialmente el modelo base planteado, tanto en RMSE como en la tarea de \textit{top-N recommendations}. El método de descenso en gradiente estocástico permite optimizar la función de pérdida de una manera rápida y barata sin la necesidad de \textit{hardware} especializado: todo se puede implementar y ejecutar desde una computadora personal.
+Se cumplió el objetivo de implementar desde cero un sistema de recomendación basado en factorización de matrices y el de probar el desempeño con datos reales. El modelo implementado es una buena opción para un conjunto de datos de calificaciones explícitas. Mejora sustancialmente el modelo base planteado, tanto en RMSE como en la tarea de \textit{top-N recommendations}. El método de descenso en gradiente estocástico permite optimizar la función de pérdida de una manera rápida y barata sin la necesidad de \textit{hardware} especializado: todo se puede implementar y ejecutar desde una computadora personal.
 
 Este método tiene sus limitantes: el tener acceso a conjuntos de datos con calificaciones explícitas no es algo tan común, de hecho, muchos de los datos que se generan en áreas en las que se podría utilizar la tecnología aquí descrita tienen más comúnmente datos con calificaciones implícitas. Sin embargo, este trabajo puede servir como base, y la teoría de aplicaciones que usan datos implícitos no difiere mucho de la que es presentada aquí.
+
+Como trabajo futuro, se plantea el mejoramiento del modelo con una modificación para que tome en cuenta la dinámica temporal. El modelo aquí presentado es estático, i.e., no toma en cuenta el cambio en el tiempo de la percepción y de la popularidad de los productos. Un modelo dinámico tomaría en cuenta estos conceptos y probablemente mejoraría el desempeño en RMSE y en la tarea de \textit{top-N recommendations}.
+
+Se puede encontrar una copia de este trabajo y del código en:
+
+\url{https://github.com/mariobecerra/Tesis_LMA}.

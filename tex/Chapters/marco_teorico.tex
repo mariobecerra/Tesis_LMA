@@ -12,7 +12,7 @@
 
 \section{Aprendizaje estadístico}
 
-Las definiciones enunciadas en esta sección son una mezcla de \cite{christopher2006pattern}, \cite{friedman2001elements} y \cite{james2013introduction}.
+Las definiciones enunciadas en esta sección provienen de \cite{christopher2006pattern}, \cite{friedman2001elements} y \cite{james2013introduction}.
 
 El aprendizaje estadístico se refiere a un conjunto de herramientas para modelar y entender conjuntos de datos complejos. Es un área relativamente moderna, y tiene componentes de computación. Con la enorme cantidad de datos a los que se tiene acceso ahora, el aprendizaje estadístico se ha vuelto un campo muy demandado y fructífero en muchas áreas. El progreso que se ha logrado en los últimos años se ha debido en gran parte al desarrollo del poder de cómputo, sin el cual muchas de las técnicas modernas sería imposible tener un resultado.
 
@@ -488,7 +488,7 @@ Con esta información se puede obtener una medida de similitud entre las pelícu
   sim(P_1, P_2) = \frac{P_1^T P_2}{\norm{P_1} \norm{P_2} }.
 \]
 
-Supóngase ahora que los usuarios $U_k$ y $U_j$ solo han calificado dos película. Si el usuario $U_k$ calificó con 2 y 4 las películas $P_1$ y $P_2$ respectivamente y si el usuario $U_j$ calificó con 4 y 4 las películas $P_1$ y $P_2$ respectivamente, entonces se puede ver esto en forma matricial:
+Supóngase ahora que los usuarios $U_k$ y $U_j$ solo han calificado dos películas. Si el usuario $U_k$ calificó con 2 y 4 las películas $P_1$ y $P_2$ respectivamente y si el usuario $U_j$ calificó con 4 y 4 las películas $P_1$ y $P_2$ respectivamente, entonces se puede ver esto en forma matricial:
 
 \begin{center}
   \begin{tabular}{ c | c  c }
@@ -584,7 +584,7 @@ Otra forma un poco más precisa es resolver el problema de mínimos cuadrados re
 \min_{b} \sum_{(i, j) \in A} \left( r_{ij} - \mu - a_i - b_j \right) ^2 + \lambda \left( \sum_{i} a_i^2 + \sum_{j} b_j^2 \right)
 \]
 
-donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el conjunto de usuarios y artículos para los cuales se conoce la calificación $r_ij$, $ \vert A \vert$ es la cardinalidad de $A$ (o sea, el total de artículos calificados por todos los usuarios) y $\lambda$ es un término de regularización que evita el sobreajuste.
+donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el conjunto de usuarios y artículos para los cuales se conoce la calificación $r_{ij}$, $ \vert A \vert$ es la cardinalidad de $A$ (o sea, el total de artículos calificados por todos los usuarios) y $\lambda$ es un término de regularización que evita el sobreajuste.
 
 A este sencillo modelo se le pueden agregar otros términos de regularización que ayuden a disminuir el ruido causado por artículos y usuarios con pocas calificaciones, al encoger las calificaciones a la media. Una vez que se calcularon $a_i$ y $b_j$ usando cualquiera de los métodos mencionados, se hace la predicción
 
@@ -734,7 +734,7 @@ Hay distintas formas de elegir qué función de pérdida utilizar para saber qu�
   RMSE = \left ( \frac{1}{\vert A \vert} \sum_{(i,j) \in A} (r_{ij} - u_i^Tp_j )^2 \right ) ^ \frac{1}{2},
 \end{equation}
 
-donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el conjunto de usuarios y artículos para los cuales se conoce la calificación $r_ij$, $ \vert A \vert$ es la cardinalidad de $A$ (o sea, el total de artículos calificados por todos los usuarios), $u_i$ es la i-ésima fila de la matriz $U$ y $p_j$ es la j-ésima fila de la matriz $P$. Es decir, el RMSE es la raíz cuadrada del promedio de las desviaciones de la aproximación de $R$ y la $R$ verdadera. 
+donde $r_{ij}$ es la calificación del usuario $i$ del artículo $j$, $A$ es el conjunto de usuarios y artículos para los cuales se conoce la calificación $r_{ij}$, $ \vert A \vert$ es la cardinalidad de $A$ (o sea, el total de artículos calificados por todos los usuarios), $u_i$ es la i-ésima fila de la matriz $U$ y $p_j$ es la j-ésima fila de la matriz $P$. Es decir, el RMSE es la raíz cuadrada del promedio de las desviaciones de la aproximación de $R$ a la $R$ verdadera. 
 
 Otra opción muy utilizada es el error absoluto medio (MAE por \textit{mean-absolute-error}), definido como la suma de las desviaciones absolutas de la aproximación de $R$ a $R$, esto es
 
