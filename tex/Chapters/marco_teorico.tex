@@ -211,7 +211,7 @@ $$
   \beta^{k+1} = \beta^k - \alpha_k \nabla_{\beta} L(x, \beta)
 $$
 
-hasta un criterio de paro. En este caso, el criterio de paro era que la norma del gradiente $\nabla_{\beta} L(x, \beta)$ fuera menor a $0.000001$ o que se excediera de 100 iteraciones. El vector de parámetros inicial fue $\beta^0 = (0, 0)^T$. 
+hasta un criterio de paro. En este caso, el criterio de paro era que la norma del gradiente $\nabla_{\beta} L(x, \beta)$ fuera menor a $0.000001$ o que se excediera de 100 iteraciones. El vector de parámetros inicial fue $\beta^0 = (0, 0)^T$, y el valor de $\alpha_k$ fue $0.1$ para toda $k$ sin tomar en cuenta la condición de Armijo.
 
 Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_lineal_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 2 y 1), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{lm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores. De hecho, el valor obtenido con el método implementado es exactamente igual al que regresa \texttt{lm}.
 
@@ -295,7 +295,7 @@ $$
   \beta^{k+1} = \beta^k - \alpha_k \nabla_{\beta} L(x, \beta)
 $$
 
-hasta un criterio de paro. En este caso, el criterio de paro fue un poco más estricto: la norma del gradiente $\nabla_{\beta} L(x, \beta)$ debía ser menor a $0.0001$, o el cociente de normas entre cada iteración fuera mayor a $0.8$, o que se excediera de 500 iteraciones. El vector de parámetros inicial fue $\beta^0 = (-10, 10)^T$. 
+hasta un criterio de paro. En este caso, el criterio de paro fue un poco más estricto: la norma del gradiente $\nabla_{\beta} L(x, \beta)$ debía ser menor a $0.0001$, o el cociente de normas entre cada iteración fuera mayor a $0.8$, o que se excediera de 500 iteraciones. El vector de parámetros inicial fue $\beta^0 = (-10, 10)^T$. En este caso se hizo \textit{backtracking} con un valor inicial $\alpha_0 = 3$.
 
 Los valores del vector de parámetros en cada iteración se pueden ver en la figura \ref{fig:reg_log_ejemplo_GD_iter}. El punto grande que se ve en la figura es el valor real de los parámetros (i.e. 1 y 4), y el tache que se ve es el valor obtenido utilizando el paquete \texttt{glm} de \texttt{R}. Se puede ver que el algoritmo implementado converge a estos valores y, nuevamente, el valor obtenido con el método implementado es exactamente igual al que regresa el paquete utilizado (\texttt{glm}).
 
@@ -507,7 +507,7 @@ Supóngase ahora que los usuarios $U_k$ y $U_j$ solo han calificado dos películ
   \end{tabular}
 \end{center}
 
-Tiene sentido centrar las calificaciones por usuario (restarle la media) para reducir un poco la heterogeneidad de la escala, entonces se tiene:
+Tiene sentido centrar las calificaciones por usuario (restarle la media) para reducir un poco la heterogeneidad de la escala. Con heterogeneidad de la escala, uno se refiere a que algunos usuarios tienden a calificar más estricto que otros; entonces se tiene:
 
 \begin{center}
 \begin{tabular}{ c | c  c }
@@ -606,9 +606,15 @@ donde $M_i$ es el número de artículos que ha calificado el usuario $i$, $N_j$ 
 
 Este tipo de modelos se centran en la similitud de los usuarios y los artículos. Los usuarios son similares si los vectores que los representan (es decir, las filas en la matriz de calificaciones) están cercanos de acuerdo a alguna similitud definida. Una recomendación para un usuario $i$ se hace al ver a los usuarios más parecidos a $i$ y recomendando artículos que hayan sido del agrado de estos usuarios parecidos.
 
-El primer problema con estos métodos surge al definir una medida de similitud entre artículos o usuarios. Dos medidas muy utilizadas son la similitud de Jaccard y, nuevamente, la similitud coseno. En el caso de una matriz de calificaciones binaria, la similitud Jaccard tendría más sentido, pero si son calificaciones explícitas conviene más utilizar similitud coseno. Una desventaja de utilizar la similitud coseno es que los elementos faltantes son tratados como $0$, lo cual tiene el efecto de tratar la falta de calificación como disgusto hacia el artículo. Una forma de solucionar esto es centrando las calificaciones por usuario al restar la media, de esta forma el faltante al ser tratado como cero tiene el efecto de que al usuario ni le gusta ni le disgusta el artículo.
+El primer problema con estos métodos surge al definir una medida de similitud entre artículos o usuarios. Dos medidas muy utilizadas son la similitud de Jaccard y, nuevamente, la similitud coseno. La similitud de Jaccard de dos vectores $A$ y $B$ está definida como el cociente de la cardinalidad de la intersección y la cardinalidad de la unión de los dos vectores:
 
-Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artículo $j$ es encontrar los un vecindario de los $n$ usuarios más parecidos a $i$ y tomar el promedio de las calificaciones del artículo $j$. O de forma dual, se podría encontrar un vecindario con los $n$ artículos más parecidos a $j$ y tomar el promedio de las calificaciones que el usuario $i$ ha dado a esos artículos. Aquí se hace una vertiente en los métodos de vecindario, dependiendo de si se centran en las similitudes de los usuarios o de los artículos.
+\[
+  J(A, B) = \frac{\vert A \cap B \vert}{\vert A \cup B \vert}.
+\]
+
+En el caso de una matriz de calificaciones binaria, la similitud Jaccard tendría más sentido, pero si son calificaciones explícitas conviene más utilizar similitud coseno. Una desventaja de utilizar la similitud coseno es que los elementos faltantes son tratados como $0$, lo cual tiene el efecto de tratar la falta de calificación como disgusto hacia el artículo. Una forma de solucionar esto es centrando las calificaciones por usuario al restar la media, de esta forma el faltante al ser tratado como cero tiene el efecto de que al usuario ni le gusta ni le disgusta el artículo.
+
+Una forma de hacer predicciones de calificaciones para un usuario $i$ y un artículo $j$ es encontrar un vecindario de los $n$ usuarios más parecidos a $i$ y tomar el promedio de las calificaciones del artículo $j$. O de forma dual, se podría encontrar un vecindario con los $n$ artículos más parecidos a $j$ y tomar el promedio de las calificaciones que el usuario $i$ ha dado a esos artículos. Aquí se hace una vertiente en los métodos de vecindario, dependiendo de si se centran en las similitudes de los usuarios o de los artículos.
 
 \paragraph{Basados en usuarios}
 
