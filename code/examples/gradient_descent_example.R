@@ -172,7 +172,9 @@ deviance <- function(betas, data = data){
   const <- rep(1, nrow(data))
   bx <- betas[1]*const + betas[2]*data$x
   hbx <- h(bx)
-  li <- data$y*log(hbx) + (1 - data$y)*log(1 - hbx)
+  aux <- (1 - data$y)*log(1 - hbx)
+  aux2 <- ifelse(is.nan(aux), 0, aux)
+  li <- data$y*log(hbx) + aux2
   d <- -2*sum(li)/n
   return(d)
 }
