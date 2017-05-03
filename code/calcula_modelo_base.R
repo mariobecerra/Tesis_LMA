@@ -13,8 +13,8 @@ if(!interactive()){
     quit(save = "no", status = 0, runLast = FALSE)
   } 
 } else {
-  #dataset <- "BookCrossing"
-  dataset <- "MovieLens"
+  dataset <- "BookCrossing"
+  #dataset <- "MovieLens"
   time <- substr(Sys.time(), 1, 19) %>% gsub("[ :]", "_", .)
 }
 
@@ -33,8 +33,36 @@ file_name_test <- paste0("../out/", dataset, "/test.rds")
 
 cat("Leyendo archivos de calificaciones\n")
 
+# train_data <- readRDS(file_name_train)
+# test_data <- readRDS(file_name_test)
 train_data <- readRDS(file_name_train)
-test_data <- readRDS(file_name_test)
+test_data_0 <- readRDS(file_name_test)
+
+media_gral_train <- mean(train_data$rating)
+
+cant_usuarios <- length(unique(test_data_0$userId))
+cant_pelis <- length(unique(test_data_0$itemId))
+
+valida_usuarios <- sample(unique(test_data_0$userId), cant_usuarios*.5 )
+valida_items <- sample(unique(test_data_0$itemId), cant_pelis*.5 )
+
+dat_2 <- test_data_0 %>%
+  mutate(valida_usu = userId %in% valida_usuarios) %>%
+  mutate(valida_item = itemId %in% valida_items)
+
+validation_data <- dat_2 %>% 
+  filter(!valida_usu | !valida_item) %>% 
+  select(-valida_usu, -valida_item)
+
+test_data <- dat_2 %>% 
+  filter(valida_usu & valida_item) %>% 
+  select(-valida_usu, -valida_item)
+
+rm(test_data_0)
+rm(dat_2)
+rm(valida_usuarios)
+rm(valida_items)
+
 
 ##############################################
 ## Modelo base
@@ -51,20 +79,20 @@ promedios_items <- train_data %>%
   summarise(media_item = mean(rating),
             num_calis_item = n())
 
-df_prueba <- test_data %>% 
+df_validation <- validation_data %>% 
   left_join(promedios_usuarios) %>% 
   left_join(promedios_items)
 
 errores_gamma <- sapply(0:30, function(gamma){
   cat("gamma:", gamma, '\n')
-  dat_test_3 <- df_prueba %>% 
+  dat_validation <- df_validation %>% 
     mutate(rating_mb = media_gral_train + 
              (num_calis_usuario * (media_usuario - media_gral_train))/(gamma + num_calis_usuario) +
              (num_calis_item * (media_item - media_gral_train))/(gamma + num_calis_item)
     ) %>% 
     mutate(rating_mb = ifelse(is.na(rating_mb), media_gral_train, rating_mb))
   
-  error <- sqrt(mean((dat_test_3$rating - dat_test_3$rating_mb)^2))
+  error <- sqrt(mean((dat_validation$rating - dat_validation$rating_mb)^2))
   return(c(gamma, error))
 }) %>% 
   t() %>% 
@@ -75,6 +103,8 @@ errores_gamma <- sapply(0:30, function(gamma){
 #min <- min(errores_gamma$error)
 gamma_min <- errores_gamma %>% 
   filter(error == min(error))
+cat("gamma mínima:", gamma_min$gamma, '\n')
+cat("error de validación:", gamma_min$error, '\n')
 
 (errores_gamma %>% 
   ggplot(aes(x = gamma, y = error)) + 
@@ -92,6 +122,31 @@ write.table(errores_gamma,
             sep = "|",
             row.names = F,
             quote = TRUE)
+
+
+
+df_test <- test_data %>% 
+  left_join(promedios_usuarios) %>% 
+  left_join(promedios_items)
+
+dat_test <- df_test %>% 
+  mutate(rating_mb = media_gral_train + 
+           (num_calis_usuario * (media_usuario - media_gral_train))/(gamma_min$gamma + num_calis_usuario) +
+           (num_calis_item * (media_item - media_gral_train))/(gamma_min$gamma + num_calis_item)
+  ) %>% 
+  mutate(rating_mb = ifelse(is.na(rating_mb), media_gral_train, rating_mb))
+
+error_test <- sqrt(mean((dat_test$rating - dat_test$rating_mb)^2))
+cat("error de prueba:", error_test, '\n')
+
+cat("gamma mínima:", gamma_min$gamma, '\n', 
+    file = paste0(folder_tables, "/error_prueba_validacion.txt"))
+cat("error de validación:", gamma_min$error, '\n', 
+    file = paste0(folder_tables, "/error_prueba_validacion.txt"), 
+    append = T)
+cat("error de prueba:", error_test, '\n',
+    file = paste0(folder_tables, "/error_prueba_validacion.txt"), 
+    append = T)
 
 cat("¡¡Listo!! :D \n")
 
