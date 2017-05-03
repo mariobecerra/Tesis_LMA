@@ -84,7 +84,7 @@ En la figura \ref{fig:BC_long_tail} se puede ver la cola larga en los datos de \
 
 \subsection{Comparación de modelos}
 
-Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} en la ecuación \ref{ec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para estimar el error de predicción y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación no fue utilizado, los errores que se muestran en relación con este conjunto son con el conjunto de prueba. La medida de error utilizada fue la raíz del error cuadrático medio (RMSE), definido en la ecuación \ref{ec:rmse}. De aquí en adelante, cuando se hable de error, es con referencia a la raíz del error cuadrático medio.
+Para cada conjunto de datos se calculó un modelo base como el descrito en la sección \ref{sec:modelo_base} en la ecuación \ref{ec:modelo_base} y un modelo de factorización como descrito en la sección \ref{sec:modelo_factorizacion}. Cada uno de los conjuntos de datos se dividió en tres subconjuntos: un conjunto de entrenamiento, un conjunto de prueba y un conjunto de validación. Los parámetros de los modelos fueron estimados usando el conjunto de entrenamiento. En el caso del modelo de factorización, el conjunto de validación fue utilizado para estimar el error de predicción y poder utilizarlo como criterio de paro en el algoritmo de optimización y así evitar el sobreajuste. Para el modelo base, el conjunto de validación fue utilizado para calcular el parámetro de regularización $gamma$. La medida de error utilizada fue la raíz del error cuadrático medio (RMSE), definido en la ecuación \ref{ec:rmse}. De aquí en adelante, cuando se hable de error, es con referencia a la raíz del error cuadrático medio.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% MovieLens
@@ -107,18 +107,18 @@ Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en 
 	\end{tabular}
 \end{table}
 
-En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 19$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de prueba, siendo este de aproximadamente 0.8707.
+En la figura \ref{fig:ML_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de validación, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 19$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de validación, siendo este de aproximadamente 0.8691. En el conjunto de prueba, la raíz del error cuadrático medio es de aproximadamente 0.8755.
 
 \begin{figure}[H]
 	\centering
  	\includegraphics[width=0.7\textwidth]{modelo_base_MovieLens.pdf}
- 	\caption{Errores del modelo base en el conjunto de prueba de \textit{MovieLens}, de acuerdo al valor del parámetro de regularización $\gamma$.}
+ 	\caption{Errores del modelo base en el conjunto de validación de \textit{MovieLens}, de acuerdo al valor del parámetro de regularización $\gamma$.}
  	\label{fig:ML_modelo_base_errores}
 \end{figure}
 
-En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entrenamiento y de validación del modelo de factorización con distintos valores en el número de dimensiones latentes, tasa de aprendizaje y parámetro de regularización $\lambda$. Como es de esperarse, el error de entrenamiento es menor en cada uno de los casos. También se podría esperar que mientras más dimensiones latentes haya, el error de entrenamiento sea menor, debido a que hay más dimensiones para aproximar la matriz que se quiere aproximar; y es justo lo que sucede: los modelos con más dimensiones latentes tienen menor error de entrenamiento. Sin embargo, se sabe que menor error de entrenamiento no implica necesariamente menor error de validación; por lo que se busca el modelo con menor error de validación. En este caso, todos los modelos tienen un error de validación relativamente parecido, siendo el de $500$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ el modelo con menor error ($0.763325$), siguiendo el de $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ con un error de $0.765166$. 
+En la figura \ref{fig:ML_modelo_fact_errores} se pueden ver los errores de entrenamiento y de validación del modelo de factorización con distintos valores en el número de dimensiones latentes, tasa de aprendizaje y parámetro de regularización $\lambda$. Como es de esperarse, el error de entrenamiento es menor en cada uno de los casos. También se podría esperar que mientras más dimensiones latentes haya, el error de entrenamiento sea menor, debido a que hay más dimensiones para aproximar la matriz que se quiere aproximar; y es justo lo que sucede: los modelos con más dimensiones latentes tienen menor error de entrenamiento. Sin embargo, se sabe que menor error de entrenamiento no implica necesariamente menor error de validación; por lo que se busca el modelo con menor error de validación. En este caso, todos los modelos tienen un error de validación relativamente parecido, siendo el de $500$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ el modelo con menor error ($0.7633$), siguiendo el de $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$ con un error de $0.7651$. 
 
-Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo con $500$ dimensiones latentes tiene menor error, pero tiene más del doble de dimensiones latentes que el de $200$, el cual tiene un desempeño muy parecido, por lo que tal vez se preferiría utilizar el modelo con $200$ dimensiones latentes debido a que es más simple y tiene casi el mismo desempeño. El modelo que se utilizó como final fue el de $200$ dimensiones latentes, con un error en el conjunto de prueba de $0.7651675$ (muy parecido al del conjunto de validación). Se hace notar que en todos los casos, el algoritmo de factorización presenta un error menor que el modelo base.
+Aquí se podría tomar una decisión en cuanto a qué modelo utilizar: el modelo con $500$ dimensiones latentes tiene menor error, pero tiene más del doble de dimensiones latentes que el de $200$, el cual tiene un desempeño muy parecido, por lo que tal vez se preferiría utilizar el modelo con $200$ dimensiones latentes debido a que es más simple y tiene casi el mismo desempeño. El modelo que se utilizó como final fue el de $200$ dimensiones latentes, con un error en el conjunto de prueba de $0.7651$ (muy parecido al del conjunto de validación). Se hace notar que en todos los casos, el algoritmo de factorización presenta un error menor que el modelo base.
 
 \begin{figure}[H]
 	\centering
@@ -273,16 +273,16 @@ En esta subsección se presentan los mismos resultados en el mismo orden que en 
 \end{table}
 
 
-En la figura \ref{fig:BC_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de prueba, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 6$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de prueba, siendo este de aproximadamente 1.7022.
+En la figura \ref{fig:BC_modelo_base_errores} se pueden ver los errores del modelo base en el conjunto de validación, de acuerdo al valor del parámetro de regularización $\gamma$, definido en la ecuación \ref{ec:modelo_base}. Se puede ver que con $\gamma \approx 6$ se minimiza el valor de la raíz del error cuadrático medio en el conjunto de vañidación, siendo este de aproximadamente 1.7038. En el conjunto de prueba, la raíz del error cuadrático medio es de aproximadamente 1.6977.
 
 \begin{figure}[H]
 	\centering
  	\includegraphics[width=0.7\textwidth]{modelo_base_BookCrossing.pdf}
- 	\caption{Errores del modelo base en el conjunto de prueba de \textit{BookCrossing}, de acuerdo al valor del parámetro de regularización $\gamma$.}
+ 	\caption{Errores del modelo base en el conjunto de validación de \textit{BookCrossing}, de acuerdo al valor del parámetro de regularización $\gamma$.}
  	\label{fig:BC_modelo_base_errores}
 \end{figure}
 
-En el caso de \textit{BookCrossing}, el modelo de factorización utilizado y para el cual se presentan resultados es, al igual que con \textit{MovieLens}, uno con $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$. Este modelo presentó con un error en el conjunto de prueba de $1.586566$. Nuevamente, este error es menor al error del modelo base.
+En el caso de \textit{BookCrossing}, el modelo de factorización utilizado y para el cual se presentan resultados es, al igual que con \textit{MovieLens}, uno con $200$ dimensiones latentes, tasa de aprendizaje de $0.001$ y $\lambda = 0.01$. Este modelo presentó con un error en el conjunto de prueba de $1.5865$. Nuevamente, este error es menor al error del modelo base.
 
 En la figura \ref{fig:BC_modelo_fact_error_por_iter} se puede ver, como en la subsección anterior, los errores de entrenamiento y de validación del modelo de factorización final en cada iteración del algoritmo de optimización.
 
