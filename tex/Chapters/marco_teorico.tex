@@ -40,18 +40,24 @@ $$\hat{f} = \argmin_{f \in \mathcal{F}} \frac{1}{n} \sum_{i = 1}^n{ ( y_i - f(x_
 
 donde $\mathcal{F}$ es la familia de funciones de la forma $f(X) = X\beta$ con $\beta \in \mathbb{R}^p$. Así, $\hat{f}(X) = X \hat{\beta}$, donde $\hat{\beta}$ resuelve el problema de mínimos cuadrados. En este caso, se quiere encontrar el vector de parámetros $\beta$ tal que la suma de residuales al cuadrado sea mínima.
 
-Si la familia de funciones $\mathcal{F}$ es muy inflexible (como regresión lineal), entonces las predicciones tenderán a ser malas pues no se capta bien la relación entre $X$ y $Y$, sin embargo, esto puede ser deseable en algunos casos, como cuando se pretende interpretar la relación entre $X$ y $Y$.
+Si la familia de funciones $\mathcal{F}$ es muy inflexible (como regresión lineal), y el fenómeno subyacente es complejo, entonces las predicciones tenderán a ser malas pues no se capta bien la relación entre $X$ y $Y$. %, sin embargo, esto puede ser deseable en algunos casos, como cuando se pretende interpretar la relación entre $X$ y $Y$.
 
-Es prudente introducir el concepto de \textit{función de pérdida} o de error. Sea $\hat{Y} = \hat{f}(X)$, la predicción de $Y$; en el caso de regresión lineal, $\hat{Y} = X\hat{\beta}$. En este mismo caso la función de pérdida fue la de pérdida cuadrática, definida como 
+Es prudente introducir el concepto de \textit{función de pérdida} o de error. Una función de pérdida es una función no negativa definida en el espacio muestral de la variable aleatoria de interés \cite{EncyMath_loss_func}. Usualmente se utiliza para penalizar errores de predicción. Por ejemplo, sea $\hat{Y} = \hat{f}(X)$, la predicción de $Y$; en el caso de regresión lineal, $\hat{Y} = X\hat{\beta}$. En este mismo caso la función de pérdida fue la de pérdida cuadrática, definida como 
 %$L_{\mathcal{L}}(f, \hat{f}) = (f - \hat{f}_{\mathcal{L}} ) ^2$
-$L_{\mathcal{L}}(\hat{Y}, Y) = (\hat{f}(X) - Y ) ^2$
-, o sea, la diferencia entre la estimación de $Y$ y la verdadera $Y$ al cuadrado, con los datos del conjunto $\mathcal{L}$. Existen distintos tipos de funciones de pérdida, pero muchas veces se utiliza la pérdida cuadrática debido a las propiedades diferenciables que tiene.
+%$L_{\mathcal{L}}(\hat{Y}, Y) = (\hat{Y} - Y ) ^2$
+$L(\hat{f}_{\mathcal{L}}(X), Y) = (\hat{f}_{\mathcal{L}}(X) - Y ) ^2$, o sea, la diferencia entre la estimación de $Y$ y la verdadera $Y$ al cuadrado, con los datos del conjunto $\mathcal{L}$. Existen distintos tipos de funciones de pérdida, pero muchas veces se utiliza la pérdida cuadrática debido a las propiedades diferenciables que tiene.
 
-En general, cuando uno entrena un modelo para predecir, no se desea minimizar el error de entrenamiento $L_{\mathcal{L}}$, sino el error de predicción, esto es, el error de cualquier observación futura $(X^0, Y^0)$. Esto quiere decir que no se quiere minimizar $L_{\mathcal{L}}(f, \hat{f})$, sino el error esperado de predicción, definido como $\mathbb{E} \left[ L(\hat{f}(X^0), Y^0 ) \right] $.
+En general, cuando uno entrena un modelo para predecir, no se desea minimizar el error de entrenamiento, sino el error de predicción, esto es, el error de cualquier observación futura $(X^0, Y^0)$. Esto quiere decir que se quiere minimizar el error esperado de predicción, definido como $\mathbb{E} \left[ L(\hat{f}(X^0), Y^0 ) \right]$.
 
-Debido a que se quiere minimizar el error esperado de predicción, es común separar el conjunto de datos $(X, Y)$ en dos, el conjunto de entrenamiento, presentado anteriormente como $\mathcal{L}$, y un \textit{conjunto de validación} o \textit{conjunto de prueba} denotado como $\mathcal{T}$. Para hacer esto, del conjunto original de datos, se toma una muestra aleatoria para entrenar (este es el conjunto de entrenamiento $\mathcal{L}$) y el resto es el conjunto de validación $\mathcal{T}$, con el cual se prueba el poder predictivo del modelo. A $L_{\mathcal{T}}$ se le conoce como el error de validación o error de prueba, y es una estimación del error de predicción. Si $\mathcal{T}$ tiene $m$ elementos, y $m$ es grande, entonces el error de prueba se aproxima al error esperado de predicción.
+Debido a que se quiere minimizar el error esperado de predicción, es común separar el conjunto de datos $(X, Y)$ en dos, el conjunto de entrenamiento, presentado anteriormente como $\mathcal{L}$, y un \textit{conjunto de validación} o \textit{conjunto de prueba} denotado como $\mathcal{T}$. Para hacer esto, del conjunto original de datos, se toma una muestra aleatoria para entrenar (este es el conjunto de entrenamiento $\mathcal{L}$) y el resto es el conjunto de validación $\mathcal{T}$, con el cual se prueba el poder predictivo del modelo. Para estimar $\mathbb{E} \left[ L(\hat{f}(X^0), Y^0 ) \right]$, donde $L$ es la pérdida cuadrática y $\mathcal{T} = \left\{ (x_1^0, y_1^0), \hdots, (x_m^0, y_m^0) \right\}$, se utiliza la función
 
-Notar que el error de entrenamiento no aproxima el error de predicción porque el error de entrenamiento depende de $\mathcal{L}$. De hecho la predicción del error de predicción utilizando el error de entrenamiento está sesgada hacia abajo, especialmente para modelos complejos.
+\[
+  \hat{Err} = \frac{1}{m} \sum_{i = 1}^m \left( f(x_i^0) - y_i^0 \right)^2.
+\]
+
+A $\hat{Err}$ se le conoce como el error de validación o error de prueba. Notar que si $m$ es grande, entonces el error de prueba se aproxima al error esperado de predicción.
+
+Notar que el error de entrenamiento no aproxima el error de predicción porque el error de entrenamiento depende de $\mathcal{L}$. De hecho la estimación del error de predicción utilizando el error de entrenamiento está sesgada hacia abajo, especialmente para modelos complejos.
 
 \subsubsection{Regresión y clasificación}
 
@@ -64,7 +70,7 @@ El aprendizaje no supervisado describe un problema más retador en cuanto a que 
 
 \subsection{Sobreajuste y regularización}
 
-Para explicar el concepto de sobreajuste (\textit{overfitting}, considérese el caso de regresión de una variable $Y$ con el modelo propuesto en \ref{eq:modelo_gral_aprendizaje}. Si la función $f$ es muy flexible, se tiene que estimar un mayor número de parámetros, lo cual lleva a que parte del error sea capturado por estos parámetros. A este fenómeno de le conoce como sobreajuste, y el problema con él es que un modelo sobreajustado va a tender a dar malas predicciones con datos no observados previamente. Es por esto que los modelos sobreajustados tienen un error de entrenamiento pequeño, pero el error de prueba es mucho más grande.
+Para explicar el concepto de sobreajuste (\textit{overfitting}), considérese el caso de regresión de una variable $Y$ con el modelo propuesto en \ref{eq:modelo_gral_aprendizaje}. Si la función $f$ es muy flexible, se tiene que estimar un mayor número de parámetros, lo cual lleva a que parte del error sea capturado por estos parámetros. A este fenómeno de le conoce como sobreajuste, y el problema con él es que un modelo sobreajustado va a tender a dar malas predicciones con datos no observados previamente. Es por esto que los modelos sobreajustados tienen un error de entrenamiento pequeño, pero el error de prueba es mucho más grande.
 
 Una forma de controlar el problema de sobreajuste en un modelo es con regularización, la cual es una técnica que agrega un término de penalización a la función de error para evitar que los parámetros alcancen valores muy grandes. La forma más simple y de las más utilizadas es la de la suma de los parámetros al cuadrado. 
 
@@ -177,7 +183,7 @@ En el caso de regresión lineal, en el caso general, se busca minimizar la funci
   L(x, \beta) = \frac{1}{n} \sum_{i = 1}^n \left( y_i - \beta_0 - \beta_1 x_{i1} - \hdots  \beta_p x_{ip} \right)^2
 \end{equation}
 
-Tomando las derivadas parciales de \ref{eq:perd_cuadratica_reg_lineal}, se tiene que para cada $j \in \left\{0, \hdots, p \right\}$
+Tomando las derivadas parciales de \ref{eq:perd_cuadratica_reg_lineal}, se tiene que para cada $j \in \left\{1, \hdots, p \right\}$
 
 \begin{equation}
   \frac{\partial L}{\partial \beta_j} = 
