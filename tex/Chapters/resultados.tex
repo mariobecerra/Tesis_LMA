@@ -100,7 +100,7 @@ Para \textit{MovieLens}, el número de usuarios, artículos y calificaciones en 
 	\label{tab:ML_num_art_usu_cal}
 	\begin{tabular}{|l|l|l|l|}
 		\hline
-		Conjunto      & Número de artículos & Número de usuarios & Número de calificaciones \\ \hline
+		Conjunto      & Artículos & Usuarios & Calificaciones \\ \hline
 		Entrenamiento & \numprint{26247}               & \numprint{138493}             & \numprint{18029206} \\ \hline
 		Validación    & \numprint{6256}                & \numprint{41483}              & \numprint{1469158} \\ \hline
 		Prueba        & \numprint{2895}                & \numprint{20676}              & \numprint{501899} \\  \hline
@@ -165,39 +165,39 @@ Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cer
 		%\hline
 		%\multicolumn{3}{ |c| }{Vecinos} \\
 		\hline
-		\textbf{Película} & \textbf{Película más cercana} & \textbf{Distancia} \\ \hline
-		\multirow{10}{*}{ Aladdin (1992) } &  Lion King, The (1994)  &  1.74  \\
-		 &  Beauty and the Beast (1991)  &  1.79  \\
-		 &  Little Mermaid, The (1989)  &  2.09  \\
-		 &  Princess and the Frog, The (2009)  &  2.33  \\
-		 &  Tarzan (1999)  &  2.42  \\
-		 &  Mulan (1998)  &  2.43  \\
-		 &  Oliver \& Company (1988)  &  2.47  \\
-		 &  Great Mouse Detective, The (1986)  &  2.47  \\
-		 &  How to Train Your Dragon 2 (2014)  &  2.49  \\
-		 &  Anastasia (1997)  &  2.49  \\
+		\textbf{Película} & \textbf{Película más cercana} & \textbf{Dist} \\ \hline
+		\multirow{10}{*}{ Aladdin } &  Lion King, The   &  1.74  \\
+		 &  Beauty and the Beast &  1.79  \\
+		 &  Little Mermaid, The &  2.09  \\
+		 &  The Princess and the Frog &  2.33  \\
+		 &  Tarzan &  2.42  \\
+		 &  Mulan   &  2.43  \\
+		 &  Oliver \& Company   &  2.47  \\
+		 &  Great Mouse Detective, The   &  2.47  \\
+		 &  How to Train Your Dragon 2   &  2.49  \\
+		 &  Anastasia   &  2.49  \\
 		\hline
-		\multirow{10}{*}{ Hannibal (2001) } &  Red Dragon (2002)  &  2.58  \\
-		 &  Hitcher, The (2007)  &  2.88  \\
-		 &  Venom (2005)  &  2.89  \\
-		 &  Quiet, The (2005)  &  2.89  \\
-		 &  Hannibal Rising (2007)  &  2.89  \\
-		 &  Mindhunters (2004)  &  2.9  \\
-		 &  187 (One Eight Seven) (1997)  &  2.91  \\
-		 &  Raven, The (2012)  &  2.91  \\
-		 &  Taking Lives (2004)  &  2.93  \\
-		 &  Don't Say a Word (2001)  &  2.93  \\
+		\multirow{10}{*}{ Hannibal  } &  Red Dragon   &  2.58  \\
+		 &  Hitcher, The   &  2.88  \\
+		 &  Venom   &  2.89  \\
+		 &  Quiet, The   &  2.89  \\
+		 &  Hannibal Rising   &  2.89  \\
+		 &  Mindhunters   &  2.9  \\
+		 &  187 (One Eight Seven)   &  2.91  \\
+		 &  Raven, The   &  2.91  \\
+		 &  Taking Lives   &  2.93  \\
+		 &  Don't Say a Word   &  2.93  \\
 		\hline
-		\multirow{10}{*}{ \shortstack{Harry Potter and the \\ Sorcerer's Stone (2001)} } &  HP and the Chamber of Secrets (2002)  &  0.47  \\
-		 &  HP and the Prisoner of Azkaban (2004)  &  1.11  \\
-		 &  HP and the Goblet of Fire (2005)  &  1.13  \\
-		 &  HP and the Order of the Phoenix (2007)  &  1.33  \\
-		 &  HP and the Half-Blood Prince (2009)  &  1.59  \\
-		 &  HP and the Deathly Hallows: Part 2 (2011)  &  1.83  \\
-		 &  HP and the Deathly Hallows: Part 1 (2010)  &  1.87  \\
-		 &  Narnia: The Voyage of the Dawn Treader (2010)  &  2.76  \\
-		 &  Narnia: Prince Caspian (2008)  &  2.88  \\
-		 &  The Lion King 1 1/2 (2004)  &  2.91  \\
+		\multirow{10}{*}{ \shortstack{Harry Potter and the \\ Sorcerer's Stone } } &  HP and the Chamber of Secrets   &  0.47  \\
+		 &  HP and the Prisoner of Azkaban   &  1.11  \\
+		 &  HP and the Goblet of Fire   &  1.13  \\
+		 &  HP and the Order of the Phoenix   &  1.33  \\
+		 &  HP and the Half-Blood Prince   &  1.59  \\
+		 &  HP and the Deathly Hallows: Part 2   &  1.83  \\
+		 &  HP and the Deathly Hallows: Part 1   &  1.87  \\
+		 &  Narnia: The Voyage of ... &  2.76  \\
+		 &  Narnia: Prince Caspian  &  2.88  \\
+		 &  The Lion King 1 1/2   &  2.91  \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -211,39 +211,39 @@ Para el conjunto de datos de \textit{MovieLens} se calculan los vecinos más cer
 		%\hline
 		%\multicolumn{3}{ |c| }{Vecinos} \\
 		\hline
-		\textbf{Película} & \textbf{Película más cercana} & \textbf{Distancia} \\ \hline
-		\multirow{10}{*}{ Lion King, The (1994) } &  Aladdin (1992)  &  1.74  \\
-		 &  Beauty and the Beast (1991)  &  2.1  \\
-		 &  Mulan (1998)  &  2.4  \\
-		 &  Little Mermaid, The (1989)  &  2.42  \\
-		 &  Tarzan (1999)  &  2.44  \\
-		 &  Oliver \& Company (1988)  &  2.44  \\
-		 &  Princess and the Frog, The (2009)  &  2.48  \\
-		 &  Frozen (2013)  &  2.49  \\
-		 &  Land Before Time, The (1988)  &  2.49  \\
-		 &  How to Train Your Dragon 2 (2014)  &  2.55  \\
+		\textbf{Película} & \textbf{Película más cercana} & \textbf{Dist} \\ \hline
+		\multirow{10}{*}{The Lion King } &  Aladdin   &  1.74  \\
+		 &  Beauty and the Beast   &  2.1  \\
+		 &  Mulan   &  2.4  \\
+		 &  Little Mermaid, The   &  2.42  \\
+		 &  Tarzan   &  2.44  \\
+		 &  Oliver \& Company   &  2.44  \\
+		 &  Princess and the Frog, The   &  2.48  \\
+		 &  Frozen   &  2.49  \\
+		 &  Land Before Time, The   &  2.49  \\
+		 &  How to Train Your Dragon 2   &  2.55  \\
 		\hline
-		\multirow{10}{*}{ Pulp Fiction (1994) } &  Reservoir Dogs (1992)  &  2.26  \\
-		 &  Inglorious Bastards (1978)  &  3.03  \\
-		 &  Goodfellas (1990)  &  3.15  \\
-		 &  An Evening with Kevin Smith 2 (2006)  &  3.19  \\
-		 &  Black Mirror (2011)  &  3.2  \\
-		 &  Ricky Gervais Live 3: Fame (2007)  &  3.23  \\
-		 &  Nightcrawler (2014)  &  3.24  \\
-		 &  Inside Llewyn Davis (2013)  &  3.25  \\
-		 &  Flirting (1991)  &  3.25  \\
-		 &  Generation Kill (2008)  &  3.25  \\
+		\multirow{10}{*}{ Pulp Fiction  } &  Reservoir Dogs   &  2.26  \\
+		 &  Inglorious Bastards   &  3.03  \\
+		 &  Goodfellas   &  3.15  \\
+		 &  An Evening with Kevin Smith 2   &  3.19  \\
+		 &  Black Mirror   &  3.2  \\
+		 &  Ricky Gervais Live 3: Fame   &  3.23  \\
+		 &  Nightcrawler   &  3.24  \\
+		 &  Inside Llewyn Davis   &  3.25  \\
+		 &  Flirting   &  3.25  \\
+		 &  Generation Kill   &  3.25  \\
 		\hline
-		\multirow{10}{*}{ Toy Story (1995) } &  Toy Story 2 (1999)  &  1.43  \\
-		 &  Monsters, Inc. (2001)  &  1.91  \\
-		 &  Toy Story 3 (2010)  &  2  \\
-		 &  Bug's Life, A (1998)  &  2.02  \\
-		 &  Finding Nemo (2003)  &  2.03  \\
-		 &  Incredibles, The (2004)  &  2.26  \\
-		 &  Up (2009)  &  2.47  \\
-		 &  For the Birds (2000)  &  2.5  \\
-		 &  Wreck-It Ralph (2012)  &  2.5  \\
-		 &  Partly Cloudy (2009)  &  2.5  \\
+		\multirow{10}{*}{ Toy Story  } &  Toy Story 2   &  1.43  \\
+		 &  Monsters, Inc.   &  1.91  \\
+		 &  Toy Story 3   &  2  \\
+		 &  Bug's Life, A   &  2.02  \\
+		 &  Finding Nemo   &  2.03  \\
+		 &  Incredibles, The   &  2.26  \\
+		 &  Up   &  2.47  \\
+		 &  For the Birds   &  2.5  \\
+		 &  Wreck-It Ralph   &  2.5  \\
+		 &  Partly Cloudy   &  2.5  \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -265,7 +265,7 @@ En esta subsección se presentan los mismos resultados en el mismo orden que en 
 	\label{tab:BC_num_art_usu_cal}
 	\begin{tabular}{|l|l|l|l|}
 		\hline
-		Conjunto      & Número de artículos & Número de usuarios & Número de calificaciones \\ \hline
+		Conjunto      & Artículos & Usuarios & Calificaciones \\ \hline
 		Entrenamiento & \numprint{140807}               & \numprint{64459}             & \numprint{351217} \\ \hline
 		Validación    & \numprint{13072}                & \numprint{5332}              & \numprint{21224} \\ \hline
 		Prueba        & \numprint{5065}                & \numprint{2286}              & \numprint{7435} \\  \hline
@@ -319,16 +319,16 @@ Para el conjunto de datos de \textit{BookCrossing} también se calculan los veci
 		%\hline
 		%\multicolumn{3}{ |c| }{Vecinos} \\
 		\hline
-		\textbf{Libro} & \textbf{Libro más cercano} & \textbf{Distancia} \\ \hline
+		\textbf{Libro} & \textbf{Libro más cercano} & \textbf{Dist} \\ \hline
 		\multirow{10}{*}{ \shortstack{Harry Potter \\and the \\Sorcerer's Stone} } &  Who in Hell Is Wanda Fuca?  &  1.71  \\
-		 &  A Ranking of the Most Influential Persons in History  &  1.75  \\
+		 &  A Ranking of the Most Influential Persons...  &  1.75  \\
 		 &  Harry Potter and the Goblet of Fire (Book 4)  &  1.77  \\
 		 &  Surviving Production: The Art of Production ...  &  1.77  \\
 		 &  Just Tell Me When We're Dead  &  1.79  \\
 		 &  The Conquest  &  1.8  \\
 		 &  The Ghosts of Cougar Island  &  1.8  \\
 		 &  Dr. Death (Alex Delaware Novels (Paperback))  &  1.81  \\
-		 &  Familiar Obsession (Fear Familiar) (Intrigue, 570)  &  1.81  \\
+		 &  Familiar Obsession (Fear Familiar)  &  1.81  \\
 		 &  My Gal Sunday  &  1.81  \\
 		\hline
 		\multirow{10}{*}{ \shortstack{The Catcher \\in the Rye} } &  Soul Stories  &  4.18  \\
@@ -342,12 +342,12 @@ Para el conjunto de datos de \textit{BookCrossing} también se calculan los veci
 		 &  Juxtaposition (Apprentice Adept)  &  4.37  \\
 		 &  Jane Eyre (Puffin Classics)  &  4.37  \\
 		\hline
-		\multirow{10}{*}{ \shortstack{The Fellowship\\ of the Ring} } &  I Hate Texas: 303 Reasons Why You Should, Too &  0.69  \\
+		\multirow{10}{*}{ \shortstack{The Fellowship\\ of the Ring} } &  I Hate Texas: 303 Reasons Why You... &  0.69  \\
 		 &  King Lear  &  0.73  \\
 		 &  When Your Marriage Needs Repair &  0.73  \\
 		 &  365 Things Every Couple Should Know  &  0.73  \\
 		 &  So You Want to Be a Witch  &  0.74  \\
-		 &  Keeping of Customers: A Treasury of Facts, Tips \& ...  &  0.74  \\
+		 &  Keeping of Customers: A Treasury of ...  &  0.74  \\
 		 &  Zin! Zin! Zin! A Violin  &  0.74  \\
 		 &  Midsummer Nights Dream  &  0.75  \\
 		 &  Pinky And Rex And The Mean Old Witch  &  0.75  \\
