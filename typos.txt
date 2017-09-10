@@ -1,0 +1,10 @@
+Typos tesis:
+
+Pag 8: A este fenómeno de le conoce como sobreajuste,
+	En lugar de 'de' es 'se'.
+Pag 10: Formalmente, un vector x∗ es un minimizador local si existe un vecindario ...
+	En lugar de x debe de ser theta.
+Pag 18: Este método utiliza iteraciones de la forma
+	alpha_k no debe de ir dividido entre n
+
+
